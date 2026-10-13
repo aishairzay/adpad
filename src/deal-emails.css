@@ -1,0 +1,12 @@
+/* The deal email switch on My campaigns and My listings. Palette from styles.css. */
+.deal-emails{display:flex;align-items:flex-start;gap:14px;border:1px solid var(--line);background:#fafcf5;padding:14px 16px;margin:0 0 18px;max-width:760px}
+.deal-emails > svg{flex-shrink:0;margin-top:2px}
+.deal-emails > div{flex:1;min-width:0}
+.deal-emails strong{display:block;font-weight:650;font-size:15px}
+.deal-emails p{margin:4px 0 0;font-size:14px;line-height:1.6;color:var(--muted);overflow-wrap:anywhere}
+.deal-emails.muted{background:var(--paper)}
+.deal-emails-problem{color:#a3261b !important}
+.deal-emails-switch{display:inline-flex;align-items:center;gap:6px;min-width:72px;min-height:40px;justify-content:center;border:1px solid var(--ink,#111);background:#fff;color:var(--ink,#111);font-weight:650;font-size:14px;cursor:pointer;padding:0 14px;flex-shrink:0}
+.deal-emails-switch.on{background:var(--ink,#111);color:#fff}
+.deal-emails-switch:disabled{opacity:.6;cursor:default}
+@media(max-width:540px){.deal-emails{flex-wrap:wrap}.deal-emails-switch{margin-left:34px}}

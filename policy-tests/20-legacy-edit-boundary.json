@@ -1,0 +1,319 @@
+{
+  "version": "1",
+  "name": "Legacy and uninitialized history fail closed for edits; fresh companions cannot retrofit listing edit permission",
+  "actors": {
+    "Buyer": { "id": "So11111111111111111111111111111111111111112", "address": "So11111111111111111111111111111111111111112", "x": { "id": "9001", "handle": "buyer" } },
+    "Seller": { "id": "seller_account", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "x": { "id": "9002", "handle": "seller" } },
+    "Other": { "id": "11111111111111111111111111111111", "address": "11111111111111111111111111111111", "x": { "id": "9003", "handle": "other" } },
+    "Admin": { "id": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "address": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "x": { "id": "9004", "handle": "admin" } }
+  },
+  "steps": [
+    {
+      "op": "setTime",
+      "epoch": 1800000000
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "listings/legacy_edit",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200,
+        "owner": "seller_account",
+        "publisher": "Editable creator",
+        "category": "Event",
+        "description": "Original descriptive listing.",
+        "audience": "Event attendees",
+        "turnaroundDays": 2
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/legacy_edit",
+      "data": {
+        "description": "Legacy history is unknown"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/legacy_edit",
+      "data": {
+        "active": true
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/legacy_edit",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/legacy_edit",
+      "data": {
+        "description": "Fresh companion cannot reset listing history"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/legacy_edit",
+      "data": {
+        "editVersion": 1
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/no_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200,
+        "owner": "seller_account",
+        "publisher": "Editable creator",
+        "category": "Event",
+        "description": "Original descriptive listing.",
+        "audience": "Event attendees",
+        "turnaroundDays": 2,
+        "editVersion": 1
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/wrong_version",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200,
+        "owner": "seller_account",
+        "publisher": "Editable creator",
+        "category": "Event",
+        "description": "Original descriptive listing.",
+        "audience": "Event attendees",
+        "turnaroundDays": 2,
+        "editVersion": 2
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/wrong_owner",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "someone_else",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/wrong_owner",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200,
+        "owner": "seller_account",
+        "publisher": "Editable creator",
+        "category": "Event",
+        "description": "Original descriptive listing.",
+        "audience": "Event attendees",
+        "turnaroundDays": 2,
+        "editVersion": 1
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Buyer"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/wrong_seller",
+      "data": {
+        "seller": "So11111111111111111111111111111111111111112",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      }
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "listings/wrong_seller",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200,
+        "owner": "seller_account",
+        "publisher": "Editable creator",
+        "category": "Event",
+        "description": "Original descriptive listing.",
+        "audience": "Event attendees",
+        "turnaroundDays": 2,
+        "editVersion": 1
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "expect",
+      "expr": "get(/bookingOffers/missing_history) == null"
+    },
+    {
+      "op": "set",
+      "path": "listings/missing_history",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200,
+        "owner": "seller_account",
+        "publisher": "Editable creator",
+        "category": "Event",
+        "description": "Original descriptive listing.",
+        "audience": "Event attendees",
+        "turnaroundDays": 2,
+        "editVersion": 1
+      },
+      "shouldFail": true
+    }
+  ]
+}

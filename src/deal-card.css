@@ -1,0 +1,25 @@
+/* Sponsor deal card additions: the plain timeline links and the USDC balance
+   check with its Add USDC panel. Uses the palette variables from styles.css. */
+
+.solana-link{font-size:14px;margin-left:10px}
+
+/* Balance check at the lock step. */
+.usdc-check{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);background:#fafcf5;padding:14px 15px;max-width:460px}
+.usdc-check-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:15px}
+.usdc-check-row strong{font-weight:650}
+.usdc-check-row .text-button{margin-left:auto}
+.usdc-check-note{font-size:14px;line-height:1.6;margin:0}
+.usdc-check .button{min-height:40px;align-self:flex-start}
+.add-usdc{display:flex;flex-direction:column;gap:12px}
+.add-usdc-line{font-size:14px;line-height:1.7;color:var(--muted);margin:0}
+.add-usdc-more{font-size:14px;font-weight:600;margin:0}
+.add-usdc-body{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.add-usdc-address{display:flex;flex-direction:column;gap:9px;flex:1;min-width:220px}
+.usdc-address-box{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.5;word-break:break-all;background:var(--paper);border:1px solid var(--line);padding:10px;user-select:all}
+.usdc-qr{border:1px solid var(--line);background:#fff;padding:6px;flex-shrink:0}
+
+/* Compact inside the booking dialog. */
+.dialog .usdc-check{max-width:none}
+@media(max-width:540px){.add-usdc-address{min-width:0;width:100%}}
+
+.escrow-onchain { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 4px 0 0; }

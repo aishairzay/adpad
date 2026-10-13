@@ -1,0 +1,176 @@
+{
+  "checkedAt": "2026-09-19T18:43:11.538Z",
+  "appId": "605ba9048f556bdd2b7ea18e",
+  "url": "https://ad-pad.bounded.page",
+  "network": "Poofnet, simulated USDC",
+  "owner": "maurice@poof.new",
+  "policySha256": "104f2259659f500e2e5837bb1666cf2b1f04ae842791b20cadc48229be4d68d9",
+  "verification": {
+    "passed": true,
+    "safeToDeploy": true,
+    "counts": {
+      "total": 58,
+      "proven": 55,
+      "failed": 0,
+      "unprovenAdvisories": 3,
+      "schemaFailures": 0,
+      "proofFailures": 0
+    }
+  },
+  "policyTests": [
+    {
+      "fileName": "01-lifecycle.json",
+      "status": "pass",
+      "counts": {
+        "expects": 5,
+        "failed": 0,
+        "steps": 38
+      }
+    },
+    {
+      "fileName": "02-expiry-refunds.json",
+      "status": "pass",
+      "counts": {
+        "expects": 2,
+        "failed": 0,
+        "steps": 37
+      }
+    },
+    {
+      "fileName": "03-disputes.json",
+      "status": "pass",
+      "counts": {
+        "expects": 3,
+        "failed": 0,
+        "steps": 41
+      }
+    },
+    {
+      "fileName": "04-forgery-and-balance.json",
+      "status": "pass",
+      "counts": {
+        "expects": 2,
+        "failed": 0,
+        "steps": 34
+      }
+    },
+    {
+      "fileName": "05-listing-ownership.json",
+      "status": "pass",
+      "counts": {
+        "expects": 1,
+        "failed": 0,
+        "steps": 13
+      }
+    },
+    {
+      "fileName": "06-offer-cancellation.json",
+      "status": "pass",
+      "counts": {
+        "expects": 2,
+        "failed": 0,
+        "steps": 15
+      }
+    },
+    {
+      "fileName": "07-failed-hook-retry.json",
+      "status": "pass",
+      "counts": {
+        "expects": 2,
+        "failed": 0,
+        "steps": 13
+      }
+    },
+    {
+      "fileName": "08-arbitrator-conflicts.json",
+      "status": "pass",
+      "counts": {
+        "expects": 1,
+        "failed": 0,
+        "steps": 12
+      }
+    },
+    {
+      "fileName": "09-proof-during-dispute.json",
+      "status": "pass",
+      "counts": {
+        "expects": 2,
+        "failed": 0,
+        "steps": 25
+      }
+    }
+  ],
+  "integration": {
+    "ok": true,
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "campaign": "adpad_esc_83b91900-023d-48b4-af87-003c4ffd2a0b",
+    "concurrentCampaign": "escrows/adpad_esc_a4294f30-8001-436d-86dd-17baddfeef40",
+    "network": "Poofnet simulated USDC",
+    "outcome": "Listing ownership, fund, accept, submit, release, refund and denial boundaries passed; recipients received the exact amounts; concurrent funding applied only once."
+  },
+  "applicationTests": {
+    "passed": 15
+  },
+  "productionBuild": "passed",
+  "publication": {
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "controlPlane": "production",
+    "environment": "development",
+    "ok": true,
+    "protocol": "realtime_offchain",
+    "receipt": {
+      "operationId": "add8eb93-93b4-4ca6-8359-83f0b6e0e30e",
+      "policyRevisionCount": 2,
+      "runtimePublicationRevision": 5,
+      "state": "committed",
+      "status": "available"
+    },
+    "resolvedPolicySha256": "ac43e4ba9c08544cda776c2b31a8ea050441d8decf296e194bd2c72d1886304f",
+    "runtimeArtifactSha256": "ce9b106bbe8f9da1529079a9a93b4a667b31b23c9e6947873f793b9d69a6db84",
+    "runtimeTarget": "development",
+    "schemaVersion": 1,
+    "sitePrivate": true,
+    "submittedPolicySha256": "755d90f59ef7abfba4ee5fa8cafe89394e57ef2393c7d36f515a3243138d4c61"
+  },
+  "site": {
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "archiveBytes": 420201,
+    "archiveSha256": "95fbd429afaa86956553008aac26e3a36b903097cadde61b58f440f630c09595",
+    "deployId": "d_ext_9151464228324682ab0edb97218dee36482d55eeae2cdf2a",
+    "deployed": 19,
+    "manifestSha256": "1ce1e92c0382d53eaba61d9e8ecf7c2417c687adad76b1699e4a86d41e1902ad",
+    "ok": true,
+    "operationId": "sau_1ddaded0a0cffba9288d8396a4aa0bbdc8c306a8e7c52a266a577a5d0986e147",
+    "previousDeployId": "d_ext_b6b0782c488b664e0d82049e24e4b80a77fbbca6d145efb0",
+    "prunedStale": 14,
+    "replayed": false,
+    "retention": {
+      "pendingCleanup": 0,
+      "removedDeployments": 0,
+      "removedObjects": 0,
+      "status": "clean"
+    },
+    "siteDigest": "9151464228324682ab0edb97218dee36482d55eeae2cdf2a16c411ca6ab0a762",
+    "totalBytes": 1192041
+  },
+  "browser": {
+    "checked": [
+      "Responsive marketplace on desktop and mobile",
+      "Search, categories, sample placement restrictions",
+      "Form labels and keyboard focus containment",
+      "Connected public catalog and Bounded sign-in dialog",
+      "Private hosted gate"
+    ],
+    "pending": [
+      "Authenticated browser escrow and admin arbitration"
+    ]
+  },
+  "adminWalletConfirmation": {
+    "confirmedAt": "2026-09-19T18:53:40.060Z",
+    "address": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X",
+    "source": "User supplied the public Ad Pad wallet in conversation",
+    "matchesDeployedPolicy": true,
+    "matchesFrontend": true,
+    "redeploymentRequired": false
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "version": "1",
+  "name": "Deal email choices: only the wallet's owner sets them, only to their own sign-in email, and only the agent reads them and writes the mail log",
+  "actors": {
+    "Alice": { "id": "user_alice", "address": "So11111111111111111111111111111111111111112", "email": "alice@example.com", "x": { "id": "9001", "handle": "alice" } },
+    "WalletOnly": { "id": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "x": { "id": "9002", "handle": "walletonly" } },
+    "Mallory": { "id": "user_mallory", "address": "11111111111111111111111111111111", "email": "mallory@example.com", "x": { "id": "9003", "handle": "mallory" } },
+    "Agent": { "id": "B9bQJmvkY6mL9HcRkqkP3eMahbgzgentzhpXC7MoDXrx", "address": "B9bQJmvkY6mL9HcRkqkP3eMahbgzgentzhpXC7MoDXrx", "x": { "id": "9004", "handle": "agent" } }
+  },
+  "steps": [
+    { "op": "setTime", "epoch": 1800000000 },
+    { "op": "set", "path": "dealMailPrefs/So11111111111111111111111111111111111111112", "data": { "owner": "user_alice", "email": "alice@example.com", "on": true, "updatedAt": 1800000000 }, "shouldFail": true },
+    { "op": "as", "who": "Alice" },
+    { "op": "set", "path": "dealMailPrefs/So11111111111111111111111111111111111111112", "data": { "owner": "user_alice", "email": "someone@example.com", "on": true, "updatedAt": 1800000000 }, "shouldFail": true },
+    { "op": "set", "path": "dealMailPrefs/11111111111111111111111111111111", "data": { "owner": "user_alice", "email": "alice@example.com", "on": true, "updatedAt": 1800000000 }, "shouldFail": true },
+    { "op": "set", "path": "dealMailPrefs/So11111111111111111111111111111111111111112", "data": { "owner": "user_alice", "email": "alice@example.com", "on": true, "updatedAt": 1800000000 } },
+    { "op": "expect", "expr": "get(/dealMailPrefs/So11111111111111111111111111111111111111112).on == true" },
+    { "op": "set", "path": "dealMailPrefs/So11111111111111111111111111111111111111112", "data": { "owner": "user_alice", "email": "alice@example.com", "on": false, "updatedAt": 1800000100 } },
+    { "op": "set", "path": "dealMailPrefs/So11111111111111111111111111111111111111112", "data": { "owner": "user_alice", "email": "other@example.com", "on": true, "updatedAt": 1800000200 }, "shouldFail": true },
+    { "op": "set", "path": "dealMailLog/deal_ffffffffffffffffffffffffffffffff", "data": { "lastStatus": "funded", "attempts": 0, "updatedAt": 1800000000 }, "shouldFail": true },
+    { "op": "as", "who": "WalletOnly" },
+    { "op": "set", "path": "dealMailPrefs/TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "data": { "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "email": "wallet@example.com", "on": true, "updatedAt": 1800000000 }, "shouldFail": true },
+    { "op": "as", "who": "Mallory" },
+    { "op": "set", "path": "dealMailPrefs/So11111111111111111111111111111111111111112", "data": { "owner": "user_mallory", "email": "mallory@example.com", "on": true, "updatedAt": 1800000300 }, "shouldFail": true },
+    { "op": "expect", "expr": "get(/dealMailPrefs/So11111111111111111111111111111111111111112).email == 'alice@example.com'" },
+    { "op": "delete", "path": "dealMailPrefs/So11111111111111111111111111111111111111112", "shouldFail": true },
+    { "op": "as", "who": "Agent" },
+    { "op": "set", "path": "dealMailLog/deal_ffffffffffffffffffffffffffffffff", "data": { "lastStatus": "funded", "attempts": 0, "updatedAt": 1800000000 } },
+    { "op": "expect", "expr": "get(/dealMailLog/deal_ffffffffffffffffffffffffffffffff).lastStatus == 'funded'" },
+    { "op": "set", "path": "dealMailPrefs/So11111111111111111111111111111111111111112", "data": { "owner": "user_alice", "email": "agent@example.com", "on": true, "updatedAt": 1800000400 }, "shouldFail": true },
+    { "op": "as", "who": "Alice" },
+    { "op": "delete", "path": "dealMailPrefs/So11111111111111111111111111111111111111112" }
+  ]
+}

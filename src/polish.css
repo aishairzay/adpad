@@ -1,0 +1,63 @@
+/* UI/UX polish pass: loaded last so these win over older layers. */
+
+/* 11: every nav item has the same weight; only the active one stands out. */
+.main-nav a[href="/sponsor-me"]{color:#535d49;font-weight:550}
+.main-nav a[href="/sponsor-me"].active{color:var(--ink)}
+
+/* 4: the strip label above the footer is dark on cream. */
+.escrow-strip .escrow-strip-label{color:var(--ink);font-weight:750}
+
+/* 12: header has two primary actions. */
+.header-actions{display:flex;align-items:center;gap:12px}
+.nav-buy-button{background:var(--ink);color:var(--paper)}
+.nav-buy-button:hover{background:var(--lime);color:var(--ink)}
+
+/* 7: the account button truncates the email and keeps the chevron. */
+.account-trigger{max-width:100%;min-width:0}
+.account-email{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.account-chevron{flex-shrink:0}
+
+/* 13a: price and availability rows pinned to the card bottom. */
+a.listing-card{display:flex;flex-direction:column;color:inherit;text-decoration:none}
+a.listing-card .card-body{display:flex;flex-direction:column;flex:1}
+a.listing-card .card-bottom{margin-top:auto}
+
+/* 16: concern and dispute share one left-aligned row. */
+.deal-raise-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 22px;justify-content:flex-start;margin-top:12px}
+.deal-raise-row .text-button{display:inline-flex;align-items:center;gap:6px;padding-left:0}
+.deal-raise-note{flex-basis:100%;margin:0;font-size:14px;line-height:1.6}
+
+/* 17a/17c: inline event fields and one gap before every field. */
+.offer-inline-details{display:grid;gap:16px;margin-top:6px}
+.offer-inline-heading{margin:8px 0 0;font-size:16px}
+.listing-form .field,.publish-form .field,form .field{margin-top:4px}
+.field>small+span,.field small{display:block;margin-top:6px}
+.listing-form fieldset>*+*{margin-top:20px}
+
+/* 15: one-line booking summary. */
+.booking-summary{display:flex;flex-wrap:wrap;gap:4px 14px;padding:12px 14px;border:1px solid #cdd0c4;background:#f1f2ea;font-size:15px;line-height:1.5;overflow-wrap:anywhere}
+.booking-summary strong{font-weight:700}
+
+/* 18: wallet address on one read-only line with copy. */
+.wallet-address-row{display:flex;align-items:center;gap:8px;border:1px solid #cdd0c4;padding:8px 10px;background:#f6f7f0;min-width:0}
+.wallet-address-row code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px}
+.wallet-balances{display:flex;gap:18px;flex-wrap:wrap;font-size:15px}
+
+/* 6: long text wraps everywhere. */
+h1,h2,h3,h4,p,dd,li,a{overflow-wrap:break-word}
+body{overflow-x:clip}
+
+/* 22: mobile nav behind a menu button. */
+.nav-menu-button{display:none}
+@media(max-width:760px){
+  .header-inner{flex-wrap:wrap;gap:10px}
+  .nav-menu-button{display:inline-flex;align-items:center;gap:6px;background:none;border:1px solid var(--ink);padding:8px 10px;font-size:14px;min-height:40px;order:2;margin-left:auto}
+  .main-nav{display:none;order:4;flex-basis:100%;flex-direction:column;align-items:stretch;gap:0;padding-bottom:10px}
+  .main-nav.nav-open{display:flex}
+  .main-nav a{height:auto;padding:12px 0;border-top:1px solid #cdd0c4}
+  .main-nav a.active:after{display:none}
+  .header-actions{order:3;flex-basis:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-left:0}
+  .header-actions .account-menu,.header-actions .connect-button{grid-column:1 / -1}
+  .nav-agent-button{width:100%;font-size:14px;padding:10px 8px}
+  .account-menu{align-items:stretch}
+}

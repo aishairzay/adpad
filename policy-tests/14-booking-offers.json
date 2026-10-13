@@ -1,0 +1,424 @@
+{
+  "version": "1",
+  "name": "Authoritative offers require seller ownership, validate event/clothing terms and derive the reservation counter",
+  "actors": {
+    "Buyer": { "id": "So11111111111111111111111111111111111111112", "address": "So11111111111111111111111111111111111111112", "x": { "id": "9001", "handle": "buyer" } },
+    "Seller": { "id": "seller_account", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "x": { "id": "9002", "handle": "seller" } },
+    "Other": { "id": "11111111111111111111111111111111", "address": "11111111111111111111111111111111", "x": { "id": "9003", "handle": "other" } },
+    "Admin": { "id": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "address": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "x": { "id": "9004", "handle": "admin" } }
+  },
+  "steps": [
+    {
+      "op": "setTime",
+      "epoch": 1800000000
+    },
+    {
+      "op": "mock",
+      "function": "@AccountPlugin.createAccount",
+      "returns": true
+    },
+    {
+      "op": "mock",
+      "function": "@TokenPlugin.transfer",
+      "returns": true
+    },
+    {
+      "op": "mock",
+      "function": "@TokenPlugin.getBalance",
+      "returns": 1000000000000
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": true,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "So11111111111111111111111111111111111111112",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": true,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": true,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200,
+        "reserved": 0
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": true,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 0,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "service",
+        "active": true,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": true,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "anyone",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": true,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800090000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": true,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": true,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": true,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800000100,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": true,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200,
+        "reserved": 2
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": true,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/bookingOffers/sponsor_offer).everFunded == false"
+    },
+    {
+      "op": "expect",
+      "expr": "get(/bookingOffers/sponsor_offer).reserved == 0"
+    },
+    {
+      "op": "as",
+      "who": "Other"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "active": false
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "reserved": 1
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "reserved": null
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "seller": "11111111111111111111111111111111"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "listingOwner": "another"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "capacity": 101
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "active": false
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/sponsor_offer",
+      "data": {
+        "capacity": 2,
+        "active": false
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/bookingOffers/sponsor_offer).capacity == 2 && get(/bookingOffers/sponsor_offer).reserved == 0"
+    },
+    {
+      "op": "delete",
+      "path": "bookingOffers/sponsor_offer",
+      "shouldFail": true
+    }
+  ]
+}

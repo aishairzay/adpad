@@ -1,0 +1,562 @@
+{
+  "version": "1",
+  "name": "Listing kind is optional for legacy placements and permits only placement or service; service categories remain open text",
+  "actors": {
+    "Buyer": { "id": "So11111111111111111111111111111111111111112", "address": "So11111111111111111111111111111111111111112", "x": { "id": "9001", "handle": "buyer" } },
+    "Seller": { "id": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "x": { "id": "9002", "handle": "seller" } },
+    "Mallory": { "id": "11111111111111111111111111111111", "address": "11111111111111111111111111111111", "x": { "id": "9003", "handle": "mallory" } },
+    "Admin": { "id": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "address": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "x": { "id": "9004", "handle": "admin" } }
+  },
+  "steps": [
+    {
+      "op": "setTime",
+      "epoch": 1800000000
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/kind_legacy",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/kind_legacy",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Newsletter",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/kind_legacy).kind == null"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/kind_placement",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "kind": "placement",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/kind_placement",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Newsletter",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": "placement",
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/kind_service",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "kind": "service",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/kind_service",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Photography",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": "service",
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/kind_service).kind == 'service' && get(/listings/kind_service).category == 'Photography'"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/kind_null",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "kind": null,
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/kind_null",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Newsletter",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": null,
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/kind_invalid",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Newsletter",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": "sponsorship"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/kind_empty",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Newsletter",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": ""
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/kind_legacy",
+      "data": {
+        "kind": "service",
+        "category": "Development"
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/kind_legacy).kind == 'service'"
+    },
+    {
+      "op": "as",
+      "who": "Buyer"
+    },
+    {
+      "op": "set",
+      "path": "listings/kind_service",
+      "data": {
+        "kind": "placement"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "listings/kind_service",
+      "data": {
+        "kind": "unrestricted"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/kind_service).kind == 'service'"
+    },
+    {
+      "op": "set",
+      "path": "listings/kind_service",
+      "data": {
+        "kind": "placement"
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/kind_service).kind == 'placement'"
+    },
+    {
+      "op": "set",
+      "path": "listings/kind_service",
+      "data": {
+        "kind": null
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/kind_service).kind == null"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/service_category_0",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "kind": "service",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/service_category_0",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Video",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": "service",
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/service_category_1",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "kind": "service",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/service_category_1",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Design",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": "service",
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/service_category_2",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "kind": "service",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/service_category_2",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Content",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": "service",
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/service_category_3",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "kind": "service",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/service_category_3",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Hosting",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": "service",
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/service_category_4",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "kind": "service",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/service_category_4",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Music",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": "service",
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/service_category_5",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "kind": "service",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/service_category_5",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Community",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": "service",
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/service_category_6",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "kind": "service",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/service_category_6",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Development",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": "service",
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/service_category_7",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "kind": "service",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/service_category_7",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Other",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "kind": "service",
+        "editVersion": 1
+      }
+    }
+  ]
+}

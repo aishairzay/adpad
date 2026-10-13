@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "name": "ask-adpad-page",
+  "mutates": false,
+  "steps": [
+    {"action": "goto", "url": "/ask"},
+    {"action": "expect", "kind": "text", "selector": "body", "value": "ASK ANYTHING."},
+    {"action": "expect", "kind": "text", "selector": "body", "value": "How does payment work?"},
+    {"action": "goto", "url": "/how-it-works"},
+    {"action": "expect", "kind": "text", "selector": "body", "value": "Ask AdPad"}
+  ]
+}

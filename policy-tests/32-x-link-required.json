@@ -1,0 +1,311 @@
+{
+  "version": "1",
+  "name": "Sponsors and creators need a linked X account; a stored handle must be the linked one; the agent is not gated; escrow updates reach the agent as requests",
+  "actors": {
+    "Creator": {
+      "id": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "x": {
+        "id": "1001",
+        "handle": "creator"
+      }
+    },
+    "Sponsor": {
+      "id": "So11111111111111111111111111111111111111112",
+      "address": "So11111111111111111111111111111111111111112",
+      "x": {
+        "id": "1002",
+        "handle": "sponsor"
+      }
+    },
+    "Unlinked": "11111111111111111111111111111111",
+    "Agent": "B9bQJmvkY6mL9HcRkqkP3eMahbgzgentzhpXC7MoDXrx"
+  },
+  "steps": [
+    {
+      "op": "setTime",
+      "epoch": 1800000000
+    },
+    {
+      "op": "mock",
+      "function": "@AccountPlugin.createAccount",
+      "returns": true
+    },
+    {
+      "op": "mock",
+      "function": "@TokenPlugin.transfer",
+      "returns": true
+    },
+    {
+      "op": "mock",
+      "function": "@TokenPlugin.getBalance",
+      "returns": 1000000000000
+    },
+    {
+      "op": "as",
+      "who": "Unlinked"
+    },
+    {
+      "op": "set",
+      "path": "profiles/$Unlinked",
+      "data": {
+        "owner": "$Unlinked",
+        "wallet": "$Unlinked",
+        "name": "No X",
+        "profileType": "person",
+        "createdAt": 1800000000,
+        "updatedAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/l_unlinked",
+      "data": {
+        "owner": "$Unlinked",
+        "seller": "$Unlinked",
+        "publisher": "No X",
+        "title": "Wear our merch",
+        "category": "Event",
+        "channel": "London",
+        "description": "I can wear sponsor clothing.",
+        "deliverables": "A public photo.",
+        "audience": "Attendees",
+        "priceMicro": 100000000,
+        "turnaroundDays": 7,
+        "active": false,
+        "createdAt": 1800000000,
+        "kind": "placement"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "sponsor": "$Unlinked",
+        "sponsorId": "$Unlinked",
+        "creator": "$Creator",
+        "listingId": "l1",
+        "headline": "Hat at Breakpoint",
+        "brief": "Wear the hat all day and post three photos.",
+        "amountUsdc": 50000000,
+        "challengeSeconds": 86400,
+        "expiresAt": 1801814400,
+        "deadline": 1800604800,
+        "createdAt": 1800000000,
+        "status": "awaiting_funding"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Creator"
+    },
+    {
+      "op": "set",
+      "path": "profiles/$Creator",
+      "data": {
+        "owner": "$Creator",
+        "wallet": "$Creator",
+        "name": "Creator",
+        "profileType": "person",
+        "verifiedXId": "1001",
+        "verifiedXHandle": "someone_else",
+        "createdAt": 1800000000,
+        "updatedAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/$Creator",
+      "data": {
+        "owner": "$Creator",
+        "wallet": "$Creator",
+        "name": "Creator",
+        "profileType": "person",
+        "verifiedXId": "1001",
+        "verifiedXHandle": "creator",
+        "createdAt": 1800000000,
+        "updatedAt": 1800000000
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/profiles/TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA).verifiedXHandle == 'creator'"
+    },
+    {
+      "op": "set",
+      "path": "listings/l1",
+      "data": {
+        "owner": "$Creator",
+        "seller": "$Creator",
+        "publisher": "Creator",
+        "title": "Hat at Breakpoint",
+        "category": "Event",
+        "channel": "Breakpoint",
+        "description": "I wear sponsor clothing at events.",
+        "deliverables": "Three photos on X.",
+        "audience": "Solana builders",
+        "priceMicro": 50000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "kind": "placement"
+      }
+    },
+    {
+      "op": "as",
+      "who": "Sponsor"
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "creator": "$Creator",
+        "listingId": "l1",
+        "headline": "Hat at Breakpoint",
+        "brief": "Wear the hat all day and post three photos.",
+        "amountUsdc": 50000000,
+        "challengeSeconds": 86400,
+        "expiresAt": 1801814400,
+        "deadline": 1800604800,
+        "createdAt": 1800000000,
+        "status": "awaiting_funding"
+      }
+    },
+    {
+      "op": "set",
+      "path": "dealEscrows/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "funder": "$Sponsor",
+        "payee": "$Creator",
+        "amountUsdc": 50000000,
+        "expiresAt": 1801814400,
+        "ref": "deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "createdAt": 1800000000,
+        "status": "unfunded",
+        "version": 0
+      }
+    },
+    {
+      "op": "set",
+      "path": "dealEscrows/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/actions/fund_0",
+      "data": {
+        "action": "fund",
+        "actor": "$Sponsor",
+        "expectedVersion": 0,
+        "at": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "escrowId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rootAppId": "68652cfd2a7212f59461a789"
+      }
+    },
+    {
+      "op": "as",
+      "who": "Agent"
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "status": "funded"
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa).status == 'funded'"
+    },
+    {
+      "op": "as",
+      "who": "Creator"
+    },
+    {
+      "op": "setMany",
+      "writes": [
+        {
+          "path": "dealRequests/req_chg_empty",
+          "data": {
+            "kind": "escrow_changed",
+            "dealId": "deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "raisedBy": "$Creator",
+            "raisedById": "$Creator",
+            "note": "",
+            "createdAt": 1800000000,
+            "status": "pending"
+          }
+        },
+        {
+          "path": "dealRequestRate/$Creator/r/req_chg_empty",
+          "data": {
+            "weight": 1
+          }
+        }
+      ],
+      "shouldFail": true
+    },
+    {
+      "op": "setMany",
+      "writes": [
+        {
+          "path": "dealRequests/req_chg",
+          "data": {
+            "kind": "escrow_changed",
+            "dealId": "deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "raisedBy": "$Creator",
+            "raisedById": "$Creator",
+            "note": "accept",
+            "createdAt": 1800000000,
+            "status": "pending"
+          }
+        },
+        {
+          "path": "dealRequestRate/$Creator/r/req_chg",
+          "data": {
+            "weight": 1
+          }
+        }
+      ]
+    },
+    {
+      "op": "expect",
+      "expr": "get(/dealRequests/req_chg).kind == 'escrow_changed'"
+    },
+    {
+      "op": "as",
+      "who": "Unlinked"
+    },
+    {
+      "op": "setMany",
+      "writes": [
+        {
+          "path": "dealRequests/req_chg_x",
+          "data": {
+            "kind": "escrow_changed",
+            "dealId": "deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "raisedBy": "$Unlinked",
+            "raisedById": "$Unlinked",
+            "note": "release",
+            "createdAt": 1800000000,
+            "status": "pending"
+          }
+        },
+        {
+          "path": "dealRequestRate/$Unlinked/r/req_chg_x",
+          "data": {
+            "weight": 1
+          }
+        }
+      ],
+      "shouldFail": true
+    }
+  ]
+}

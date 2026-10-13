@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "name": "home-assets",
+  "mutates": false,
+  "steps": [
+    {"action": "goto", "url": "/"},
+    {"action": "expect", "kind": "text", "selector": "body", "value": "Proof before payout"},
+    {"action": "goto", "url": "/how-it-works"},
+    {"action": "expect", "kind": "text", "selector": "body", "value": "Creator accepts"},
+    {"action": "goto", "url": "/manifest.json"},
+    {"action": "expect", "kind": "text", "selector": "body", "value": "AdPad"},
+    {"action": "goto", "url": "/llms.txt"},
+    {"action": "expect", "kind": "text", "selector": "body", "value": "Pages worth reading"}
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "verifiedAt": "2026-10-01T15:40:00+00:00",
+  "appId": "605ba9048f556bdd2b7ea18e",
+  "preview": {
+    "previewAppId": "30b1465f77047992ce8c5aa7",
+    "url": "https://buy-attention-02yw-preview.openapps.xyz",
+    "network": "Poofnet / simulated USDC",
+    "release": "not requested; awaiting owner approval per direction",
+    "policyUntouched": "policy.json unchanged by this work (git diff clean against the published revision)"
+  },
+  "scope": {
+    "buyAttentionFlow": [
+      "New guided buyer flow (BuyAttention dialog): kind of attention from the placement categories, where-or-when via featured events or a UTC date, budget steps",
+      "Matches only real bookable placements from discovery; example cards (sample), test fixtures (sponsorship_test_*, integration_*), services, closed/ended/full offers excluded by src/lib/buy-attention.ts",
+      "Picking a match opens the existing booking dialog with the brief prefilled from the answers; escrow semantics, terms immutability and funding path unchanged",
+      "Signed out the whole flow; the booking step keeps its existing Sign in to book gate",
+      "No dead ends: same-kind matches when timing/budget miss, nearest category chips with live counts, browse link otherwise",
+      "Entry points: hero primary button and a BUY ATTENTION nav item"
+    ],
+    "listingAgentChat": [
+      "Answered quick-pick dropdowns collapse into low-key chips (value + change) between the chat log and the answer box; change reopens only that dropdown with its current value",
+      "Speed for impatient users: typed plain prices and plain name answers apply instantly with zero assistant round trips; assistant history trimmed to the last 12 messages; the AI path is unchanged for everything else"
+    ]
+  },
+  "versions": {
+    "cli": "0.0.147",
+    "clientServerCoreSdk": "0.0.109"
+  },
+  "applicationTests": {
+    "files": 17,
+    "filesPassed": 16,
+    "filesSkipped": 1,
+    "total": 177,
+    "passed": 176,
+    "failed": 0,
+    "skipped": 1,
+    "skippedFile": "tests/listing-helpers.live.test.ts (live backend test, skipped in unit runs)",
+    "newSuites": ["tests/buy-attention.test.ts (11 tests)", "instant quick answers in tests/creator-onboarding.test.ts (2 tests)"]
+  },
+  "policyTests": {
+    "suites": 22,
+    "fullyPassed": 21,
+    "policyChecksFailed": 0,
+    "notes": "Run against the preview app in five batches after the single full run hit the known sandbox throttling (run time budget exceeded). All policy steps in every suite passed. In 08-arbitrator-conflicts.json the 12 policy steps passed but the after-run sandbox purge was declined by billing throttling (realtime_sandbox_purge_failed_503, usage_report_undelivered, retryable) on 6 attempts; the same suite passed at the previous release verification with this byte-identical policy. Re-run that suite before requesting a release if throttling has cleared."
+  },
+  "policyVerification": {
+    "total": 118,
+    "proven": 112,
+    "failed": 0,
+    "unprovenAdvisories": 6,
+    "note": "Carried from the published revision; policy.json not regenerated or changed for this work"
+  },
+  "build": {
+    "passed": true,
+    "typescriptPassed": true,
+    "previewBundleNamesPreviewAppId": true,
+    "viteAdvisory": "Main application chunk above 500kB minified (known advisory)"
+  },
+  "backendDeploy": {
+    "action": "deployPolicy",
+    "app": "30b1465f77047992ce8c5aa7",
+    "state": "committed",
+    "status": "available",
+    "sourceSync": "not requested",
+    "functionDeploys": [
+      {
+        "function": "creatorOnboarding",
+        "entry": "functions/creatorOnboarding.ts",
+        "auth": "@user.id != null",
+        "deployed": true
+      }
+    ]
+  },
+  "siteDeploy": {
+    "action": "siteDeploy",
+    "app": "30b1465f77047992ce8c5aa7",
+    "status": "succeeded",
+    "totalBytes": 5383147,
+    "bootstrapContainsPreviewAppId": true
+  },
+  "previewSeed": {
+    "listings": 3,
+    "note": "Three bookable placement rows seeded on the preview only (agent identity) to exercise matching: T-shirts at Breakpoint (250 USDC, official window), Event wall at Hacker House London (120 USDC, official window), X / Social independent post (90 USDC). Production data untouched."
+  },
+  "browserChecks": {
+    "guestSignedOut": true,
+    "buyAttention": {
+      "heroEntry": "Buy attention primary button present on the homepage",
+      "navEntry": "BUY ATTENTION present between SPONSOR ME and SOLANA EVENTS",
+      "defaults": "03 placements match with no answers (soonest activation first, undated last)",
+      "categoryTshirts": "01 match (Breakpoint hoodie)",
+      "eventBreakpoint": "01 match, unchanged",
+      "budgetUpTo100": "No exact match; same-kind fallback offered with browse link",
+      "podcastNoMatch": "Nearest category chips with counts: Event 1, T-shirts 1, X / Social 1, plus browse link",
+      "nearestCategoryChip": "Relaxes timing/budget and shows that category's bookable offer",
+      "dateQuestion": "On a date reveals a UTC date input; 2026-11-16 matches the Breakpoint hoodie",
+      "browseLink": "Closes the dialog and lands on the marketplace grid",
+      "prefilledBrief": "Kind of attention: T-shirts. Timing: Solana Breakpoint 2026 (15-17 November 2026). Budget: up to 250 USDC.",
+      "fundingGate": "Booking dialog shows Sign in to book while signed out; escrow copy and terms immutability notices unchanged"
+    },
+    "listingAgent": {
+      "collapse": "Picking a dropdown value collapses it to a chip (Type of ad space / Hats / change); only unanswered dropdowns remain; after all four picks zero dropdowns remain between the log and the answer box",
+      "changePath": "change reopens that dropdown showing its current value; re-picking updates the chip and re-collapses",
+      "instantName": "Typed 'Sam's Crew . @sam' applied instantly, draft updated, agent reply instant, 0 function invocations (measured via performance resource entries)",
+      "instantPrice": "Typed '250' applied instantly, review invitation shown, 0 function invocations",
+      "assistantLatency": "One AI-assisted invocation on the deployed preview function measured at 9420 ms end to end (event-pinned draft returned correctly); the quick chip path needs no invocation",
+      "method": "Signed-in UI reproduced locally with a temporary stubbed user per adpad-ops, pointing at the preview app id; stub and config reverted and verified gone before deploy"
+    },
+    "mobileWidthsChecked": [390, 320],
+    "horizontalOverflow": false,
+    "dialogOverflow": false,
+    "platformPageLoad": {
+      "passed": true,
+      "status": 200,
+      "consoleErrors": "Cloudflare Insights blocked (platform analytics, expected); one transient 403 on a synthetic escrows read right after deploy",
+      "appSessions": "Five full refresh cycles read listings, bookingOffers, escrows and profiles with no error banner; listings render"
+    }
+  }
+}

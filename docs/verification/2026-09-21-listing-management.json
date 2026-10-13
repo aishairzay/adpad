@@ -1,0 +1,408 @@
+{
+  "appId": "605ba9048f556bdd2b7ea18e",
+  "protocol": "realtime_offchain",
+  "cliVersion": "0.0.136",
+  "sdkVersion": "0.0.100",
+  "rawPolicySha256": "77afb88ce82eb829c3b0e2673b3ccacbc5d693d6ef3a2b5b951081d0b6e4ab04",
+  "expectedSubmittedPolicySha256": "b08fcde890a99e1cddde8373e08077e2761a26bf98e97d73700551724a2e9694",
+  "verify": {
+    "passed": true,
+    "safeToDeploy": true,
+    "counts": {
+      "total": 119,
+      "proven": 111,
+      "failed": 0,
+      "unprovenAdvisories": 8,
+      "schemaFailures": 0,
+      "proofFailures": 0
+    },
+    "advisories": "Six intentional public-read advisories; two non-owner update advisories reflect the narrowly allowed pinned-admin soft-deletion path."
+  },
+  "tests": {
+    "suites": 21,
+    "steps": 736,
+    "failures": 0,
+    "runs": [
+      {
+        "file": "01-lifecycle.json",
+        "steps": 38,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "02-expiry-refunds.json",
+        "steps": 37,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "03-disputes.json",
+        "steps": 41,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "04-forgery-and-balance.json",
+        "steps": 34,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "05-listing-ownership.json",
+        "steps": 14,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "06-offer-cancellation.json",
+        "steps": 15,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "07-failed-hook-retry.json",
+        "steps": 13,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "08-arbitrator-conflicts.json",
+        "steps": 12,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "09-proof-during-dispute.json",
+        "steps": 25,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "10-image-storage.json",
+        "steps": 40,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "11-listing-image-reference.json",
+        "steps": 26,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "12-listing-kind.json",
+        "steps": 41,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "13-profiles.json",
+        "steps": 26,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "14-booking-offers.json",
+        "steps": 31,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "15-linked-capacity.json",
+        "steps": 39,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "16-linked-failure-and-release.json",
+        "steps": 40,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-focused-tests.json"
+      },
+      {
+        "file": "17-linked-admin-refund.json",
+        "steps": 28,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "18-event-attendance.json",
+        "steps": 64,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-tests.json"
+      },
+      {
+        "file": "19-listing-edit-lock.json",
+        "steps": 92,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-focused-tests.json"
+      },
+      {
+        "file": "20-legacy-edit-boundary.json",
+        "steps": 18,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-final-tests.json"
+      },
+      {
+        "file": "21-listing-soft-deletion.json",
+        "steps": 62,
+        "status": "pass",
+        "evidence": "/private/tmp/adpad-listing-edit-final-tests.json"
+      }
+    ]
+  },
+  "earlierRunLimitations": [
+    "First batch exceeded Bounded 120-second run budget before suites 19\u201321.",
+    "Legacy missing-flag fixture attempted unsupported suppression of built-in DocumentPlugin writes; removed that unreachable seeding attempt, retained real missing-history/retrofit tests.",
+    "Suite 21 first executed all 62 assertions successfully but sandbox cleanup had transient billing acknowledgment 503; final rerun passed including cleanup."
+  ],
+  "deployment": "Backend and frontend deployed; canonical public site verified in the browser.",
+  "liveIntegration": {
+    "path": "scripts/test-listing-edit-integration.mjs",
+    "status": "Passed on deployed revision8/publication12; fixture cleanup confirmed."
+  },
+  "scope": "Readable typography, dual-offer publishing, pre-funding edits, legacy updated versions, and owner/admin soft deletion.",
+  "date": "2026-09-21",
+  "backendDeployment": {
+    "action": "deployPolicy",
+    "app": {
+      "appId": "605ba9048f556bdd2b7ea18e",
+      "policyRevisionCount": 8,
+      "runtimePublicationRevision": 12,
+      "status": "available"
+    },
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "appLifecycle": "existing",
+    "controlPlane": "production",
+    "created": false,
+    "ok": true,
+    "policyDeployReceipt": {
+      "appId": "605ba9048f556bdd2b7ea18e",
+      "ok": true,
+      "operationId": "7dfbd73c-eee3-405d-85d8-b2d673fc250b",
+      "policyRevisionCount": 8,
+      "runtimePublicationRevision": 12,
+      "state": "committed",
+      "status": "available"
+    },
+    "sourceSync": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "state": "committed"
+  },
+  "backendInspection": {
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "controlPlane": "production",
+    "environment": "development",
+    "ok": true,
+    "protocol": "realtime_offchain",
+    "receipt": {
+      "operationId": "7dfbd73c-eee3-405d-85d8-b2d673fc250b",
+      "policyRevisionCount": 8,
+      "runtimePublicationRevision": 12,
+      "state": "committed",
+      "status": "available"
+    },
+    "resolvedPolicySha256": "c8b57775c69342d2471041bbdc06be9a7301d19080850464a450f9612e30d96c",
+    "runtimeArtifactSha256": "3a287ecdb1bef3229111eaaa54fecf6513007a96734c698831cd84289db40dea",
+    "runtimeTarget": "development",
+    "schemaVersion": 1,
+    "sitePrivate": false,
+    "submittedPolicySha256": "b08fcde890a99e1cddde8373e08077e2761a26bf98e97d73700551724a2e9694"
+  },
+  "livePermissions": {
+    "ok": true,
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "protocol": "realtime_offchain",
+    "evidence": [
+      "Open offer terms cannot change",
+      "Open listing content cannot change",
+      "Closed offer cannot be funded",
+      "Reopened changed terms reject stale quote",
+      "Funded offer terms stay locked even when closed",
+      "Funded metadata stays locked",
+      "Owner cannot clear funding history",
+      "Refund does not reopen metadata edits",
+      "Outsider cannot delete offer",
+      "Deleted offer rejects new linked agreements",
+      "Deleted offer cannot reopen",
+      "Deleted metadata cannot be restored"
+    ],
+    "raceOutcome": "Closure won; funding failed, edits allowed",
+    "paths": [
+      "bookingOffers/integration_edit_main_815d33d2_d160_4f0f_95c3_7ae8de0119ad",
+      "listings/integration_edit_main_815d33d2_d160_4f0f_95c3_7ae8de0119ad",
+      "escrows/adpad_esc_444872da-5412-4c29-81fd-12982ffdc56e",
+      "escrows/adpad_esc_444872da-5412-4c29-81fd-12982ffdc56e/actions/fund_e69e62b2_c0a9_4816_80cb_05f0fd75186a",
+      "escrows/adpad_esc_444872da-5412-4c29-81fd-12982ffdc56e/actions/fund_74faaf31_2ff0_4afd_ae4a_5db44ddcd590",
+      "escrows/adpad_esc_6afd2e5b-3adb-46b7-a424-406a01a2ca95",
+      "escrows/adpad_esc_6afd2e5b-3adb-46b7-a424-406a01a2ca95/actions/fund_84f2951b_6d7e_45bc_a965_bce8ebe9ef08",
+      "escrows/adpad_esc_6afd2e5b-3adb-46b7-a424-406a01a2ca95/actions/refund_0172b988_4623_4dec_93e3_ec89b979a8a1",
+      "escrows/adpad_esc_871e30ce-cb90-4a19-899b-2094fb7c06f9",
+      "bookingOffers/integration_edit_race_60603de2_28d2_4259_b0b2_dea1e58c80ac",
+      "listings/integration_edit_race_60603de2_28d2_4259_b0b2_dea1e58c80ac",
+      "escrows/adpad_esc_1bd53179-00ef-4711-ac1a-fa193ef29f3f",
+      "escrows/adpad_esc_1bd53179-00ef-4711-ac1a-fa193ef29f3f/actions/fund_4a41fc02_5da6_4d65_92bc_63f3c903c9bd"
+    ],
+    "retained": "Two soft-deleted integration_ listing/offer pairs, one refunded escrow and unfunded/refunded quotes. Ephemeral keys/tokens never persisted. Simulated USDC only."
+  },
+  "applicationTests": {
+    "passed": 140,
+    "skipped": 1,
+    "skippedReason": "Live helper test requires explicit opt-in and passed separately.",
+    "log": "/private/tmp/adpad-listing-management-app-tests.log"
+  },
+  "build": {
+    "passed": true,
+    "log": "/private/tmp/adpad-listing-management-build.log",
+    "cssAsset": "bootstrap-NChRwx88.css",
+    "jsAsset": "bootstrap-DbBxzU4U.js",
+    "advisory": "Existing Vite chunk-size warning; SDK-containing bundle exceeds 500 kB."
+  },
+  "browserChecks": {
+    "passed": [
+      "Desktop marketplace and creator modal at 1280px",
+      "Mobile creator modal at 390px; no horizontal overflow",
+      "Events page and complete navigation at 320px",
+      "Both offering checkboxes stay selected together",
+      "Separate offer sections retain typed titles when toggled",
+      "Event deep link prefills separate dates/event values for both kinds",
+      "Attendance stays unchecked until explicitly selected",
+      "Escape dismisses dialog while retaining event filter"
+    ],
+    "computedText": {
+      "creatorIntro": "18px",
+      "offerChoiceHeading": "18px",
+      "labelsAndInputs": "16px",
+      "helperText": "14px"
+    },
+    "limitations": [
+      "Owner email sign-in and authenticated browser writes were not exercised; direct live SDK flows and policy allow/deny tests cover writes.",
+      "The cross-origin Solana calendar uses its existing direct-link fallback where embedding fails."
+    ]
+  },
+  "frontendDeployment": {
+    "action": "siteDeploy",
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "appLifecycle": "existing",
+    "classification": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "controlPlane": "production",
+    "created": false,
+    "deployId": "d_ext_555f4830cfc984d29527fbc806c97458c79b42cc490012df",
+    "editingBase": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "ok": true,
+    "partial": false,
+    "prunedStale": 14,
+    "siteLive": true,
+    "sourceSync": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "status": "succeeded",
+    "upload": {
+      "appId": "605ba9048f556bdd2b7ea18e",
+      "archiveBytes": 1937610,
+      "attempted": true,
+      "byteCount": 2888735,
+      "fileCount": 33,
+      "liveUrl": "https://ad-pad.bounded.page",
+      "liveUrlStatus": "resolved",
+      "ok": true,
+      "operationId": "sau_870bf7e795dd17d4e4bae7669ce888f49fae385f1ffb8eb287a966fd98d5caa9",
+      "receipt": {
+        "appId": "605ba9048f556bdd2b7ea18e",
+        "archiveBytes": 1937610,
+        "archiveSha256": "5cf20efe13f94aba4147b324b7dbfa02d019c5f5945406ba5e2037e419152705",
+        "deployId": "d_ext_555f4830cfc984d29527fbc806c97458c79b42cc490012df",
+        "deployed": 33,
+        "manifestSha256": "0930cc47f3b86cccdce29a3874ecb6bf9606b98db71cdc92f0ab7e59d5fd73b3",
+        "ok": true,
+        "operationId": "sau_870bf7e795dd17d4e4bae7669ce888f49fae385f1ffb8eb287a966fd98d5caa9",
+        "previousDeployId": "d_ext_ed7145f36a1da28dd51368814b16e0c80ee6dd3605eefc88",
+        "prunedStale": 14,
+        "replayed": false,
+        "retention": {
+          "pendingCleanup": 0,
+          "removedDeployments": 0,
+          "removedObjects": 0,
+          "status": "clean"
+        },
+        "siteDigest": "555f4830cfc984d29527fbc806c97458c79b42cc490012df1c8e67e81931dd67",
+        "totalBytes": 2888735
+      },
+      "status": "succeeded"
+    }
+  },
+  "liveSite": {
+    "url": "https://ad-pad.bounded.page/sponsor-me?create=1",
+    "stylesheet": "https://ad-pad.bounded.page/assets/bootstrap-NChRwx88.css",
+    "bothKindsSelected": true,
+    "introPx": 18,
+    "labelPx": 16,
+    "helperPx": 14,
+    "horizontalOverflow": false,
+    "existingUserListingPreserved": "listing_39fa6f1d_a960_47d8_8b46_4c335e5e7cac"
+  },
+  "liveHelpers": {
+    "result": "passed",
+    "testFile": "/Users/mauricechalfin/claude working files/ad-pad/tests/listing-helpers.live.test.ts",
+    "command": "ADPAD_LIVE_HELPER_TEST=1 npm test -- tests/listing-helpers.live.test.ts",
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "network": "Poofnet / realtime_offchain / bounded-production",
+    "testCount": 1,
+    "durationSeconds": 16.64,
+    "runDate": "2026-09-21",
+    "startedAtLocalTime": "12:43:18 America/New_York",
+    "retiredFixtureIds": [
+      "integration_helpers_be79baf8_1e22_4c33_8684_df8683139fc6",
+      "listing_pub_063613b54d622a7e5223670a6bb0ea539b3545a7e12fee4c2a8146d4d1a6af29",
+      "listing_pub_ee22e785b571199ab3dfc97d450a7f34001b3b6ddd54a06fa4f32f1745722a58",
+      "listing_pub_fb3a4562d34dd6bd44a163322e2be4ccedffb8a48de55ce851b6593c9066701a"
+    ],
+    "cleanup": {
+      "allListingsDeletedAndInactive": true,
+      "allOffersDeletedAndInactive": true,
+      "verifiedAt": "2026-09-21T16:46:42.455Z"
+    },
+    "retainedUnfundedHistory": [
+      {
+        "id": "adpad_esc_9db3e733-1553-4c94-ba57-eb7ad209a72d",
+        "status": "unfunded",
+        "version": 0,
+        "listingId": "integration_helpers_be79baf8_1e22_4c33_8684_df8683139fc6"
+      }
+    ],
+    "verifiedBehaviors": [
+      "Legacy source closed before creating a separate initialized editable listing",
+      "Original terms and original unfunded agreement fields preserved",
+      "Actual metadata and authoritative offer edit patches clear optional fields with null",
+      "Owner soft deletion retires both documents without destroying agreements",
+      "Placement and service publication use distinct IDs from the same stable group token",
+      "Identical repeated publication performs zero additional writes"
+    ],
+    "tokenTransfersRequested": 0,
+    "keysOrTokensPersisted": false,
+    "firstFailedAttempt": {
+      "reason": "Test history fixture used an escrow ID that did not satisfy the existing strict format; policy correctly rejected it. Fixed the test to adpad_esc_ plus UUID without changing policy.",
+      "durationSeconds": 3.41,
+      "fixtureId": "integration_helpers_6abc2d70_6136_4d38_a5a2_90c4f8f3830d",
+      "listingDeletedAndInactive": true,
+      "offerDeletedAndInactive": true,
+      "retainedHistoryCount": 0
+    },
+    "rawOutputTranscriptPath": "/private/tmp/adpad-listing-helpers-live-output.txt",
+    "publicRecordsEvidencePath": "/private/tmp/adpad-listing-helpers-live-records.json",
+    "evidenceMethod": "Completed tool output plus a later unauthenticated read-only query for exact public IDs and cleanup state. No new test execution or mutations while gathering this report."
+  }
+}

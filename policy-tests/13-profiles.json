@@ -1,0 +1,238 @@
+{
+  "version": "1",
+  "name": "Public profiles bind account path and immutable wallet; editing is owner-only and lengths/types/time are bounded",
+  "actors": {
+    "Buyer": { "id": "So11111111111111111111111111111111111111112", "address": "So11111111111111111111111111111111111111112", "x": { "id": "9001", "handle": "buyer" } },
+    "Seller": { "id": "seller_account", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "x": { "id": "9002", "handle": "seller" } },
+    "Other": { "id": "11111111111111111111111111111111", "address": "11111111111111111111111111111111", "x": { "id": "9003", "handle": "other" } },
+    "Admin": { "id": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "address": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "x": { "id": "9004", "handle": "admin" } }
+  },
+  "steps": [
+    {
+      "op": "setTime",
+      "epoch": 1800000000
+    },
+    {
+      "op": "mock",
+      "function": "@AccountPlugin.createAccount",
+      "returns": true
+    },
+    {
+      "op": "mock",
+      "function": "@TokenPlugin.transfer",
+      "returns": true
+    },
+    {
+      "op": "mock",
+      "function": "@TokenPlugin.getBalance",
+      "returns": 1000000000000
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "owner": "seller_account",
+        "wallet": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "name": "Creator name",
+        "bio": "Event host and photographer.",
+        "location": "New York",
+        "website": "https://example.com",
+        "socialUrl": "https://example.com/social",
+        "imageUrl": "https://example.com/profile.png",
+        "profileType": "person",
+        "createdAt": 1800000000,
+        "updatedAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "profiles/another_account",
+      "data": {
+        "owner": "seller_account",
+        "wallet": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "name": "Creator name",
+        "bio": "Event host and photographer.",
+        "location": "New York",
+        "website": "https://example.com",
+        "socialUrl": "https://example.com/social",
+        "imageUrl": "https://example.com/profile.png",
+        "profileType": "person",
+        "createdAt": 1800000000,
+        "updatedAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "owner": "seller_account",
+        "wallet": "So11111111111111111111111111111111111111112",
+        "name": "Creator name",
+        "bio": "Event host and photographer.",
+        "location": "New York",
+        "website": "https://example.com",
+        "socialUrl": "https://example.com/social",
+        "imageUrl": "https://example.com/profile.png",
+        "profileType": "person",
+        "createdAt": 1800000000,
+        "updatedAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "owner": "seller_account",
+        "wallet": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "name": "Creator name",
+        "bio": "Event host and photographer.",
+        "location": "New York",
+        "website": "https://example.com",
+        "socialUrl": "https://example.com/social",
+        "imageUrl": "https://example.com/profile.png",
+        "profileType": "person",
+        "createdAt": 1800000000,
+        "updatedAt": 1800000000
+      }
+    },
+    {
+      "op": "as",
+      "who": "Other"
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "name": "Impersonator"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "wallet": "So11111111111111111111111111111111111111112"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "owner": "wrong"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "createdAt": 1799999999
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "bio": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "location": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "website": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "socialUrl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "xHandle": "this_handle_is_over_fifteen"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "imageUrl": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "profileType": "admin"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "updatedAt": 1800000001
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "profiles/seller_account",
+      "data": {
+        "name": "Creative studio",
+        "profileType": "brand",
+        "xHandle": "adpad",
+        "bio": null,
+        "updatedAt": 1800000000
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/profiles/seller_account).profileType == 'brand' && get(/profiles/seller_account).xHandle == 'adpad' && get(/profiles/seller_account).wallet == 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'"
+    },
+    {
+      "op": "delete",
+      "path": "profiles/seller_account",
+      "shouldFail": true
+    }
+  ]
+}

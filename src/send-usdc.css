@@ -1,0 +1,28 @@
+/* Send USDC inside the wallet dialog. Compact, on the app's variables. */
+.send-usdc{display:flex;flex-direction:column;gap:12px;font-size:15px}
+.send-label{font-size:14px;font-weight:600;color:var(--ink)}
+.send-input{width:100%;border:1px solid #c6d3b4;background:#fdfff7;color:var(--ink);padding:11px 12px;font-size:16px;line-height:1.5;border-radius:0}
+.send-input::placeholder{color:var(--muted)}
+.send-input:focus-visible{outline:2px solid #809b00;outline-offset:2px}
+.send-amount-row{display:flex;gap:8px;align-items:stretch}
+.send-amount-row .send-input{flex:1;min-width:0}
+.send-max{flex-shrink:0;border:1px solid var(--ink);background:var(--paper);padding:0 14px;font-size:14px;font-weight:600}
+.send-max:hover:not(:disabled){background:var(--lime)}
+.send-hint{margin:0;font-size:14px;line-height:1.6}
+.send-hint.good{color:var(--muted)}
+.send-hint.bad{color:#a4471c}
+.send-balance{margin:0;font-size:14px;color:var(--muted)}
+.send-note{margin:0;font-size:14px;color:var(--muted);line-height:1.6}
+.send-warning{margin:0;font-size:14px;line-height:1.7;border-left:2px solid var(--ink);padding:4px 0 4px 12px;color:var(--muted)}
+.send-error{margin:0;padding:12px;border:1px solid #e7c5ad;background:#f7e7dc;font-size:14px;line-height:1.7;color:#535d49}
+.send-success{margin:0;font-size:17px;font-weight:650;line-height:1.5}
+.send-link{font-size:15px;font-weight:600;text-decoration:underline;text-underline-offset:4px}
+.send-link:hover{background:var(--lime)}
+.send-address{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;line-height:1.6;word-break:break-all;background:#eef2e6;border:1px solid var(--line);padding:10px}
+.send-amount{margin:0;font-size:22px;font-weight:650}
+.send-actions{display:flex;gap:12px;margin-top:6px}
+.send-button{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:12px 18px;background:var(--ink);color:var(--paper);border:1px solid var(--ink);font-size:15px;font-weight:650}
+.send-button:hover:not(:disabled){background:var(--lime);color:var(--ink)}
+.send-button:disabled{opacity:.4;cursor:not-allowed}
+.send-button.ghost{background:none;color:var(--ink)}
+.send-button.ghost:hover:not(:disabled){background:var(--lime)}

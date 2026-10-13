@@ -1,0 +1,36 @@
+{
+  "version": "1",
+  "name": "Listing X references stay owner-controlled and event suggestions require a signed-in owner",
+  "actors": {
+    "Seller": { "id": "seller_account", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "x": { "id": "9001", "handle": "seller" } },
+    "Other": { "id": "other_account", "address": "So11111111111111111111111111111111111111112", "x": { "id": "9002", "handle": "other" } },
+    "Admin": { "id": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "address": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "x": { "id": "9003", "handle": "admin" } }
+  },
+  "steps": [
+    { "op": "setTime", "epoch": 1800000000 },
+    { "op": "as", "who": "Seller" },
+    { "op": "set", "path": "listings/x_offer", "data": {
+      "owner": "seller_account", "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "publisher": "London creator", "title": "Wear our merch at Breakpoint", "category": "Event", "channel": "London",
+      "description": "I can wear sponsor clothing.", "deliverables": "A public photo from the event.", "audience": "Conference attendees",
+      "priceMicro": 100000000, "turnaroundDays": 7, "active": false, "createdAt": 1800000000, "kind": "placement",
+      "xHandle": "london_creator", "xPostUrl": "https://x.com/london_creator/status/123456789"
+    } },
+    { "op": "expect", "expr": "get(/listings/x_offer).xHandle == 'london_creator'" },
+    { "op": "as", "who": "Other" },
+    { "op": "set", "path": "listings/x_offer", "data": { "xHandle": "imposter" }, "shouldFail": true },
+    { "op": "set", "path": "eventSuggestions/another_event", "data": {
+      "owner": "seller_account", "url": "https://lu.ma/example", "title": "London event", "note": "Community gathering",
+      "status": "pending", "createdAt": 1800000000
+    }, "shouldFail": true },
+    { "op": "as", "who": "Seller" },
+    { "op": "set", "path": "eventSuggestions/london_event", "data": {
+      "owner": "seller_account", "url": "https://lu.ma/example", "title": "London event", "note": "Community gathering",
+      "status": "pending", "createdAt": 1800000000
+    } },
+    { "op": "set", "path": "eventSuggestions/london_event", "data": { "status": "listed" }, "shouldFail": true },
+    { "op": "as", "who": "Admin" },
+    { "op": "set", "path": "eventSuggestions/london_event", "data": { "status": "listed" } },
+    { "op": "expect", "expr": "get(/eventSuggestions/london_event).status == 'listed'" }
+  ]
+}

@@ -1,0 +1,309 @@
+{
+  "version": "1",
+  "name": "Sponsor deals: escrow id attached once by the sponsor, funded bookings cannot be cancelled, disputes ring the agent",
+  "actors": {
+    "Sponsor": { "id": "So11111111111111111111111111111111111111112", "address": "So11111111111111111111111111111111111111112", "x": { "id": "9001", "handle": "sponsor" } },
+    "Creator": { "id": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "x": { "id": "9002", "handle": "creator" } },
+    "Outsider": { "id": "11111111111111111111111111111111", "address": "11111111111111111111111111111111", "x": { "id": "9003", "handle": "outsider" } }
+  },
+  "steps": [
+    {
+      "op": "setTime",
+      "epoch": 1800000000
+    },
+    {
+      "op": "as",
+      "who": "Creator"
+    },
+    {
+      "op": "set",
+      "path": "listings/l1",
+      "data": {
+        "owner": "$Creator",
+        "seller": "$Creator",
+        "publisher": "Creator",
+        "title": "Hat at Breakpoint",
+        "category": "Event",
+        "channel": "Breakpoint",
+        "description": "I wear sponsor clothing at events.",
+        "deliverables": "Three photos on X.",
+        "audience": "Solana builders",
+        "priceMicro": 50000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "kind": "placement"
+      }
+    },
+    {
+      "op": "as",
+      "who": "Sponsor"
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "creator": "$Creator",
+        "listingId": "l1",
+        "headline": "Hat at Breakpoint",
+        "brief": "Wear the hat all day and post three photos.",
+        "amountUsdc": 50000000,
+        "challengeSeconds": 86400,
+        "expiresAt": 1801814400,
+        "deadline": 1800604800,
+        "createdAt": 1800000000,
+        "status": "awaiting_funding",
+        "escrowId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "rootAppId": "68652cfd2a7212f59461a789"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "creator": "$Creator",
+        "listingId": "l1",
+        "headline": "Hat at Breakpoint",
+        "brief": "Wear the hat all day and post three photos.",
+        "amountUsdc": 50000000,
+        "challengeSeconds": 86400,
+        "expiresAt": 1801814400,
+        "deadline": 1800604800,
+        "createdAt": 1800000000,
+        "status": "awaiting_funding"
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa).status == 'awaiting_funding'"
+    },
+    {
+      "op": "setMany",
+      "writes": [
+        {
+          "path": "dealRequests/req_early",
+          "data": {
+            "kind": "funding_sent",
+            "dealId": "deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "raisedBy": "$Sponsor",
+            "raisedById": "$Sponsor",
+            "note": "",
+            "createdAt": 1800000000,
+            "status": "pending"
+          }
+        },
+        {
+          "path": "dealRequestRate/$Sponsor/r/req_early",
+          "data": {
+            "weight": 1
+          }
+        }
+      ],
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Creator"
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "escrowId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "rootAppId": "68652cfd2a7212f59461a789"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Sponsor"
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "escrowId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "rootAppId": "someotherapp"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "escrowId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "rootAppId": "68652cfd2a7212f59461a789",
+        "status": "funded"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "escrowId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "rootAppId": "68652cfd2a7212f59461a789"
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa).escrowId == 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'"
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "escrowId": "cccccccccccccccccccccccccccccccc"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "setMany",
+      "writes": [
+        {
+          "path": "dealRequests/req_fund",
+          "data": {
+            "kind": "funding_sent",
+            "dealId": "deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "raisedBy": "$Sponsor",
+            "raisedById": "$Sponsor",
+            "note": "",
+            "createdAt": 1800000000,
+            "status": "pending"
+          }
+        },
+        {
+          "path": "dealRequestRate/$Sponsor/r/req_fund",
+          "data": {
+            "weight": 1
+          }
+        }
+      ]
+    },
+    {
+      "op": "as",
+      "who": "Creator"
+    },
+    {
+      "op": "setMany",
+      "writes": [
+        {
+          "path": "dealRequests/req_disp_empty",
+          "data": {
+            "kind": "dispute_sent",
+            "dealId": "deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "raisedBy": "$Creator",
+            "raisedById": "$Creator",
+            "note": "",
+            "createdAt": 1800000000,
+            "status": "pending"
+          }
+        },
+        {
+          "path": "dealRequestRate/$Creator/r/req_disp_empty",
+          "data": {
+            "weight": 1
+          }
+        }
+      ],
+      "shouldFail": true
+    },
+    {
+      "op": "setMany",
+      "writes": [
+        {
+          "path": "dealRequests/req_disp",
+          "data": {
+            "kind": "dispute_sent",
+            "dealId": "deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "raisedBy": "$Creator",
+            "raisedById": "$Creator",
+            "note": "The sponsor changed the brief after funding.",
+            "createdAt": 1800000000,
+            "status": "pending"
+          }
+        },
+        {
+          "path": "dealRequestRate/$Creator/r/req_disp",
+          "data": {
+            "weight": 1
+          }
+        }
+      ]
+    },
+    {
+      "op": "as",
+      "who": "Outsider"
+    },
+    {
+      "op": "setMany",
+      "writes": [
+        {
+          "path": "dealRequests/req_disp_out",
+          "data": {
+            "kind": "dispute_sent",
+            "dealId": "deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "raisedBy": "$Outsider",
+            "raisedById": "$Outsider",
+            "note": "Not my deal but disputing anyway.",
+            "createdAt": 1800000000,
+            "status": "pending"
+          }
+        },
+        {
+          "path": "dealRequestRate/$Outsider/r/req_disp_out",
+          "data": {
+            "weight": 1
+          }
+        }
+      ],
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Sponsor"
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "data": {
+        "status": "cancelled"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_dddddddddddddddddddddddddddddddd",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "creator": "$Creator",
+        "listingId": "l1",
+        "headline": "Hat at Breakpoint",
+        "brief": "Wear the hat all day and post three photos.",
+        "amountUsdc": 50000000,
+        "challengeSeconds": 86400,
+        "expiresAt": 1801814400,
+        "deadline": 1800604800,
+        "createdAt": 1800000000,
+        "status": "awaiting_funding"
+      }
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_dddddddddddddddddddddddddddddddd",
+      "data": {
+        "status": "cancelled"
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/sponsorDeals/deal_dddddddddddddddddddddddddddddddd).status == 'cancelled'"
+    }
+  ]
+}

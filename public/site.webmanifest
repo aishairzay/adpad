@@ -1,0 +1,14 @@
+{
+  "name": "AdPad",
+  "short_name": "AdPad",
+  "description": "A peer-to-peer marketplace for unconventional ad placements.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e7f3bf",
+  "theme_color": "#d9fc4b",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

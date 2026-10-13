@@ -1,0 +1,11 @@
+{
+  "name": "Ask AdPad is for signed-in people, not the agent",
+  "constants": { "AGENT_ADDRESS": "agent" },
+  "actors": { "Alice": "alice", "Agent": "agent" },
+  "steps": [
+    { "op": "as", "who": "Agent" },
+    { "op": "invoke", "function": "askAdpad", "args": { "requestId": "agent-request-000001", "messages": [{ "role": "user", "content": "How does payment work?" }] }, "shouldFail": true },
+    { "op": "as", "who": "Alice" },
+    { "op": "invoke", "function": "askAdpad", "args": { "requestId": "alice-request-000001", "messages": [] } }
+  ]
+}

@@ -1,0 +1,1021 @@
+{
+  "version": "1",
+  "name": "Event attendance is optional, self-reported, account-owned offchain placement metadata with event identity and paired valid dates",
+  "actors": {
+    "Seller": { "id": "attendance_owner", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "x": { "id": "9001", "handle": "seller" } },
+    "Other": { "id": "outsider_account", "address": "So11111111111111111111111111111111111111112", "x": { "id": "9002", "handle": "other" } },
+    "SameWalletOtherAccount": { "id": "different_account", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "x": { "id": "9003", "handle": "samewalletother" } }
+  },
+  "steps": [
+    {
+      "op": "setTime",
+      "epoch": 1800000000
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_anonymous",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/attendance_legacy",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "attendance_owner",
+        "active": false,
+        "title": "Event T-shirt ad space",
+        "channel": "In person",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "priceMicro": 250000000,
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_legacy",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/attendance_false",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "attendance_owner",
+        "active": false,
+        "title": "Event T-shirt ad space",
+        "channel": "In person",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "priceMicro": 250000000,
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_false",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "attendingEvent": false,
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/attendance_null",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "attendance_owner",
+        "active": false,
+        "title": "Event T-shirt ad space",
+        "channel": "In person",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "priceMicro": 250000000,
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_null",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "attendingEvent": null,
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/attendance_service",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "attendance_owner",
+        "active": false,
+        "title": "Event T-shirt ad space",
+        "channel": "In person",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "priceMicro": 250000000,
+        "kind": "service",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_service",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "kind": "service",
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/attendance_service_false",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "attendance_owner",
+        "active": false,
+        "title": "Event T-shirt ad space",
+        "channel": "In person",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "priceMicro": 250000000,
+        "kind": "service",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_service_false",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "kind": "service",
+        "attendingEvent": false,
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/attendance_service_null",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "attendance_owner",
+        "active": false,
+        "title": "Event T-shirt ad space",
+        "channel": "In person",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "priceMicro": 250000000,
+        "kind": "service",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_service_null",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "kind": "service",
+        "attendingEvent": null,
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/attendance_valid",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "attendance_owner",
+        "active": false,
+        "title": "Event T-shirt ad space",
+        "channel": "In person",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "priceMicro": 250000000,
+        "kind": "placement",
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true,
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/attendance_valid).attendingEvent == true && get(/listings/attendance_valid).sponsorship == null && get(/listings/attendance_valid).capacity == null && get(/listings/attendance_valid).reserved == null"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/attendance_legacy_attendee",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "attendance_owner",
+        "active": false,
+        "title": "Event T-shirt ad space",
+        "channel": "In person",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "priceMicro": 250000000,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_legacy_attendee",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "attendingEvent": true,
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/attendance_null_kind_attendee",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "attendance_owner",
+        "active": false,
+        "title": "Event T-shirt ad space",
+        "channel": "In person",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "priceMicro": 250000000,
+        "kind": null,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_null_kind_attendee",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": null,
+        "attendingEvent": true,
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_service",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "service",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_missing_id",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": null,
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_empty_id",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_long_id",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_missing_name",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": null,
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_empty_name",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_long_name",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_missing_start",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": null,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_missing_end",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": null,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_missing_dates",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": null,
+        "endsAt": null,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_reversed_dates",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800086399,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_zero_start",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 0,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_excessive_span",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1807862401,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_wrong_type",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": "yes"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_forged_owner",
+      "data": {
+        "owner": "outsider_account",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_forged_wallet",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "So11111111111111111111111111111111111111112",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_deny_reserved",
+      "data": {
+        "owner": "attendance_owner",
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "publisher": "Morgan",
+        "title": "Event T-shirt ad space",
+        "category": "T-shirts",
+        "channel": "In person",
+        "description": "Self-reported attendance and ad placement.",
+        "deliverables": "Wear the sponsor T-shirt during the event and provide photo proof.",
+        "audience": "Event attendees",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "kind": "placement",
+        "attendingEvent": true,
+        "reserved": 1
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_legacy",
+      "data": {
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/attendance_legacy).attendingEvent == null"
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_legacy",
+      "data": {
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "attendingEvent": true
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/attendance_legacy).attendingEvent == true"
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "eventId": null
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "eventId": ""
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "eventName": null
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "eventName": ""
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "startsAt": null
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "endsAt": null
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "kind": "service"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "attendingEvent": "yes"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "owner": "outsider_account"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "seller": "So11111111111111111111111111111111111111112"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Other"
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "attendingEvent": false
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_false",
+      "data": {
+        "eventId": "sample_event",
+        "eventName": "Sample Event",
+        "startsAt": 1800086400,
+        "endsAt": 1800172800,
+        "attendingEvent": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "SameWalletOtherAccount"
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "attendingEvent": false
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/attendance_valid).attendingEvent == true && get(/listings/attendance_valid).owner == 'attendance_owner' && get(/listings/attendance_valid).kind == 'placement'"
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_valid",
+      "data": {
+        "attendingEvent": false,
+        "kind": "service",
+        "eventId": null,
+        "eventName": null,
+        "startsAt": null,
+        "endsAt": null
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/attendance_valid).attendingEvent == false && get(/listings/attendance_valid).kind == 'service'"
+    },
+    {
+      "op": "set",
+      "path": "listings/attendance_legacy",
+      "data": {
+        "attendingEvent": null,
+        "eventId": null,
+        "eventName": null,
+        "startsAt": null,
+        "endsAt": null
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/attendance_legacy).attendingEvent == null && get(/listings/attendance_legacy).eventId == null"
+    }
+  ]
+}

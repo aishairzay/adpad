@@ -1,0 +1,677 @@
+{
+  "version": "1",
+  "name": "Sponsor calls: posted against a matching unfunded escrow with no creator, opened once locked, answered by X-linked creators other than the sponsor, picked only after the escrow is assigned to a responder and the booking it names exists, and closed once the USDC is back",
+  "actors": {
+    "Sponsor": {
+      "id": "So11111111111111111111111111111111111111112",
+      "address": "So11111111111111111111111111111111111111112",
+      "x": {
+        "id": "1002",
+        "handle": "sponsor"
+      }
+    },
+    "Creator": {
+      "id": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "x": {
+        "id": "1001",
+        "handle": "creator"
+      }
+    },
+    "Other": {
+      "id": "SysvarRent111111111111111111111111111111111",
+      "address": "SysvarRent111111111111111111111111111111111",
+      "x": {
+        "id": "1004",
+        "handle": "other"
+      }
+    },
+    "Unlinked": "11111111111111111111111111111111",
+    "Agent": "B9bQJmvkY6mL9HcRkqkP3eMahbgzgentzhpXC7MoDXrx"
+  },
+  "steps": [
+    {
+      "op": "setTime",
+      "epoch": 1800000000
+    },
+    {
+      "op": "mock",
+      "function": "@AccountPlugin.createAccount",
+      "returns": true
+    },
+    {
+      "op": "mock",
+      "function": "@TokenPlugin.transfer",
+      "returns": true
+    },
+    {
+      "op": "mock",
+      "function": "@TokenPlugin.getBalance",
+      "returns": 1000000000000
+    },
+    {
+      "op": "as",
+      "who": "Sponsor"
+    },
+    {
+      "op": "set",
+      "path": "dealEscrows/cccccccccccccccccccccccccccccccc",
+      "data": {
+        "funder": "$Sponsor",
+        "amountUsdc": 50000000,
+        "expiresAt": 1801814400,
+        "ref": "deal_cccccccccccccccccccccccccccccccc",
+        "createdAt": 1800000000,
+        "status": "unfunded",
+        "version": 0
+      }
+    },
+    {
+      "op": "as",
+      "who": "Unlinked"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "sponsor": "$Unlinked",
+        "sponsorId": "$Unlinked",
+        "verifiedXHandle": "sponsor",
+        "verifiedXId": "1002",
+        "title": "Wear our cap at Breakpoint",
+        "brief": "Wear the cap all day at Breakpoint and post three photos on X.",
+        "category": "Hats",
+        "where": "Breakpoint, Abu Dhabi",
+        "amountUsdc": 50000000,
+        "deadline": 1800604800,
+        "expiresAt": 1801814400,
+        "escrowId": "cccccccccccccccccccccccccccccccc",
+        "dealId": "deal_cccccccccccccccccccccccccccccccc",
+        "status": "funding",
+        "createdAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Sponsor"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "verifiedXHandle": "sponsor",
+        "verifiedXId": "1002",
+        "title": "Wear our cap at Breakpoint",
+        "brief": "Wear the cap all day at Breakpoint and post three photos on X.",
+        "category": "Hats",
+        "where": "Breakpoint, Abu Dhabi",
+        "amountUsdc": 40000000,
+        "deadline": 1800604800,
+        "expiresAt": 1801814400,
+        "escrowId": "cccccccccccccccccccccccccccccccc",
+        "dealId": "deal_cccccccccccccccccccccccccccccccc",
+        "status": "funding",
+        "createdAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "verifiedXHandle": "sponsor",
+        "verifiedXId": "1002",
+        "title": "Wear our cap at Breakpoint",
+        "brief": "Wear the cap all day at Breakpoint and post three photos on X.",
+        "category": "Hats",
+        "where": "Breakpoint, Abu Dhabi",
+        "amountUsdc": 50000000,
+        "deadline": 1800604800,
+        "expiresAt": 1801814400,
+        "escrowId": "cccccccccccccccccccccccccccccccc",
+        "dealId": "deal_ffffffffffffffffffffffffffffffff",
+        "status": "funding",
+        "createdAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "verifiedXHandle": "someone_else",
+        "verifiedXId": "1002",
+        "title": "Wear our cap at Breakpoint",
+        "brief": "Wear the cap all day at Breakpoint and post three photos on X.",
+        "category": "Hats",
+        "where": "Breakpoint, Abu Dhabi",
+        "amountUsdc": 50000000,
+        "deadline": 1800604800,
+        "expiresAt": 1801814400,
+        "escrowId": "cccccccccccccccccccccccccccccccc",
+        "dealId": "deal_cccccccccccccccccccccccccccccccc",
+        "status": "funding",
+        "createdAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "verifiedXHandle": "sponsor",
+        "verifiedXId": "1002",
+        "title": "Wear our cap at Breakpoint",
+        "brief": "Wear the cap all day at Breakpoint and post three photos on X.",
+        "category": "Hats",
+        "where": "Breakpoint, Abu Dhabi",
+        "amountUsdc": 50000000,
+        "deadline": 1800604800,
+        "expiresAt": 1801814400,
+        "escrowId": "cccccccccccccccccccccccccccccccc",
+        "dealId": "deal_cccccccccccccccccccccccccccccccc",
+        "status": "funding",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "as",
+      "who": "Creator"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc/responses/$Creator",
+      "data": {
+        "responder": "$Creator",
+        "responderId": "$Creator",
+        "verifiedXHandle": "creator",
+        "verifiedXId": "1001",
+        "pitch": "I wear caps at every event and post photos the same day.",
+        "link": "https://x.com/example/status/1",
+        "createdAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Sponsor"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "status": "open",
+        "updatedAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "dealEscrows/cccccccccccccccccccccccccccccccc/actions/fund_c",
+      "data": {
+        "action": "fund",
+        "actor": "$Sponsor",
+        "expectedVersion": 0,
+        "at": 1800000000
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/dealEscrows/cccccccccccccccccccccccccccccccc).status == 'locked'"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "status": "open",
+        "updatedAt": 1800000000
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/sponsorCalls/call_cccccccccccccccccccccccccccccccc).status == 'open'"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc/responses/$Sponsor",
+      "data": {
+        "responder": "$Sponsor",
+        "responderId": "$Sponsor",
+        "verifiedXHandle": "sponsor",
+        "verifiedXId": "1002",
+        "pitch": "I wear caps at every event and post photos the same day.",
+        "link": "https://x.com/example/status/1",
+        "createdAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Unlinked"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc/responses/$Unlinked",
+      "data": {
+        "responder": "$Unlinked",
+        "responderId": "$Unlinked",
+        "verifiedXHandle": "unlinked",
+        "verifiedXId": "1003",
+        "pitch": "I wear caps at every event and post photos the same day.",
+        "link": "https://x.com/example/status/1",
+        "createdAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Creator"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc/responses/$Creator",
+      "data": {
+        "responder": "$Creator",
+        "responderId": "$Creator",
+        "verifiedXHandle": "creator",
+        "verifiedXId": "1001",
+        "pitch": "I wear caps at every event and post photos the same day.",
+        "link": "https://x.com/example/status/1",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "as",
+      "who": "Other"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc/responses/$Other",
+      "data": {
+        "responder": "$Other",
+        "responderId": "$Other",
+        "verifiedXHandle": "other",
+        "verifiedXId": "1004",
+        "pitch": "I wear caps at every event and post photos the same day.",
+        "link": "https://x.com/example/status/1",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "as",
+      "who": "Sponsor"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "status": "picked",
+        "creator": "$Creator",
+        "updatedAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "dealEscrows/cccccccccccccccccccccccccccccccc/actions/assign_c",
+      "data": {
+        "action": "assign",
+        "actor": "$Sponsor",
+        "expectedVersion": 1,
+        "at": 1800000000,
+        "payee": "$Creator"
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/dealEscrows/cccccccccccccccccccccccccccccccc).payee == '$Creator'"
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "creator": "$Creator",
+        "listingId": "call_cccccccccccccccccccccccccccccccc",
+        "headline": "Wear our cap at Breakpoint",
+        "brief": "Wear the cap all day at Breakpoint and post three photos on X.",
+        "amountUsdc": 1000000,
+        "challengeSeconds": 86400,
+        "expiresAt": 1801814400,
+        "deadline": 1800604800,
+        "createdAt": 1800000000,
+        "status": "awaiting_funding"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "creator": "$Creator",
+        "listingId": "call_cccccccccccccccccccccccccccccccc",
+        "headline": "Wear our cap at Breakpoint",
+        "brief": "A different brief than the call asked for.",
+        "amountUsdc": 50000000,
+        "challengeSeconds": 86400,
+        "expiresAt": 1801814400,
+        "deadline": 1800604800,
+        "createdAt": 1800000000,
+        "status": "awaiting_funding"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "creator": "$Unlinked",
+        "listingId": "call_cccccccccccccccccccccccccccccccc",
+        "headline": "Wear our cap at Breakpoint",
+        "brief": "Wear the cap all day at Breakpoint and post three photos on X.",
+        "amountUsdc": 50000000,
+        "challengeSeconds": 86400,
+        "expiresAt": 1801814400,
+        "deadline": 1800604800,
+        "createdAt": 1800000000,
+        "status": "awaiting_funding"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Other"
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "sponsor": "$Other",
+        "sponsorId": "$Other",
+        "creator": "$Creator",
+        "listingId": "call_cccccccccccccccccccccccccccccccc",
+        "headline": "Wear our cap at Breakpoint",
+        "brief": "Wear the cap all day at Breakpoint and post three photos on X.",
+        "amountUsdc": 50000000,
+        "challengeSeconds": 86400,
+        "expiresAt": 1801814400,
+        "deadline": 1800604800,
+        "createdAt": 1800000000,
+        "status": "awaiting_funding"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Sponsor"
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "creator": "$Creator",
+        "listingId": "call_cccccccccccccccccccccccccccccccc",
+        "headline": "Wear our cap at Breakpoint",
+        "brief": "Wear the cap all day at Breakpoint and post three photos on X.",
+        "amountUsdc": 50000000,
+        "challengeSeconds": 86400,
+        "expiresAt": 1801814400,
+        "deadline": 1800604800,
+        "createdAt": 1800000000,
+        "status": "awaiting_funding"
+      }
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "escrowId": "cccccccccccccccccccccccccccccccc",
+        "rootAppId": "68652cfd2a7212f59461a789"
+      }
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "status": "picked",
+        "creator": "$Other",
+        "updatedAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "status": "picked",
+        "creator": "$Creator",
+        "updatedAt": 1800000000
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/sponsorCalls/call_cccccccccccccccccccccccccccccccc).creator == '$Creator'"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "status": "closed",
+        "creator": null,
+        "updatedAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Agent"
+    },
+    {
+      "op": "set",
+      "path": "sponsorDeals/deal_cccccccccccccccccccccccccccccccc",
+      "data": {
+        "status": "funded"
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/sponsorDeals/deal_cccccccccccccccccccccccccccccccc).status == 'funded'"
+    },
+    {
+      "op": "as",
+      "who": "Other"
+    },
+    {
+      "op": "delete",
+      "path": "sponsorCalls/call_cccccccccccccccccccccccccccccccc/responses/$Other",
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Sponsor"
+    },
+    {
+      "op": "set",
+      "path": "dealEscrows/dddddddddddddddddddddddddddddddd",
+      "data": {
+        "funder": "$Sponsor",
+        "amountUsdc": 50000000,
+        "expiresAt": 1801814400,
+        "ref": "deal_dddddddddddddddddddddddddddddddd",
+        "createdAt": 1800000000,
+        "status": "unfunded",
+        "version": 0
+      }
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_dddddddddddddddddddddddddddddddd",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "verifiedXHandle": "sponsor",
+        "verifiedXId": "1002",
+        "title": "Wear our cap at Breakpoint",
+        "brief": "Wear the cap all day at Breakpoint and post three photos on X.",
+        "category": "Hats",
+        "where": "Breakpoint, Abu Dhabi",
+        "amountUsdc": 50000000,
+        "deadline": 1800604800,
+        "expiresAt": 1801814400,
+        "escrowId": "dddddddddddddddddddddddddddddddd",
+        "dealId": "deal_dddddddddddddddddddddddddddddddd",
+        "status": "funding",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "dealEscrows/dddddddddddddddddddddddddddddddd/actions/fund_d",
+      "data": {
+        "action": "fund",
+        "actor": "$Sponsor",
+        "expectedVersion": 0,
+        "at": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_dddddddddddddddddddddddddddddddd",
+      "data": {
+        "status": "open",
+        "updatedAt": 1800000000
+      }
+    },
+    {
+      "op": "as",
+      "who": "Creator"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_dddddddddddddddddddddddddddddddd/responses/$Creator",
+      "data": {
+        "responder": "$Creator",
+        "responderId": "$Creator",
+        "verifiedXHandle": "creator",
+        "verifiedXId": "1001",
+        "pitch": "I wear caps at every event and post photos the same day.",
+        "link": "https://x.com/example/status/1",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "delete",
+      "path": "sponsorCalls/call_dddddddddddddddddddddddddddddddd/responses/$Creator"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_dddddddddddddddddddddddddddddddd",
+      "data": {
+        "status": "closed",
+        "updatedAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Sponsor"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_dddddddddddddddddddddddddddddddd",
+      "data": {
+        "status": "closed",
+        "updatedAt": 1800000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "dealEscrows/dddddddddddddddddddddddddddddddd/actions/withdraw_d",
+      "data": {
+        "action": "withdraw",
+        "actor": "$Sponsor",
+        "expectedVersion": 1,
+        "at": 1800000000
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/dealEscrows/dddddddddddddddddddddddddddddddd).status == 'refunded'"
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_dddddddddddddddddddddddddddddddd",
+      "data": {
+        "status": "closed",
+        "updatedAt": 1800000000
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/sponsorCalls/call_dddddddddddddddddddddddddddddddd).status == 'closed'"
+    },
+    {
+      "op": "set",
+      "path": "dealEscrows/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "data": {
+        "funder": "$Sponsor",
+        "amountUsdc": 50000000,
+        "expiresAt": 1801814400,
+        "ref": "deal_eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "createdAt": 1800000000,
+        "status": "unfunded",
+        "version": 0
+      }
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "data": {
+        "sponsor": "$Sponsor",
+        "sponsorId": "$Sponsor",
+        "verifiedXHandle": "sponsor",
+        "verifiedXId": "1002",
+        "title": "Wear our cap at Breakpoint",
+        "brief": "Wear the cap all day at Breakpoint and post three photos on X.",
+        "category": "Hats",
+        "where": "Breakpoint, Abu Dhabi",
+        "amountUsdc": 50000000,
+        "deadline": 1800604800,
+        "expiresAt": 1801814400,
+        "escrowId": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "dealId": "deal_eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "status": "funding",
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "sponsorCalls/call_eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "data": {
+        "status": "closed",
+        "updatedAt": 1800000000
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/sponsorCalls/call_eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee).status == 'closed'"
+    }
+  ]
+}

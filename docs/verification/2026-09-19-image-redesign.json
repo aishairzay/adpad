@@ -1,0 +1,195 @@
+{
+  "recordedAt": "2026-09-20T00:02:30.933Z",
+  "appId": "605ba9048f556bdd2b7ea18e",
+  "owner": "maurice@poof.new",
+  "adminWallet": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X",
+  "release": "Photo-led marketplace, creator services, and Solana events",
+  "versions": {
+    "boundedCli": "0.0.134",
+    "boundedClient": "0.0.100",
+    "boundedServer": "0.0.100",
+    "boundedCore": "0.0.100",
+    "latestStableChecked": "2026-09-19"
+  },
+  "features": [
+    "Photo-led editorial redesign with eight original concept images",
+    "Event, T-shirts, Hats, and Other placement categories",
+    "Listing photo upload with preview and safe public storage",
+    "Creator service listings with nine skill categories and existing escrow flow",
+    "Dedicated Solana Events page with Hacker House London and Breakpoint",
+    "Official Luma calendar embed with compact direct-link fallback"
+  ],
+  "checks": {
+    "applicationTests": {
+      "files": 3,
+      "passed": 42,
+      "failed": 0
+    },
+    "productionBuild": {
+      "passed": true,
+      "checkedAt": "2026-09-19T19:52:15-04:00"
+    },
+    "policyVerification": {
+      "passed": true,
+      "safeToDeploy": true,
+      "counts": {
+        "total": 70,
+        "proven": 66,
+        "failed": 0,
+        "unprovenAdvisories": 4,
+        "schemaFailures": 0,
+        "proofFailures": 0
+      }
+    },
+    "policyTests": {
+      "suites": 12,
+      "steps": 318,
+      "failed": 0
+    },
+    "liveStorageAndCreatorIntegration": {
+      "integration": "passed",
+      "anonymousInvalidDownloads": [
+        {
+          "label": "SVG",
+          "bytes": 41,
+          "anonymousHttpStatus": 403,
+          "ownerCleanup": true
+        },
+        {
+          "label": "5MiB_plus_1",
+          "bytes": 5242881,
+          "anonymousHttpStatus": 403,
+          "ownerCleanup": true
+        }
+      ],
+      "imageUrl": "https://realtime.bounded.sh/storage/object?appId=605ba9048f556bdd2b7ea18e&path=listingImages%2F9riuiG3fDsnSB9rFR75mpoDUEqEVdpRoSRUHVdxVrYAD%2Ffiles%2Fimage_a33fcbac_18b5_46f0_96fe_ab5e7a98ca7a",
+      "imagePath": "listingImages/9riuiG3fDsnSB9rFR75mpoDUEqEVdpRoSRUHVdxVrYAD/files/image_a33fcbac_18b5_46f0_96fe_ab5e7a98ca7a",
+      "listingPath": "listings/image_test_1d6b6708_5edd_4c3a_99a6_400386aa1407",
+      "invalidArtifactsRemoved": true
+    },
+    "activeBackendMatchesTestedPublication": true,
+    "browser": {
+      "testedBuild": "Production build at http://127.0.0.1:5180",
+      "desktop": {
+        "width": 1440,
+        "height": 900,
+        "visuallyChecked": true
+      },
+      "mobile": {
+        "width": 390,
+        "height": 844,
+        "visuallyChecked": true,
+        "horizontalOverflow": false
+      },
+      "routes": [
+        "/",
+        "/creators",
+        "/events"
+      ],
+      "passed": [
+        "Placement category filter and search empty state",
+        "Creator skill filter and service-specific publishing form",
+        "Photo chooser, local image preview, remove control, and Escape focus restoration",
+        "Creator page has one main landmark and one h1",
+        "Uploaded Bounded PNG rendered in browser image element with naturalWidth 1 and naturalHeight 1",
+        "Compact calendar fallback visible on mobile"
+      ],
+      "calendar": {
+        "directEmbedUrlRenderedEvents": true,
+        "nestedEmbedRendered": false,
+        "observedNestedState": "about:blank in local development and production previews",
+        "cause": "Unconfirmed",
+        "fallback": "After 15 seconds, compact panel links directly to the official Solana calendar"
+      },
+      "authenticatedOwnerBrowserSessionTested": false,
+      "canonicalHostContentBehindPrivateGateTested": false
+    }
+  },
+  "backend": {
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "controlPlane": "production",
+    "environment": "development",
+    "ok": true,
+    "protocol": "realtime_offchain",
+    "receipt": {
+      "operationId": "ffb9f1b2-4fea-442f-855a-ec4963e4e884",
+      "policyRevisionCount": 5,
+      "runtimePublicationRevision": 8,
+      "state": "committed",
+      "status": "available"
+    },
+    "resolvedPolicySha256": "67775dd42508274725cbee524be0ae709fb8a52e0c3cc7eac0d7b59f3d73db29",
+    "runtimeArtifactSha256": "d2feba1258b01fda43138d01eeb9df4875cf76dbe034f5382f70e3cd9fccebf6",
+    "runtimeTarget": "development",
+    "schemaVersion": 1,
+    "sitePrivate": true,
+    "submittedPolicySha256": "c01210fdc0cc1fd782ca87f202a182de32b765a53e16aca96942f91e13f0a687"
+  },
+  "site": {
+    "action": "siteDeploy",
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "appLifecycle": "existing",
+    "classification": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "controlPlane": "production",
+    "created": false,
+    "deployId": "d_ext_71848ecb6239637f3f8876047e2f60e15f7d3fe0e1c61d8f",
+    "editingBase": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "ok": true,
+    "partial": false,
+    "prunedStale": 14,
+    "siteLive": true,
+    "sourceSync": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "status": "succeeded",
+    "upload": {
+      "appId": "605ba9048f556bdd2b7ea18e",
+      "archiveBytes": 1870043,
+      "attempted": true,
+      "byteCount": 2666528,
+      "fileCount": 32,
+      "liveUrl": "https://ad-pad.bounded.page",
+      "liveUrlStatus": "resolved",
+      "ok": true,
+      "operationId": "sau_2a63614e7ed557a3a7a665825161a2c58a54cd15416941a6cb4e4e1114e7797d",
+      "receipt": {
+        "appId": "605ba9048f556bdd2b7ea18e",
+        "archiveBytes": 1870043,
+        "archiveSha256": "29c040c86c56e5f71b8be1ff568ddc490c7b7e2a2a94ee97ee7b40e86b1b665d",
+        "deployId": "d_ext_71848ecb6239637f3f8876047e2f60e15f7d3fe0e1c61d8f",
+        "deployed": 32,
+        "manifestSha256": "407c1bc598132b0396a607d1cd91d6612b4cd9db09f660daf610cab15aa972aa",
+        "ok": true,
+        "operationId": "sau_2a63614e7ed557a3a7a665825161a2c58a54cd15416941a6cb4e4e1114e7797d",
+        "previousDeployId": "d_ext_9151464228324682ab0edb97218dee36482d55eeae2cdf2a",
+        "prunedStale": 14,
+        "replayed": false,
+        "retention": {
+          "pendingCleanup": 0,
+          "removedDeployments": 0,
+          "removedObjects": 0,
+          "status": "clean"
+        },
+        "siteDigest": "71848ecb6239637f3f8876047e2f60e15f7d3fe0e1c61d8f45c04ffe469c5f13",
+        "totalBytes": 2666528
+      },
+      "status": "succeeded"
+    }
+  },
+  "limitations": [
+    "Private hosted preview; all USDC and escrow transfers are simulated on Poofnet.",
+    "App-specific type/5MiB limits control public serving, not storage admission. Browser validates before upload; owners can delete unreadable invalid uploads.",
+    "The official calendar rendered when opened directly; inline rendering remained unverified in the test browser.",
+    "Illustrative placements and services are labeled concept examples and cannot be booked."
+  ]
+}

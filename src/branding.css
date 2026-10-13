@@ -1,0 +1,20 @@
+/* Supplied Ad Pad identity and a continuous homepage discovery section. */
+.brand .brand-wordmark{display:block;width:176px;height:auto;max-width:100%}
+.footer-brand .brand-wordmark{display:block;width:250px;height:auto;max-width:100%}
+.footer-brand{flex-shrink:0;line-height:1}
+.sp-photo-mark{line-height:0;text-shadow:none}
+.sp-photo-mark img{display:block;width:88px;height:auto}
+.hero + .marketplace-section{padding-top:32px}
+.marketplace-section .section-heading{align-items:center;margin-bottom:18px;gap:24px}
+.marketplace-section .section-heading h2{font-size:clamp(42px,4.3vw,67px);max-width:850px;margin-top:9px;line-height:1.1}
+.marketplace-section .marketplace-intro{max-width:350px;flex-shrink:0}
+.marketplace-section .marketplace-intro p{margin-bottom:8px;line-height:1.6}
+.marketplace-section .category-tabs{padding:16px 0;gap:8px}
+.marketplace-section .search-sort{padding-bottom:0;gap:14px}
+.marketplace-section .marketplace-more-filters{padding:4px 0 12px;margin-bottom:24px}
+.marketplace-section .marketplace-more-filters summary{min-height:44px}
+.marketplace-section .marketplace-toolbar{border-top:1px solid var(--line);border-bottom:0}
+.marketplace-section + .event-feature{margin-top:44px}
+@media(max-width:1100px){.header-inner{column-gap:26px}.brand .brand-wordmark{width:150px}.marketplace-section .marketplace-intro{max-width:285px}}
+@media(max-width:760px){.hero + .marketplace-section{padding-top:28px}.marketplace-section .section-heading{display:block;margin-bottom:16px}.marketplace-section .marketplace-intro{display:block;max-width:none;margin-top:16px}.marketplace-section .marketplace-intro p{margin-bottom:10px}.marketplace-section .section-heading h2{max-width:600px}.marketplace-section + .event-feature{margin-top:32px}.footer-brand .brand-wordmark{width:220px}}
+@media(max-width:380px){.brand .brand-wordmark{width:128px}.marketplace-section .section-heading h2{font-size:40px}}

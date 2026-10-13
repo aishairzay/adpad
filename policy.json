@@ -1,0 +1,480 @@
+{
+  "functions": {
+    "creatorOnboarding": {
+      "auth": "@user.id != null && (get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null)",
+      "entry": "functions/creatorOnboarding.ts",
+      "timeout": 60
+    },
+    "askAdpad": {
+      "auth": "@user.id != null && @user.id != @const.AGENT_ADDRESS",
+      "entry": "functions/askAdpad.ts",
+      "timeout": 60
+    },
+    "sponsorWrite": {
+      "auth": "false",
+      "entry": "functions/sponsorWrite.ts",
+      "timeout": 5
+    },
+    "dealMailer": {
+      "auth": "@user.id != null && (@user.id == @const.AGENT_ADDRESS || @user.address == @const.AGENT_ADDRESS || get(/__owners__/@user.id) != null || get(/__admins__/@user.id) != null)",
+      "entry": "functions/dealMailer.ts",
+      "actAs": "B9bQJmvkY6mL9HcRkqkP3eMahbgzgentzhpXC7MoDXrx",
+      "email": {
+        "send": true
+      },
+      "timeout": 60
+    }
+  },
+  "auth": {
+    "wallets": true,
+    "connections": {
+      "x": {
+        "unique": true
+      }
+    }
+  },
+  "proofs": {
+    "publicReads": [
+      "listingImages/$userId/files/$fileId"
+    ]
+  },
+  "constants": {
+    "ADMIN_WALLET": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X",
+    "AGENT_ADDRESS": "B9bQJmvkY6mL9HcRkqkP3eMahbgzgentzhpXC7MoDXrx",
+    "AGENT_ADDRESS_BOUND": true,
+    "MAX_ESCROW_MICRO": 100000000000,
+    "MAX_CAMPAIGN_SECONDS": 7776000,
+    "ESCROW_MIN_USDC": 1000000,
+    "ESCROW_MAX_USDC": 1000000000,
+    "ESCROW_DISPUTE_FALLBACK_SECONDS": 2592000
+  },
+  "defs": {
+    "escrow_fund": "@newData.action == 'fund' && get(/dealEscrows/$escrowId).status == 'unfunded' && @user.address == get(/dealEscrows/$escrowId).funder && @time.now < get(/dealEscrows/$escrowId).expiresAt",
+    "escrow_assign": "@newData.action == 'assign' && get(/dealEscrows/$escrowId).status == 'locked' && @user.address == get(/dealEscrows/$escrowId).funder && @newData.payee != null && @newData.payee != get(/dealEscrows/$escrowId).funder && @newData.payee != @const.AGENT_ADDRESS",
+    "escrow_accept": "@newData.action == 'accept' && get(/dealEscrows/$escrowId).status == 'locked' && (get(/dealEscrows/$escrowId).payee != null && @user.address == get(/dealEscrows/$escrowId).payee) && @time.now < get(/dealEscrows/$escrowId).expiresAt",
+    "escrow_withdraw": "@newData.action == 'withdraw' && get(/dealEscrows/$escrowId).status == 'locked' && @user.address == get(/dealEscrows/$escrowId).funder && @TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC) >= get(/dealEscrows/$escrowId).amountUsdc",
+    "escrow_release": "@newData.action == 'release' && (get(/dealEscrows/$escrowId).status == 'locked' || get(/dealEscrows/$escrowId).status == 'accepted' || get(/dealEscrows/$escrowId).status == 'disputed') && get(/dealEscrows/$escrowId).payee != null && @user.address == get(/dealEscrows/$escrowId).funder && @TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC) >= get(/dealEscrows/$escrowId).amountUsdc",
+    "escrow_refund": "@newData.action == 'refund' && (get(/dealEscrows/$escrowId).status == 'locked' || get(/dealEscrows/$escrowId).status == 'accepted' || get(/dealEscrows/$escrowId).status == 'disputed') && (get(/dealEscrows/$escrowId).payee != null && @user.address == get(/dealEscrows/$escrowId).payee) && @TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC) >= get(/dealEscrows/$escrowId).amountUsdc",
+    "escrow_dispute": "@newData.action == 'dispute' && get(/dealEscrows/$escrowId).status == 'accepted' && (@user.address == get(/dealEscrows/$escrowId).funder || (get(/dealEscrows/$escrowId).payee != null && @user.address == get(/dealEscrows/$escrowId).payee)) && @time.now < get(/dealEscrows/$escrowId).expiresAt",
+    "escrow_resolve": "@newData.action == 'resolve' && get(/dealEscrows/$escrowId).status == 'disputed' && @user.address == @const.AGENT_ADDRESS && (@newData.outcome == 'release' || @newData.outcome == 'refund') && @TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC) >= get(/dealEscrows/$escrowId).amountUsdc",
+    "escrow_expire": "@newData.action == 'expire' && (get(/dealEscrows/$escrowId).status == 'locked' || get(/dealEscrows/$escrowId).status == 'accepted') && @time.now >= get(/dealEscrows/$escrowId).expiresAt && @TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC) >= get(/dealEscrows/$escrowId).amountUsdc",
+    "escrow_fallback": "@newData.action == 'fallback' && get(/dealEscrows/$escrowId).status == 'disputed' && @time.now >= get(/dealEscrows/$escrowId).expiresAt + @const.ESCROW_DISPUTE_FALLBACK_SECONDS && @TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC) >= get(/dealEscrows/$escrowId).amountUsdc",
+    "escrow_actionAllowed": "@user.address != null && get(/dealEscrows/$escrowId) != null && @newData.actor == @user.address && @newData.expectedVersion == get(/dealEscrows/$escrowId).version && @newData.at <= @time.now && @newData.at + 60 >= @time.now && @newData.completed == null && (@newData.action == 'assign' || @newData.payee == null) && (@newData.action == 'resolve' || @newData.outcome == null) && (@newData.action == 'dispute' || @newData.reason == null) && (@newData.action != 'dispute' || (@newData.reason != null && @StringUtils.length(@newData.reason) >= 10 && @StringUtils.length(@newData.reason) <= 400)) && (@def.escrow_fund || @def.escrow_assign || @def.escrow_accept || @def.escrow_withdraw || @def.escrow_release || @def.escrow_refund || @def.escrow_dispute || @def.escrow_resolve || @def.escrow_expire || @def.escrow_fallback)",
+    "escrow_hookAllowed": "@user.address != null && get(/dealEscrows/$escrowId) != null && @newData.actor == @user.address && @newData.expectedVersion == get(/dealEscrows/$escrowId).version && ((@newData.action == 'fund' && get(/dealEscrows/$escrowId).status == 'unfunded' && @user.address == get(/dealEscrows/$escrowId).funder && @newData.at < get(/dealEscrows/$escrowId).expiresAt) || (@newData.action == 'assign' && get(/dealEscrows/$escrowId).status == 'locked' && @user.address == get(/dealEscrows/$escrowId).funder && @newData.payee != null && @newData.payee != get(/dealEscrows/$escrowId).funder && @newData.payee != @const.AGENT_ADDRESS) || (@newData.action == 'accept' && get(/dealEscrows/$escrowId).status == 'locked' && (get(/dealEscrows/$escrowId).payee != null && @user.address == get(/dealEscrows/$escrowId).payee) && @newData.at < get(/dealEscrows/$escrowId).expiresAt) || (@newData.action == 'withdraw' && get(/dealEscrows/$escrowId).status == 'locked' && @user.address == get(/dealEscrows/$escrowId).funder && @TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC) >= get(/dealEscrows/$escrowId).amountUsdc) || (@newData.action == 'release' && (get(/dealEscrows/$escrowId).status == 'locked' || get(/dealEscrows/$escrowId).status == 'accepted' || get(/dealEscrows/$escrowId).status == 'disputed') && get(/dealEscrows/$escrowId).payee != null && @user.address == get(/dealEscrows/$escrowId).funder && @TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC) >= get(/dealEscrows/$escrowId).amountUsdc) || (@newData.action == 'refund' && (get(/dealEscrows/$escrowId).status == 'locked' || get(/dealEscrows/$escrowId).status == 'accepted' || get(/dealEscrows/$escrowId).status == 'disputed') && (get(/dealEscrows/$escrowId).payee != null && @user.address == get(/dealEscrows/$escrowId).payee) && @TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC) >= get(/dealEscrows/$escrowId).amountUsdc) || (@newData.action == 'dispute' && get(/dealEscrows/$escrowId).status == 'accepted' && (@user.address == get(/dealEscrows/$escrowId).funder || (get(/dealEscrows/$escrowId).payee != null && @user.address == get(/dealEscrows/$escrowId).payee)) && @newData.at < get(/dealEscrows/$escrowId).expiresAt) || (@newData.action == 'resolve' && get(/dealEscrows/$escrowId).status == 'disputed' && @user.address == @const.AGENT_ADDRESS && (@newData.outcome == 'release' || @newData.outcome == 'refund') && @TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC) >= get(/dealEscrows/$escrowId).amountUsdc) || (@newData.action == 'expire' && (get(/dealEscrows/$escrowId).status == 'locked' || get(/dealEscrows/$escrowId).status == 'accepted') && @newData.at >= get(/dealEscrows/$escrowId).expiresAt && @TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC) >= get(/dealEscrows/$escrowId).amountUsdc) || (@newData.action == 'fallback' && get(/dealEscrows/$escrowId).status == 'disputed' && @newData.at >= get(/dealEscrows/$escrowId).expiresAt + @const.ESCROW_DISPUTE_FALLBACK_SECONDS && @TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC) >= get(/dealEscrows/$escrowId).amountUsdc))",
+    "call_escrowMatches": "get(/dealEscrows/@newData.escrowId) != null && get(/dealEscrows/@newData.escrowId).funder == @user.address && get(/dealEscrows/@newData.escrowId).payee == null && get(/dealEscrows/@newData.escrowId).ref == @newData.dealId && get(/dealEscrows/@newData.escrowId).amountUsdc == @newData.amountUsdc && get(/dealEscrows/@newData.escrowId).expiresAt == @newData.expiresAt && get(/dealEscrows/@newData.escrowId).status == 'unfunded'",
+    "deal_listingTerms": "get(/listings/@newData.listingId) != null && get(/listings/@newData.listingId).seller == @newData.creator && get(/listings/@newData.listingId).active == true && get(/listings/@newData.listingId).deleted != true && ((get(/bookingOffers/@newData.listingId) != null && get(/bookingOffers/@newData.listingId).seller == @newData.creator && get(/bookingOffers/@newData.listingId).listingOwner == get(/listings/@newData.listingId).owner && get(/bookingOffers/@newData.listingId).active == true && get(/bookingOffers/@newData.listingId).deleted != true && get(/bookingOffers/@newData.listingId).reserved != null && get(/bookingOffers/@newData.listingId).priceMicro == @newData.amountUsdc && get(/bookingOffers/@newData.listingId).title == @newData.headline && (get(/bookingOffers/@newData.listingId).startsAt == null || get(/bookingOffers/@newData.listingId).startsAt > @time.now) && (get(/bookingOffers/@newData.listingId).supplyBy == null || get(/bookingOffers/@newData.listingId).supplyBy >= @time.now)) || ((get(/bookingOffers/@newData.listingId) == null || get(/bookingOffers/@newData.listingId).seller != @newData.creator || get(/bookingOffers/@newData.listingId).listingOwner != get(/listings/@newData.listingId).owner) && get(/listings/@newData.listingId).capacity == null && get(/listings/@newData.listingId).sponsorship != true && get(/listings/@newData.listingId).priceMicro == @newData.amountUsdc && get(/listings/@newData.listingId).title == @newData.headline && (get(/listings/@newData.listingId).startsAt == null || get(/listings/@newData.listingId).startsAt > @time.now) && (get(/listings/@newData.listingId).supplyBy == null || get(/listings/@newData.listingId).supplyBy >= @time.now)))",
+    "deal_callTerms": "get(/sponsorCalls/@newData.listingId) != null && get(/sponsorCalls/@newData.listingId).sponsor == @user.address && get(/sponsorCalls/@newData.listingId).dealId == $dealId && get(/sponsorCalls/@newData.listingId).status == 'open' && get(/sponsorCalls/@newData.listingId/responses/@newData.creator) != null && get(/sponsorCalls/@newData.listingId).title == @newData.headline && get(/sponsorCalls/@newData.listingId).brief == @newData.brief && get(/sponsorCalls/@newData.listingId).amountUsdc == @newData.amountUsdc && get(/sponsorCalls/@newData.listingId).deadline == @newData.deadline && get(/sponsorCalls/@newData.listingId).expiresAt == @newData.expiresAt",
+    "deal_escrowAgrees": "@data.escrowId != null && get(/dealEscrows/@data.escrowId) != null && get(/dealEscrows/@data.escrowId).funder == @data.sponsor && get(/dealEscrows/@data.escrowId).amountUsdc == @data.amountUsdc && get(/dealEscrows/@data.escrowId).expiresAt == @data.expiresAt && get(/dealEscrows/@data.escrowId).ref == $dealId && @data.status != 'released' && @data.status != 'refunded' && @data.status != 'cancelled' && @data.status != 'expired' && ((@newData.status == 'funded' && get(/dealEscrows/@data.escrowId).payee == @data.creator && (get(/dealEscrows/@data.escrowId).status == 'locked' || get(/dealEscrows/@data.escrowId).status == 'accepted') && @newData.settledAt == null) || (@newData.status == 'disputed' && get(/dealEscrows/@data.escrowId).payee == @data.creator && get(/dealEscrows/@data.escrowId).status == 'disputed' && @newData.settledAt == null) || (@newData.status == 'released' && get(/dealEscrows/@data.escrowId).payee == @data.creator && get(/dealEscrows/@data.escrowId).status == 'released' && @newData.settledAt == get(/dealEscrows/@data.escrowId).settledAt) || (@newData.status == 'refunded' && (get(/dealEscrows/@data.escrowId).payee == @data.creator || get(/dealEscrows/@data.escrowId).payee == null) && get(/dealEscrows/@data.escrowId).status == 'refunded' && @newData.settledAt == get(/dealEscrows/@data.escrowId).settledAt))",
+    "record_escrowAgrees": "get(/dealEscrows/@newData.escrowId) != null && get(/dealEscrows/@newData.escrowId).funder == @newData.sponsor && get(/dealEscrows/@newData.escrowId).amountUsdc == @newData.amountUsdc && get(/dealEscrows/@newData.escrowId).ref == $dealId && ((@newData.status == 'funded' && get(/dealEscrows/@newData.escrowId).payee == @newData.creator && (get(/dealEscrows/@newData.escrowId).status == 'locked' || get(/dealEscrows/@newData.escrowId).status == 'accepted' || get(/dealEscrows/@newData.escrowId).status == 'disputed')) || (@newData.status == 'released' && get(/dealEscrows/@newData.escrowId).payee == @newData.creator && get(/dealEscrows/@newData.escrowId).status == 'released' && @newData.settledAt == get(/dealEscrows/@newData.escrowId).settledAt) || (@newData.status == 'refunded' && get(/dealEscrows/@newData.escrowId).status == 'refunded' && @newData.settledAt == get(/dealEscrows/@newData.escrowId).settledAt))"
+  },
+  "profiles/$userId": {
+    "description": "Public account-owned creator or brand profile. The account id is the path identity; a profile cannot impersonate a different wallet. verifiedXHandle/verifiedXId are copied from the X account the owner linked through X itself; a typed xHandle is an unverified claim.",
+    "tier": "durable",
+    "fields": {
+      "owner": "String!",
+      "wallet": "Address!",
+      "name": "String",
+      "bio": "String?",
+      "location": "String?",
+      "website": "String?",
+      "socialUrl": "String?",
+      "xHandle": "String?",
+      "imageUrl": "String?",
+      "profileType": "String",
+      "createdAt": "UInt!",
+      "updatedAt": "UInt",
+      "verifiedXHandle": "String?",
+      "verifiedXId": "String?"
+    },
+    "rules": {
+      "read": "true",
+      "create": "(get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && ((@newData.verifiedXId == null && @newData.verifiedXHandle == null) || ((get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @newData.verifiedXId == get(/__connections__/@user.id).xId && @newData.verifiedXHandle == get(/__connections__/@user.id).xHandle)) && @user.id != null && @user.address != null && $userId == @user.id && @newData.owner == @user.id && @newData.wallet == @user.address && @newData.createdAt == @newData.updatedAt && @StringUtils.length(@newData.name) >= 1 && @StringUtils.length(@newData.name) <= 80 && (@newData.bio == null || (@StringUtils.length(@newData.bio) >= 0 && @StringUtils.length(@newData.bio) <= 500)) && (@newData.location == null || (@StringUtils.length(@newData.location) >= 0 && @StringUtils.length(@newData.location) <= 100)) && (@newData.website == null || (@StringUtils.length(@newData.website) >= 0 && @StringUtils.length(@newData.website) <= 250)) && (@newData.socialUrl == null || (@StringUtils.length(@newData.socialUrl) >= 0 && @StringUtils.length(@newData.socialUrl) <= 250)) && (@newData.xHandle == null || (@StringUtils.length(@newData.xHandle) >= 0 && @StringUtils.length(@newData.xHandle) <= 15)) && (@newData.imageUrl == null || (@StringUtils.length(@newData.imageUrl) >= 0 && @StringUtils.length(@newData.imageUrl) <= 2048)) && (@newData.profileType == 'person' || @newData.profileType == 'brand') && @newData.updatedAt <= @time.now && @newData.updatedAt + 60 >= @time.now",
+      "update": "(get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && ((@newData.verifiedXId == @data.verifiedXId && @newData.verifiedXHandle == @data.verifiedXHandle) || ((@newData.verifiedXId == null && @newData.verifiedXHandle == null) || ((get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @newData.verifiedXId == get(/__connections__/@user.id).xId && @newData.verifiedXHandle == get(/__connections__/@user.id).xHandle))) && @user.id != null && $userId == @user.id && @data.owner == @user.id && @newData.owner == @data.owner && @newData.wallet == @data.wallet && @newData.createdAt == @data.createdAt && @newData.updatedAt >= @data.updatedAt && @StringUtils.length(@newData.name) >= 1 && @StringUtils.length(@newData.name) <= 80 && (@newData.bio == null || (@StringUtils.length(@newData.bio) >= 0 && @StringUtils.length(@newData.bio) <= 500)) && (@newData.location == null || (@StringUtils.length(@newData.location) >= 0 && @StringUtils.length(@newData.location) <= 100)) && (@newData.website == null || (@StringUtils.length(@newData.website) >= 0 && @StringUtils.length(@newData.website) <= 250)) && (@newData.socialUrl == null || (@StringUtils.length(@newData.socialUrl) >= 0 && @StringUtils.length(@newData.socialUrl) <= 250)) && (@newData.xHandle == null || (@StringUtils.length(@newData.xHandle) >= 0 && @StringUtils.length(@newData.xHandle) <= 15)) && (@newData.imageUrl == null || (@StringUtils.length(@newData.imageUrl) >= 0 && @StringUtils.length(@newData.imageUrl) <= 2048)) && (@newData.profileType == 'person' || @newData.profileType == 'brand') && @newData.updatedAt <= @time.now && @newData.updatedAt + 60 >= @time.now",
+      "delete": "false"
+    }
+  },
+  "eventSuggestions/$suggestionId": {
+    "description": "Signed-in members submit public event links for admin review before any event is featured.",
+    "tier": "durable",
+    "fields": {
+      "owner": "String!",
+      "url": "String",
+      "title": "String",
+      "note": "String",
+      "status": "String",
+      "createdAt": "UInt!"
+    },
+    "rules": {
+      "read": "((@user.id != null && @user.id == @data.owner) || (@user.address != null && @user.address == @const.ADMIN_WALLET) || @user.address == @const.AGENT_ADDRESS)",
+      "create": "(get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @user.id != null && $suggestionId != null && @newData.owner == @user.id && @newData.status == 'pending' && @StringUtils.length(@newData.url) >= 8 && @StringUtils.length(@newData.url) <= 300 && (@newData.title == null || (@StringUtils.length(@newData.title) >= 0 && @StringUtils.length(@newData.title) <= 120)) && (@newData.note == null || (@StringUtils.length(@newData.note) >= 0 && @StringUtils.length(@newData.note) <= 500)) && @newData.createdAt <= @time.now && @newData.createdAt + 60 >= @time.now",
+      "update": "@user.address == @const.ADMIN_WALLET && @newData.owner == @data.owner && @newData.url == @data.url && @newData.title == @data.title && @newData.note == @data.note && @newData.createdAt == @data.createdAt && (@newData.status == 'listed' || @newData.status == 'declined')",
+      "delete": "false"
+    }
+  },
+  "sponsorDeals/$dealId": {
+    "description": "A sponsor booking. It books an open listing at that listing's current price and title, or comes from the sponsor picking a creator who responded to their own open call, on the call's terms. The sponsor locks the USDC from their own wallet in dealEscrows/<escrowId> (ref is this deal's id) and saves escrowId here once, while the deal is awaiting_funding; the money is never in this record. Only the app agent marks a deal funded, disputed, released or refunded, and each is accepted only when the escrow agrees: same sponsor, creator, amount, expiry and ref; locked or accepted for funded; disputed for disputed; settled that way, with its settledAt, for released and refunded. Writes ring the agent.",
+    "tier": "durable",
+    "fields": {
+      "sponsor": "Address!",
+      "sponsorId": "String!",
+      "creator": "Address!",
+      "listingId": "String!",
+      "headline": "String",
+      "brief": "String",
+      "amountUsdc": "UInt!",
+      "escrowId": "String?",
+      "rootAppId": "String?",
+      "challengeSeconds": "UInt!",
+      "expiresAt": "UInt!",
+      "deadline": "UInt!",
+      "createdAt": "UInt!",
+      "status": "String",
+      "proofUrl": "String?",
+      "proofNote": "String?",
+      "proofAt": "UInt?",
+      "verdict": "String?",
+      "verdictReason": "String?",
+      "settledAt": "UInt?",
+      "payoutAfter": "UInt?"
+    },
+    "rules": {
+      "read": "(@user.address != null && (@user.address == @data.sponsor || @user.address == @data.creator)) || @user.address == @const.AGENT_ADDRESS || @user.id == @const.AGENT_ADDRESS",
+      "create": "(get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @user.id != null && @user.address != null && @newData.sponsor == @user.address && @newData.sponsorId == @user.id && @newData.creator != @newData.sponsor && @newData.creator != @const.AGENT_ADDRESS && @newData.status == 'awaiting_funding' && @newData.amountUsdc >= 1000000 && @newData.amountUsdc <= 1000000000 && @newData.challengeSeconds <= 604800 && (@newData.amountUsdc <= 250000000 || @newData.challengeSeconds >= 86400) && @newData.expiresAt >= @newData.createdAt + 3600 && @newData.expiresAt <= @newData.createdAt + 7776000 && @newData.deadline <= @newData.expiresAt && @newData.escrowId == null && @newData.rootAppId == null && @StringUtils.length(@newData.listingId) >= 1 && @StringUtils.length(@newData.listingId) <= 120 && @StringUtils.length(@newData.headline) >= 1 && @StringUtils.length(@newData.headline) <= 160 && @StringUtils.length(@newData.brief) >= 10 && @StringUtils.length(@newData.brief) <= 500 && @newData.createdAt <= @time.now && @newData.createdAt + 60 >= @time.now && @newData.proofUrl == null && @newData.verdict == null && @newData.settledAt == null && @newData.payoutAfter == null && (@def.deal_listingTerms || @def.deal_callTerms)",
+      "update": "((@user.address == @const.AGENT_ADDRESS || @user.id == @const.AGENT_ADDRESS) || (get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null)) && @user.id != null && @newData.sponsor == @data.sponsor && @newData.sponsorId == @data.sponsorId && @newData.creator == @data.creator && @newData.listingId == @data.listingId && @newData.headline == @data.headline && @newData.brief == @data.brief && @newData.amountUsdc == @data.amountUsdc && @newData.challengeSeconds == @data.challengeSeconds && @newData.expiresAt == @data.expiresAt && @newData.deadline == @data.deadline && @newData.createdAt == @data.createdAt && ( (@newData.escrowId == @data.escrowId && @newData.rootAppId == @data.rootAppId && ( (@user.address == @data.sponsor && @data.status == 'awaiting_funding' && @data.escrowId == null && @newData.status == 'cancelled' && @newData.proofUrl == @data.proofUrl && @newData.payoutAfter == @data.payoutAfter && @newData.settledAt == @data.settledAt) || (@user.address == @data.creator && @data.status == 'funded' && @newData.status == 'proof_submitted' && @StringUtils.length(@newData.proofUrl) >= 8 && @StringUtils.length(@newData.proofUrl) <= 300 && (@newData.proofNote == null || @StringUtils.length(@newData.proofNote) >= 0 && @StringUtils.length(@newData.proofNote) <= 500) && @newData.proofAt <= @time.now && @newData.proofAt + 60 >= @time.now && @newData.verdict == @data.verdict && @newData.payoutAfter == @data.payoutAfter && @newData.settledAt == @data.settledAt) || ((@user.address == @const.AGENT_ADDRESS || @user.id == @const.AGENT_ADDRESS) && @newData.proofUrl == @data.proofUrl && @newData.proofNote == @data.proofNote && @newData.proofAt == @data.proofAt && @newData.payoutAfter == @data.payoutAfter && ((@newData.status == @data.status && @newData.settledAt == @data.settledAt) || @def.deal_escrowAgrees)) )) || (@user.address == @data.sponsor && @data.status == 'awaiting_funding' && @newData.status == 'awaiting_funding' && @data.escrowId == null && @data.rootAppId == null && @StringUtils.length(@newData.escrowId) >= 32 && @StringUtils.length(@newData.escrowId) <= 32 && @newData.rootAppId == '68652cfd2a7212f59461a789' && @newData.proofUrl == @data.proofUrl && @newData.verdict == @data.verdict && @newData.settledAt == @data.settledAt && @newData.payoutAfter == @data.payoutAfter) )",
+      "delete": "false"
+    },
+    "webhooks": [
+      {
+        "url": "https://platform.bounded.sh/agent-events/v1",
+        "on": [
+          "create",
+          "update"
+        ]
+      }
+    ]
+  },
+  "dealRecords/$dealId": {
+    "description": "Public record of a sponsor booking's escrow outcome, written only by the app agent. It mirrors the private sponsorDeals record it is keyed to (same listing, wallets, title, amount and escrow), never carries the brief, and must agree with the escrow: funded needs the USDC locked, accepted or disputed in dealEscrows, and released or refunded needs the escrow settled that way with the same settledAt. funded means the booking holds a listing spot; released means the creator was paid and the public proof link is shown as completed work; refunded reopens the spot. Listings, profiles and spot counts read it.",
+    "tier": "durable",
+    "fields": {
+      "listingId": "String!",
+      "creator": "Address!",
+      "sponsor": "Address!",
+      "headline": "String",
+      "amountUsdc": "UInt!",
+      "escrowId": "String!",
+      "status": "String",
+      "proofUrl": "String?",
+      "fundedAt": "UInt?",
+      "settledAt": "UInt?",
+      "updatedAt": "UInt"
+    },
+    "rules": {
+      "read": "true",
+      "create": "@user.id != null && (@user.address == @const.AGENT_ADDRESS || @user.id == @const.AGENT_ADDRESS) && get(/sponsorDeals/$dealId) != null && get(/sponsorDeals/$dealId).escrowId != null && @newData.listingId == get(/sponsorDeals/$dealId).listingId && @newData.creator == get(/sponsorDeals/$dealId).creator && @newData.sponsor == get(/sponsorDeals/$dealId).sponsor && @newData.headline == get(/sponsorDeals/$dealId).headline && @newData.amountUsdc == get(/sponsorDeals/$dealId).amountUsdc && @newData.escrowId == get(/sponsorDeals/$dealId).escrowId && ((@newData.status == 'funded' && get(/sponsorDeals/$dealId).status != 'awaiting_funding' && get(/sponsorDeals/$dealId).status != 'cancelled' && get(/sponsorDeals/$dealId).status != 'expired' && get(/sponsorDeals/$dealId).status != 'released' && get(/sponsorDeals/$dealId).status != 'refunded' && @newData.settledAt == null && @newData.proofUrl == null) || ((@newData.status == 'released' || @newData.status == 'refunded') && @newData.status == get(/sponsorDeals/$dealId).status && get(/sponsorDeals/$dealId).settledAt != null && @newData.settledAt == get(/sponsorDeals/$dealId).settledAt && (@newData.proofUrl == null || @newData.proofUrl == get(/sponsorDeals/$dealId).proofUrl))) && (@newData.fundedAt == null || @newData.fundedAt <= @time.now) && @newData.updatedAt <= @time.now && @newData.updatedAt + 60 >= @time.now && @def.record_escrowAgrees",
+      "update": "@user.id != null && (@user.address == @const.AGENT_ADDRESS || @user.id == @const.AGENT_ADDRESS) && get(/sponsorDeals/$dealId) != null && get(/sponsorDeals/$dealId).escrowId != null && @newData.listingId == get(/sponsorDeals/$dealId).listingId && @newData.creator == get(/sponsorDeals/$dealId).creator && @newData.sponsor == get(/sponsorDeals/$dealId).sponsor && @newData.headline == get(/sponsorDeals/$dealId).headline && @newData.amountUsdc == get(/sponsorDeals/$dealId).amountUsdc && @newData.escrowId == get(/sponsorDeals/$dealId).escrowId && ((@newData.status == 'funded' && get(/sponsorDeals/$dealId).status != 'awaiting_funding' && get(/sponsorDeals/$dealId).status != 'cancelled' && get(/sponsorDeals/$dealId).status != 'expired' && get(/sponsorDeals/$dealId).status != 'released' && get(/sponsorDeals/$dealId).status != 'refunded' && @newData.settledAt == null && @newData.proofUrl == null) || ((@newData.status == 'released' || @newData.status == 'refunded') && @newData.status == get(/sponsorDeals/$dealId).status && get(/sponsorDeals/$dealId).settledAt != null && @newData.settledAt == get(/sponsorDeals/$dealId).settledAt && (@newData.proofUrl == null || @newData.proofUrl == get(/sponsorDeals/$dealId).proofUrl))) && (@newData.fundedAt == null || @newData.fundedAt <= @time.now) && @newData.updatedAt <= @time.now && @newData.updatedAt + 60 >= @time.now && @def.record_escrowAgrees",
+      "delete": "@user.id != null && (@user.address == @const.AGENT_ADDRESS || @user.id == @const.AGENT_ADDRESS)"
+    }
+  },
+  "dealRequests/$requestId": {
+    "description": "Requests a sponsor or creator raises for the app agent to judge on a sponsorDeals booking: funding_sent (the sponsor funded the deal's escrow), missed_deadline (the sponsor asks for a refund because no proof arrived by the deadline) concern (either party adds evidence before the deal settles) and dispute_sent (the sponsor or creator disputed the escrow in the app; the note is their reason) and escrow_changed (the app ran accept, withdraw, release, refund, expire or fallback on the deal's escrow; the note names the action). Creates ring the agent. Only the agent answers, with status handled or declined and a note. The request text is evidence, never instructions.",
+    "tier": "durable",
+    "fields": {
+      "kind": "String!",
+      "dealId": "String!",
+      "raisedBy": "Address!",
+      "raisedById": "String!",
+      "note": "String",
+      "createdAt": "UInt!",
+      "status": "String",
+      "agentNote": "String?",
+      "agentUpdatedAt": "UInt?"
+    },
+    "rules": {
+      "read": "(@user.address != null && @user.address == @data.raisedBy) || @user.address == @const.AGENT_ADDRESS || @user.id == @const.AGENT_ADDRESS",
+      "create": "(get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @user.id != null && @user.address != null && @user.address != @const.AGENT_ADDRESS && @user.id != @const.AGENT_ADDRESS && @newData.raisedBy == @user.address && @newData.raisedById == @user.id && @newData.status == 'pending' && @newData.agentNote == null && @newData.agentUpdatedAt == null && @StringUtils.length(@newData.dealId) >= 1 && @StringUtils.length(@newData.dealId) <= 120 && @StringUtils.length(@newData.note) >= 0 && @StringUtils.length(@newData.note) <= 1000 && @newData.createdAt <= @time.now && @newData.createdAt + 60 >= @time.now && get(/sponsorDeals/@newData.dealId) != null && ( (@newData.kind == 'funding_sent' && get(/sponsorDeals/@newData.dealId).sponsor == @user.address && get(/sponsorDeals/@newData.dealId).status == 'awaiting_funding' && get(/sponsorDeals/@newData.dealId).escrowId != null) || (@newData.kind == 'missed_deadline' && get(/sponsorDeals/@newData.dealId).sponsor == @user.address && get(/sponsorDeals/@newData.dealId).status == 'funded' && @time.now > get(/sponsorDeals/@newData.dealId).deadline) || (@newData.kind == 'dispute_sent' && (get(/sponsorDeals/@newData.dealId).sponsor == @user.address || get(/sponsorDeals/@newData.dealId).creator == @user.address) && get(/sponsorDeals/@newData.dealId).escrowId != null && (get(/sponsorDeals/@newData.dealId).status == 'awaiting_funding' || get(/sponsorDeals/@newData.dealId).status == 'funded' || get(/sponsorDeals/@newData.dealId).status == 'proof_submitted' || get(/sponsorDeals/@newData.dealId).status == 'in_review' || get(/sponsorDeals/@newData.dealId).status == 'release_approved' || get(/sponsorDeals/@newData.dealId).status == 'refund_approved') && @StringUtils.length(@newData.note) >= 1) || (@newData.kind == 'escrow_changed' && (get(/sponsorDeals/@newData.dealId).sponsor == @user.address || get(/sponsorDeals/@newData.dealId).creator == @user.address) && get(/sponsorDeals/@newData.dealId).escrowId != null && (get(/sponsorDeals/@newData.dealId).status == 'awaiting_funding' || get(/sponsorDeals/@newData.dealId).status == 'funded' || get(/sponsorDeals/@newData.dealId).status == 'proof_submitted' || get(/sponsorDeals/@newData.dealId).status == 'disputed') && @StringUtils.length(@newData.note) >= 1 && @StringUtils.length(@newData.note) <= 20) || (@newData.kind == 'concern' && (get(/sponsorDeals/@newData.dealId).sponsor == @user.address || get(/sponsorDeals/@newData.dealId).creator == @user.address) && (get(/sponsorDeals/@newData.dealId).status == 'funded' || get(/sponsorDeals/@newData.dealId).status == 'proof_submitted' || get(/sponsorDeals/@newData.dealId).status == 'in_review' || get(/sponsorDeals/@newData.dealId).status == 'release_approved' || get(/sponsorDeals/@newData.dealId).status == 'refund_approved') && @StringUtils.length(@newData.note) >= 10) ) && get(/dealRequestRate/@user.id/r/$requestId) == null && getAfter(/dealRequestRate/@user.id/r/$requestId) != null",
+      "update": "@user.id != null && (@user.address == @const.AGENT_ADDRESS || @user.id == @const.AGENT_ADDRESS) && @data.status == 'pending' && (@newData.status == 'handled' || @newData.status == 'declined') && (@newData.agentNote == null || (@StringUtils.length(@newData.agentNote) >= 0 && @StringUtils.length(@newData.agentNote) <= 1000)) && @newData.kind == @data.kind && @newData.dealId == @data.dealId && @newData.raisedBy == @data.raisedBy && @newData.raisedById == @data.raisedById && @newData.note == @data.note && @newData.createdAt == @data.createdAt",
+      "delete": "false"
+    },
+    "webhooks": [
+      {
+        "url": "https://platform.bounded.sh/agent-events/v1",
+        "on": [
+          "create"
+        ]
+      }
+    ]
+  },
+  "dealRequestRate/$userId/r/$requestId": {
+    "description": "One receipt per deal request, written in the same batch, capping each person at 10 requests a day.",
+    "tier": "durable",
+    "fields": {
+      "weight": "UInt!"
+    },
+    "rules": {
+      "read": "@user.id == $userId || @user.id == @const.AGENT_ADDRESS || @user.address == @const.AGENT_ADDRESS",
+      "create": "@user.id != null && @user.id == $userId && @newData.weight == 1",
+      "update": "false",
+      "delete": "false"
+    },
+    "invariants": [
+      {
+        "type": "rollingSum",
+        "name": "deal_requests_per_person_daily",
+        "field": "weight",
+        "windowSeconds": 86400,
+        "limit": 10,
+        "scopeVariable": "$userId"
+      }
+    ]
+  },
+  "listings/$listingId": {
+    "description": "Public publisher listings. Listing metadata never authorizes an escrow payout. verifiedXHandle/verifiedXId are copied from the publisher's linked X account; a typed xHandle is an unverified claim.",
+    "tier": "durable",
+    "fields": {
+      "owner": "String!",
+      "seller": "Address!",
+      "publisher": "String",
+      "title": "String",
+      "category": "String",
+      "channel": "String",
+      "description": "String",
+      "deliverables": "String",
+      "audience": "String",
+      "priceMicro": "UInt",
+      "turnaroundDays": "UInt",
+      "active": "Bool",
+      "createdAt": "UInt!",
+      "imageUrl": "String?",
+      "kind": "String?",
+      "sponsorship": "Bool?",
+      "eventId": "String?",
+      "eventName": "String?",
+      "startsAt": "UInt?",
+      "endsAt": "UInt?",
+      "capacity": "UInt?",
+      "clothingSource": "String?",
+      "clothingDetails": "String?",
+      "supplyBy": "UInt?",
+      "reserved": "UInt?",
+      "attendingEvent": "Bool?",
+      "xHandle": "String?",
+      "xPostUrl": "String?",
+      "editVersion": "UInt!?",
+      "deleted": "Bool?",
+      "verifiedXHandle": "String?",
+      "verifiedXId": "String?"
+    },
+    "rules": {
+      "read": "true",
+      "create": "(get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && ((@newData.verifiedXId == null && @newData.verifiedXHandle == null) || ((get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @newData.verifiedXId == get(/__connections__/@user.id).xId && @newData.verifiedXHandle == get(/__connections__/@user.id).xHandle)) && @user.id != null && @user.address != null && @newData.owner == @user.id && @newData.seller == @user.address && @newData.seller != @const.ADMIN_WALLET && @newData.createdAt <= @time.now && @newData.createdAt + 60 >= @time.now && @newData.priceMicro > 0 && @newData.priceMicro <= @const.MAX_ESCROW_MICRO && @newData.turnaroundDays >= 1 && @newData.turnaroundDays <= 90 && @StringUtils.length(@newData.title) >= 3 && @StringUtils.length(@newData.title) <= 80 && @StringUtils.length(@newData.publisher) >= 1 && @StringUtils.length(@newData.publisher) <= 80 && @StringUtils.length(@newData.description) >= 1 && @StringUtils.length(@newData.description) <= 1000 && @StringUtils.length(@newData.deliverables) >= 1 && @StringUtils.length(@newData.deliverables) <= 500 && @StringUtils.length(@newData.category) >= 1 && @StringUtils.length(@newData.category) <= 50 && @StringUtils.length(@newData.channel) >= 1 && @StringUtils.length(@newData.channel) <= 100 && @StringUtils.length(@newData.audience) >= 1 && @StringUtils.length(@newData.audience) <= 250 && (@newData.xHandle == null || (@StringUtils.length(@newData.xHandle) >= 0 && @StringUtils.length(@newData.xHandle) <= 15)) && (@newData.xPostUrl == null || (@StringUtils.length(@newData.xPostUrl) >= 0 && @StringUtils.length(@newData.xPostUrl) <= 200)) && (@newData.imageUrl == null || (@StringUtils.length(@newData.imageUrl) >= 8 && @StringUtils.length(@newData.imageUrl) <= 2048)) && (@newData.kind == null || @newData.kind == 'placement' || @newData.kind == 'service') && (@newData.eventId == null || (@StringUtils.length(@newData.eventId) >= 0 && @StringUtils.length(@newData.eventId) <= 80)) && (@newData.eventName == null || (@StringUtils.length(@newData.eventName) >= 0 && @StringUtils.length(@newData.eventName) <= 120)) && (@newData.clothingDetails == null || (@StringUtils.length(@newData.clothingDetails) >= 0 && @StringUtils.length(@newData.clothingDetails) <= 500)) && (@newData.capacity == null || (@newData.capacity >= 1 && @newData.capacity <= 100)) && (@newData.clothingSource == null || @newData.clothingSource == 'sponsor' || @newData.clothingSource == 'creator' || @newData.clothingSource == 'existing') && ((@newData.startsAt == null && @newData.endsAt == null) || (@newData.startsAt > 0 && @newData.endsAt >= @newData.startsAt && @newData.endsAt <= @newData.startsAt + @const.MAX_CAMPAIGN_SECONDS)) && (@newData.supplyBy == null || (@newData.startsAt != null && @newData.supplyBy > 0 && @newData.supplyBy <= @newData.startsAt)) && (@newData.sponsorship != true || ((@newData.kind == null || @newData.kind == 'placement') && @newData.eventId != null && @newData.eventName != null && @newData.startsAt != null && @newData.endsAt != null && @newData.capacity != null && @StringUtils.length(@newData.eventId) > 0 && @StringUtils.length(@newData.eventName) > 0)) && (@newData.attendingEvent != true || ((@newData.kind == null || @newData.kind == 'placement') && @newData.eventId != null && @newData.eventName != null && @StringUtils.length(@newData.eventId) > 0 && @StringUtils.length(@newData.eventName) > 0 && @newData.startsAt != null && @newData.endsAt != null)) && (@newData.editVersion == null || (@newData.editVersion == 1 && get(/bookingOffers/$listingId) != null && get(/bookingOffers/$listingId).seller == @newData.seller && get(/bookingOffers/$listingId).listingOwner == @newData.owner && get(/bookingOffers/$listingId).reserved != null && get(/bookingOffers/$listingId).everFunded == false && get(/bookingOffers/$listingId).deleted != true)) && @newData.deleted != true && @newData.reserved == null",
+      "update": "(@user.address == @const.ADMIN_WALLET || (get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null)) && ((@newData.verifiedXId == @data.verifiedXId && @newData.verifiedXHandle == @data.verifiedXHandle) || ((@newData.verifiedXId == null && @newData.verifiedXHandle == null) || ((get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @newData.verifiedXId == get(/__connections__/@user.id).xId && @newData.verifiedXHandle == get(/__connections__/@user.id).xHandle))) && ((@user.id != null && @data.owner == @user.id && ((@data.editVersion == 1 && @data.deleted != true && @newData.deleted != true && get(/bookingOffers/$listingId) != null && get(/bookingOffers/$listingId).seller == @data.seller && get(/bookingOffers/$listingId).listingOwner == @data.owner && get(/bookingOffers/$listingId).reserved != null && get(/bookingOffers/$listingId).everFunded == false && get(/bookingOffers/$listingId).deleted != true && get(/bookingOffers/$listingId).active == false) || (@newData.publisher == @data.publisher && @newData.title == @data.title && @newData.category == @data.category && @newData.channel == @data.channel && @newData.description == @data.description && @newData.deliverables == @data.deliverables && @newData.audience == @data.audience && @newData.priceMicro == @data.priceMicro && @newData.turnaroundDays == @data.turnaroundDays && @newData.imageUrl == @data.imageUrl && @newData.xHandle == @data.xHandle && @newData.xPostUrl == @data.xPostUrl && @newData.kind == @data.kind && @newData.attendingEvent == @data.attendingEvent && @newData.sponsorship == @data.sponsorship && @newData.eventId == @data.eventId && @newData.eventName == @data.eventName && @newData.startsAt == @data.startsAt && @newData.endsAt == @data.endsAt && @newData.capacity == @data.capacity && @newData.clothingSource == @data.clothingSource && @newData.clothingDetails == @data.clothingDetails && @newData.supplyBy == @data.supplyBy))) || (@user.address == @const.ADMIN_WALLET && @newData.deleted == true && @newData.active == false && @newData.publisher == @data.publisher && @newData.title == @data.title && @newData.category == @data.category && @newData.channel == @data.channel && @newData.description == @data.description && @newData.deliverables == @data.deliverables && @newData.audience == @data.audience && @newData.priceMicro == @data.priceMicro && @newData.turnaroundDays == @data.turnaroundDays && @newData.imageUrl == @data.imageUrl && @newData.xHandle == @data.xHandle && @newData.xPostUrl == @data.xPostUrl && @newData.kind == @data.kind && @newData.attendingEvent == @data.attendingEvent && @newData.sponsorship == @data.sponsorship && @newData.eventId == @data.eventId && @newData.eventName == @data.eventName && @newData.startsAt == @data.startsAt && @newData.endsAt == @data.endsAt && @newData.capacity == @data.capacity && @newData.clothingSource == @data.clothingSource && @newData.clothingDetails == @data.clothingDetails && @newData.supplyBy == @data.supplyBy)) && (@data.deleted != true || @newData.deleted == true) && (@newData.deleted != true || @newData.active == false) && @newData.owner == @data.owner && @newData.seller == @data.seller && @newData.createdAt == @data.createdAt && @newData.priceMicro > 0 && @newData.priceMicro <= @const.MAX_ESCROW_MICRO && @newData.turnaroundDays >= 1 && @newData.turnaroundDays <= 90 && @StringUtils.length(@newData.title) >= 3 && @StringUtils.length(@newData.title) <= 80 && @StringUtils.length(@newData.publisher) >= 1 && @StringUtils.length(@newData.publisher) <= 80 && @StringUtils.length(@newData.description) >= 1 && @StringUtils.length(@newData.description) <= 1000 && @StringUtils.length(@newData.deliverables) >= 1 && @StringUtils.length(@newData.deliverables) <= 500 && @StringUtils.length(@newData.category) >= 1 && @StringUtils.length(@newData.category) <= 50 && @StringUtils.length(@newData.channel) >= 1 && @StringUtils.length(@newData.channel) <= 100 && @StringUtils.length(@newData.audience) >= 1 && @StringUtils.length(@newData.audience) <= 250 && (@newData.xHandle == null || (@StringUtils.length(@newData.xHandle) >= 0 && @StringUtils.length(@newData.xHandle) <= 15)) && (@newData.xPostUrl == null || (@StringUtils.length(@newData.xPostUrl) >= 0 && @StringUtils.length(@newData.xPostUrl) <= 200)) && (@newData.imageUrl == null || (@StringUtils.length(@newData.imageUrl) >= 8 && @StringUtils.length(@newData.imageUrl) <= 2048)) && (@newData.kind == null || @newData.kind == 'placement' || @newData.kind == 'service') && (@newData.eventId == null || (@StringUtils.length(@newData.eventId) >= 0 && @StringUtils.length(@newData.eventId) <= 80)) && (@newData.eventName == null || (@StringUtils.length(@newData.eventName) >= 0 && @StringUtils.length(@newData.eventName) <= 120)) && (@newData.clothingDetails == null || (@StringUtils.length(@newData.clothingDetails) >= 0 && @StringUtils.length(@newData.clothingDetails) <= 500)) && (@newData.capacity == null || (@newData.capacity >= 1 && @newData.capacity <= 100)) && (@newData.clothingSource == null || @newData.clothingSource == 'sponsor' || @newData.clothingSource == 'creator' || @newData.clothingSource == 'existing') && ((@newData.startsAt == null && @newData.endsAt == null) || (@newData.startsAt > 0 && @newData.endsAt >= @newData.startsAt && @newData.endsAt <= @newData.startsAt + @const.MAX_CAMPAIGN_SECONDS)) && (@newData.supplyBy == null || (@newData.startsAt != null && @newData.supplyBy > 0 && @newData.supplyBy <= @newData.startsAt)) && (@newData.sponsorship != true || ((@newData.kind == null || @newData.kind == 'placement') && @newData.eventId != null && @newData.eventName != null && @newData.startsAt != null && @newData.endsAt != null && @newData.capacity != null && @StringUtils.length(@newData.eventId) > 0 && @StringUtils.length(@newData.eventName) > 0)) && (@newData.attendingEvent != true || ((@newData.kind == null || @newData.kind == 'placement') && @newData.eventId != null && @newData.eventName != null && @StringUtils.length(@newData.eventId) > 0 && @StringUtils.length(@newData.eventName) > 0 && @newData.startsAt != null && @newData.endsAt != null)) && @newData.editVersion == @data.editVersion && @newData.reserved == null",
+      "delete": "false"
+    }
+  },
+  "bookingOffers/$listingId": {
+    "description": "Authoritative wallet-owned booking terms. The offchain listing is descriptive; these terms and derived funded/non-refunded count govern linked escrows. listingOwner is descriptive identity, not authorization.",
+    "onchain": true,
+    "tier": "durable",
+    "fields": {
+      "seller": "Address!",
+      "listingOwner": "String!",
+      "title": "String",
+      "channel": "String",
+      "deliverables": "String",
+      "priceMicro": "UInt",
+      "kind": "String?",
+      "active": "Bool",
+      "createdAt": "UInt!",
+      "sponsorship": "Bool?",
+      "eventId": "String?",
+      "eventName": "String?",
+      "startsAt": "UInt?",
+      "endsAt": "UInt?",
+      "capacity": "UInt?",
+      "clothingSource": "String?",
+      "clothingDetails": "String?",
+      "supplyBy": "UInt?",
+      "reserved": "UInt?",
+      "everFunded": "Bool?",
+      "deleted": "Bool?"
+    },
+    "rules": {
+      "read": "true",
+      "create": "@user.address != null && @newData.seller == @user.address && @newData.seller != @const.ADMIN_WALLET && @StringUtils.length($listingId) >= 1 && @StringUtils.length($listingId) <= 80 && @StringUtils.length(@newData.listingOwner) >= 1 && @StringUtils.length(@newData.listingOwner) <= 128 && @StringUtils.length(@newData.title) >= 3 && @StringUtils.length(@newData.title) <= 80 && @StringUtils.length(@newData.channel) >= 1 && @StringUtils.length(@newData.channel) <= 100 && @StringUtils.length(@newData.deliverables) >= 1 && @StringUtils.length(@newData.deliverables) <= 500 && @newData.priceMicro > 0 && @newData.priceMicro <= @const.MAX_ESCROW_MICRO && @newData.createdAt <= @time.now && @newData.createdAt + 60 >= @time.now && @newData.reserved == null && @newData.everFunded == null && @newData.deleted != true && (@newData.kind == null || @newData.kind == 'placement' || @newData.kind == 'service') && (@newData.eventId == null || (@StringUtils.length(@newData.eventId) >= 0 && @StringUtils.length(@newData.eventId) <= 80)) && (@newData.eventName == null || (@StringUtils.length(@newData.eventName) >= 0 && @StringUtils.length(@newData.eventName) <= 120)) && (@newData.clothingDetails == null || (@StringUtils.length(@newData.clothingDetails) >= 0 && @StringUtils.length(@newData.clothingDetails) <= 500)) && (@newData.capacity == null || (@newData.capacity >= 1 && @newData.capacity <= 100)) && (@newData.clothingSource == null || @newData.clothingSource == 'sponsor' || @newData.clothingSource == 'creator' || @newData.clothingSource == 'existing') && ((@newData.startsAt == null && @newData.endsAt == null) || (@newData.startsAt > 0 && @newData.endsAt >= @newData.startsAt && @newData.endsAt <= @newData.startsAt + @const.MAX_CAMPAIGN_SECONDS)) && (@newData.supplyBy == null || (@newData.startsAt != null && @newData.supplyBy > 0 && @newData.supplyBy <= @newData.startsAt)) && (@newData.sponsorship != true || ((@newData.kind == null || @newData.kind == 'placement') && @newData.eventId != null && @newData.eventName != null && @newData.startsAt != null && @newData.endsAt != null && @newData.capacity != null && @StringUtils.length(@newData.eventId) > 0 && @StringUtils.length(@newData.eventName) > 0))",
+      "update": "@user.address != null && ((@user.address == @data.seller && ((@newData.title == @data.title && @newData.channel == @data.channel && @newData.deliverables == @data.deliverables && @newData.priceMicro == @data.priceMicro && @newData.kind == @data.kind && @newData.sponsorship == @data.sponsorship && @newData.eventId == @data.eventId && @newData.eventName == @data.eventName && @newData.startsAt == @data.startsAt && @newData.endsAt == @data.endsAt && @newData.capacity == @data.capacity && @newData.clothingSource == @data.clothingSource && @newData.clothingDetails == @data.clothingDetails && @newData.supplyBy == @data.supplyBy) || (@data.everFunded == false && @data.active == false && @newData.active == false && @data.deleted != true && @newData.deleted != true))) || (@user.address == @const.ADMIN_WALLET && @newData.deleted == true && @newData.active == false && @newData.title == @data.title && @newData.channel == @data.channel && @newData.deliverables == @data.deliverables && @newData.priceMicro == @data.priceMicro && @newData.kind == @data.kind && @newData.sponsorship == @data.sponsorship && @newData.eventId == @data.eventId && @newData.eventName == @data.eventName && @newData.startsAt == @data.startsAt && @newData.endsAt == @data.endsAt && @newData.capacity == @data.capacity && @newData.clothingSource == @data.clothingSource && @newData.clothingDetails == @data.clothingDetails && @newData.supplyBy == @data.supplyBy)) && (@data.deleted != true || @newData.deleted == true) && (@newData.deleted != true || @newData.active == false) && @newData.seller == @data.seller && @newData.listingOwner == @data.listingOwner && @newData.createdAt == @data.createdAt && @newData.reserved == @data.reserved && @newData.everFunded == @data.everFunded && @StringUtils.length(@newData.title) >= 3 && @StringUtils.length(@newData.title) <= 80 && @StringUtils.length(@newData.channel) >= 1 && @StringUtils.length(@newData.channel) <= 100 && @StringUtils.length(@newData.deliverables) >= 1 && @StringUtils.length(@newData.deliverables) <= 500 && @newData.priceMicro > 0 && @newData.priceMicro <= @const.MAX_ESCROW_MICRO && (@newData.capacity == null || @data.reserved == null || @newData.capacity >= @data.reserved) && (@newData.kind == null || @newData.kind == 'placement' || @newData.kind == 'service') && (@newData.eventId == null || (@StringUtils.length(@newData.eventId) >= 0 && @StringUtils.length(@newData.eventId) <= 80)) && (@newData.eventName == null || (@StringUtils.length(@newData.eventName) >= 0 && @StringUtils.length(@newData.eventName) <= 120)) && (@newData.clothingDetails == null || (@StringUtils.length(@newData.clothingDetails) >= 0 && @StringUtils.length(@newData.clothingDetails) <= 500)) && (@newData.capacity == null || (@newData.capacity >= 1 && @newData.capacity <= 100)) && (@newData.clothingSource == null || @newData.clothingSource == 'sponsor' || @newData.clothingSource == 'creator' || @newData.clothingSource == 'existing') && ((@newData.startsAt == null && @newData.endsAt == null) || (@newData.startsAt > 0 && @newData.endsAt >= @newData.startsAt && @newData.endsAt <= @newData.startsAt + @const.MAX_CAMPAIGN_SECONDS)) && (@newData.supplyBy == null || (@newData.startsAt != null && @newData.supplyBy > 0 && @newData.supplyBy <= @newData.startsAt)) && (@newData.sponsorship != true || ((@newData.kind == null || @newData.kind == 'placement') && @newData.eventId != null && @newData.eventName != null && @newData.startsAt != null && @newData.endsAt != null && @newData.capacity != null && @StringUtils.length(@newData.eventId) > 0 && @StringUtils.length(@newData.eventName) > 0))",
+      "delete": "false"
+    },
+    "hooks": {
+      "onchain": {
+        "create": "@DocumentPlugin.updateField(/bookingOffers/$listingId, 'reserved', 0) && @DocumentPlugin.updateField(/bookingOffers/$listingId, 'everFunded', false)"
+      }
+    }
+  },
+  "listingImages/$userId/files/$fileId": {
+    "description": "An authenticated account can upload files only in its own namespace. Public serving requires trusted persisted JPEG/PNG/WebP/AVIF metadata and 1 byte through 5 MiB. Valid images are immutable; the owner may delete invalid unreadable uploads. Browser validation limits uploads before admission; policy controls public serving.",
+    "type": "storage",
+    "tier": "durable",
+    "fields": {
+      "size": "UInt",
+      "contentType": "String"
+    },
+    "rules": {
+      "read": "@data.size > 0 && @data.size <= 5242880 && (@data.contentType == 'image/jpeg' || @data.contentType == 'image/png' || @data.contentType == 'image/webp' || @data.contentType == 'image/avif')",
+      "create": "(get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @user.id != null && $userId == @user.id",
+      "update": "false",
+      "delete": "@user.id != null && $userId == @user.id && (@data.size == null || @data.size <= 0 || @data.size > 5242880 || @data.contentType == null || (@data.contentType != 'image/jpeg' && @data.contentType != 'image/png' && @data.contentType != 'image/webp' && @data.contentType != 'image/avif'))"
+    }
+  },
+  "dealMailPrefs/$wallet": {
+    "description": "A user's choice to get deal emails, keyed by their wallet (the address sponsorDeals names). Only the signed-in owner of that wallet can set it, and only to their own verified sign-in email. Private: readable by its owner and the AdPad agent, whose deal mailer sends the emails.",
+    "tier": "durable",
+    "fields": {
+      "owner": "String!",
+      "email": "String",
+      "on": "Bool",
+      "updatedAt": "UInt"
+    },
+    "rules": {
+      "read": "(@user.id != null && @user.id == @data.owner) || @user.id == @const.AGENT_ADDRESS || @user.address == @const.AGENT_ADDRESS",
+      "create": "(get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @user.id != null && @user.address != null && @user.address == $wallet && @user.email != null && @newData.owner == @user.id && @newData.email == @user.email",
+      "update": "(get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @user.id != null && @user.id == @data.owner && @user.address == $wallet && @user.email != null && @newData.email == @user.email",
+      "delete": "@user.id != null && @user.id == @data.owner"
+    }
+  },
+  "dealMailLog/$dealId": {
+    "description": "The deal mailer's own note of the last deal status it emailed about, so each change is emailed once. Only the AdPad agent reads or writes it.",
+    "tier": "durable",
+    "fields": {
+      "lastStatus": "String!",
+      "attempts": "UInt",
+      "updatedAt": "UInt",
+      "lastError": "String?"
+    },
+    "rules": {
+      "read": "@user.id == @const.AGENT_ADDRESS || @user.address == @const.AGENT_ADDRESS",
+      "create": "@user.id != null && (@user.id == @const.AGENT_ADDRESS || @user.address == @const.AGENT_ADDRESS)",
+      "update": "@user.id != null && (@user.id == @const.AGENT_ADDRESS || @user.address == @const.AGENT_ADDRESS)",
+      "delete": "@user.id != null && (@user.id == @const.AGENT_ADDRESS || @user.address == @const.AGENT_ADDRESS)"
+    },
+    "schedule": {
+      "every": "5m",
+      "run": "dealMailer"
+    }
+  },
+  "dealEscrows/$escrowId": {
+    "description": "AdPad's own escrow for one sponsor booking: one USDC account per escrow, at a public address (getEscrowAddress). The sponsor's wallet locks the money, with or without a creator named yet. The sponsor can take it back until the creator accepts, and can pay the creator at any time; the creator can return it at any time. Either side can dispute after the creator accepts, and only AdPad's agent (AGENT_ADDRESS) decides a dispute. Undisputed money goes back to the sponsor after expiresAt, and an undecided dispute does after ESCROW_DISPUTE_FALLBACK_SECONDS more. ref is the sponsorDeals id. Every change happens through a single-use action under escrows actions.",
+    "onchain": true,
+    "tier": "durable",
+    "fields": {
+      "funder": "Address!",
+      "payee": "Address?",
+      "amountUsdc": "UInt!",
+      "expiresAt": "UInt!",
+      "ref": "String!",
+      "createdAt": "UInt!",
+      "status": "String",
+      "version": "UInt",
+      "fundedAt": "UInt?",
+      "acceptedAt": "UInt?",
+      "disputedAt": "UInt?",
+      "disputedBy": "Address?",
+      "disputeReason": "String?",
+      "settledAt": "UInt?",
+      "settledKind": "String?",
+      "settledBy": "Address?"
+    },
+    "rules": {
+      "read": "true",
+      "create": "@user.address != null && @newData.funder == @user.address && @newData.funder != @const.AGENT_ADDRESS && (@newData.payee == null || (@newData.payee != @newData.funder && @newData.payee != @const.AGENT_ADDRESS)) && @StringUtils.length($escrowId) == 32 && @newData.amountUsdc >= @const.ESCROW_MIN_USDC && @newData.amountUsdc <= @const.ESCROW_MAX_USDC && @newData.createdAt <= @time.now && @newData.createdAt + 60 >= @time.now && @newData.expiresAt >= @time.now + 3600 && @newData.expiresAt <= @time.now + @const.MAX_CAMPAIGN_SECONDS && @StringUtils.length(@newData.ref) >= 1 && @StringUtils.length(@newData.ref) <= 128 && @newData.status == 'unfunded' && @newData.version == 0 && @newData.fundedAt == null && @newData.acceptedAt == null && @newData.disputedAt == null && @newData.disputedBy == null && @newData.disputeReason == null && @newData.settledAt == null && @newData.settledKind == null && @newData.settledBy == null",
+      "update": "false",
+      "delete": "false"
+    },
+    "queries": {
+      "getEscrowAddress": {
+        "description": "The public Solana address of this escrow's USDC account. Display only; never sign with it.",
+        "returnType": "Address",
+        "query": "@AccountPlugin.getAccountAddress($escrowId)"
+      },
+      "getEscrowBalance": {
+        "description": "USDC (6 decimals) held in this escrow's account.",
+        "returnType": "Int",
+        "query": "@TokenPlugin.getBalance($escrowId, @TokenPlugin.USDC)"
+      }
+    }
+  },
+  "dealEscrows/$escrowId/actions/$actionId": {
+    "description": "Single-use escrow actions. expectedVersion makes each one count once; a failed attempt is retried with a fresh action id. action is one of fund, assign, accept, withdraw, release, refund, dispute, resolve, expire, fallback. Actions do not ring the agent; the app follows each with an escrow_changed or dispute_sent dealRequest.",
+    "onchain": true,
+    "tier": "durable",
+    "fields": {
+      "action": "String!",
+      "actor": "Address!",
+      "expectedVersion": "UInt!",
+      "at": "UInt!",
+      "payee": "Address!?",
+      "outcome": "String!?",
+      "reason": "String!?",
+      "completed": "Bool?"
+    },
+    "rules": {
+      "read": "true",
+      "create": "@def.escrow_actionAllowed",
+      "update": "false",
+      "delete": "false"
+    },
+    "hooks": {
+      "onchain": {
+        "create": "@def.escrow_hookAllowed && ((@newData.action == 'fund' && @AccountPlugin.createAccount($escrowId) && @TokenPlugin.transfer(@user.address, $escrowId, @TokenPlugin.USDC, get(/dealEscrows/$escrowId).amountUsdc) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'status', 'locked') && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'fundedAt', @newData.at)) || (@newData.action == 'assign' && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'payee', @newData.payee)) || (@newData.action == 'accept' && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'status', 'accepted') && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'acceptedAt', @newData.at)) || (@newData.action == 'withdraw' && @TokenPlugin.transfer($escrowId, get(/dealEscrows/$escrowId).funder, @TokenPlugin.USDC, get(/dealEscrows/$escrowId).amountUsdc) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'status', 'refunded') && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledKind', @newData.action) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledAt', @newData.at) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledBy', @user.address)) || (@newData.action == 'release' && @TokenPlugin.transfer($escrowId, get(/dealEscrows/$escrowId).payee, @TokenPlugin.USDC, get(/dealEscrows/$escrowId).amountUsdc) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'status', 'released') && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledKind', @newData.action) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledAt', @newData.at) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledBy', @user.address)) || (@newData.action == 'refund' && @TokenPlugin.transfer($escrowId, get(/dealEscrows/$escrowId).funder, @TokenPlugin.USDC, get(/dealEscrows/$escrowId).amountUsdc) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'status', 'refunded') && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledKind', @newData.action) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledAt', @newData.at) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledBy', @user.address)) || (@newData.action == 'dispute' && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'status', 'disputed') && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'disputedAt', @newData.at) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'disputedBy', @user.address) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'disputeReason', @newData.reason)) || (@newData.action == 'resolve' && ((@newData.outcome == 'release' && @TokenPlugin.transfer($escrowId, get(/dealEscrows/$escrowId).payee, @TokenPlugin.USDC, get(/dealEscrows/$escrowId).amountUsdc) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'status', 'released') && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledKind', @newData.action) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledAt', @newData.at) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledBy', @user.address)) || (@newData.outcome == 'refund' && @TokenPlugin.transfer($escrowId, get(/dealEscrows/$escrowId).funder, @TokenPlugin.USDC, get(/dealEscrows/$escrowId).amountUsdc) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'status', 'refunded') && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledKind', @newData.action) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledAt', @newData.at) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledBy', @user.address)))) || (@newData.action == 'expire' && @TokenPlugin.transfer($escrowId, get(/dealEscrows/$escrowId).funder, @TokenPlugin.USDC, get(/dealEscrows/$escrowId).amountUsdc) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'status', 'refunded') && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledKind', @newData.action) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledAt', @newData.at) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledBy', @user.address)) || (@newData.action == 'fallback' && @TokenPlugin.transfer($escrowId, get(/dealEscrows/$escrowId).funder, @TokenPlugin.USDC, get(/dealEscrows/$escrowId).amountUsdc) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'status', 'refunded') && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledKind', @newData.action) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledAt', @newData.at) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'settledBy', @user.address))) && @DocumentPlugin.updateField(/dealEscrows/$escrowId, 'version', get(/dealEscrows/$escrowId).version + 1) && @DocumentPlugin.updateField(/dealEscrows/$escrowId/actions/$actionId, 'completed', true)"
+      }
+    }
+  },
+  "sponsorCalls/$callId": {
+    "description": "A sponsor's call for creators: what they want promoted, where and by when, with the USDC locked in AdPad's escrow (dealEscrows) before any creator is named. The escrow is created first with no payee and the id of the booking a pick will create as its ref; the call opens once that escrow is locked. Creators respond under responses; the sponsor assigns the escrow to one of them and creates that booking (sponsorDeals, with this call's id as listingId), which then runs as any booking. The sponsor closes the call after taking the USDC back. Calls are public; they ring nobody, the resulting booking rings the agent. See docs/calls.md.",
+    "tier": "durable",
+    "fields": {
+      "sponsor": "Address!",
+      "sponsorId": "String!",
+      "verifiedXHandle": "String!",
+      "verifiedXId": "String!",
+      "title": "String!",
+      "brief": "String!",
+      "category": "String!",
+      "where": "String?",
+      "amountUsdc": "UInt!",
+      "deadline": "UInt!",
+      "expiresAt": "UInt!",
+      "escrowId": "String!",
+      "dealId": "String!",
+      "status": "String",
+      "creator": "Address?",
+      "createdAt": "UInt!",
+      "updatedAt": "UInt?"
+    },
+    "rules": {
+      "read": "true",
+      "create": "(get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @user.id != null && @user.address != null && @user.address != @const.AGENT_ADDRESS && @user.id != @const.AGENT_ADDRESS && @newData.sponsor == @user.address && @newData.sponsorId == @user.id && @newData.verifiedXId == get(/__connections__/@user.id).xId && @newData.verifiedXHandle == get(/__connections__/@user.id).xHandle && @StringUtils.length($callId) == 37 && @StringUtils.length(@newData.dealId) == 37 && @StringUtils.length(@newData.escrowId) == 32 && @StringUtils.length(@newData.title) >= 3 && @StringUtils.length(@newData.title) <= 120 && @StringUtils.length(@newData.brief) >= 10 && @StringUtils.length(@newData.brief) <= 500 && @StringUtils.length(@newData.category) >= 1 && @StringUtils.length(@newData.category) <= 40 && (@newData.where == null || @StringUtils.length(@newData.where) <= 80) && @newData.amountUsdc >= @const.ESCROW_MIN_USDC && @newData.amountUsdc <= @const.ESCROW_MAX_USDC && @newData.deadline >= @time.now + 3600 && @newData.deadline <= @newData.expiresAt && @newData.status == 'funding' && @newData.creator == null && @newData.updatedAt == null && @newData.createdAt <= @time.now && @newData.createdAt + 60 >= @time.now && get(/sponsorDeals/@newData.dealId) == null && @def.call_escrowMatches",
+      "update": "@user.address != null && @newData.sponsor == @data.sponsor && @newData.sponsorId == @data.sponsorId && @newData.verifiedXHandle == @data.verifiedXHandle && @newData.verifiedXId == @data.verifiedXId && @newData.title == @data.title && @newData.brief == @data.brief && @newData.category == @data.category && @newData.where == @data.where && @newData.amountUsdc == @data.amountUsdc && @newData.deadline == @data.deadline && @newData.expiresAt == @data.expiresAt && @newData.escrowId == @data.escrowId && @newData.dealId == @data.dealId && @newData.createdAt == @data.createdAt && @newData.updatedAt <= @time.now && @newData.updatedAt + 60 >= @time.now && ((@user.address == @data.sponsor && @data.status == 'funding' && @newData.status == 'open' && @newData.creator == null && get(/dealEscrows/@data.escrowId).status == 'locked' && get(/dealEscrows/@data.escrowId).payee == null) || ((get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @user.address == @data.sponsor && @data.status == 'open' && @newData.status == 'picked' && @newData.creator != null && get(/sponsorCalls/$callId/responses/@newData.creator) != null && get(/dealEscrows/@data.escrowId).payee == @newData.creator && get(/sponsorDeals/@data.dealId) != null && get(/sponsorDeals/@data.dealId).creator == @newData.creator && get(/sponsorDeals/@data.dealId).escrowId == @data.escrowId) || ((@user.address == @data.sponsor || (@user.address == @const.AGENT_ADDRESS || @user.id == @const.AGENT_ADDRESS)) && (@data.status == 'funding' || @data.status == 'open') && @newData.status == 'closed' && @newData.creator == null && (get(/dealEscrows/@data.escrowId).status == 'refunded' || get(/dealEscrows/@data.escrowId).status == 'unfunded')))",
+      "delete": "false"
+    }
+  },
+  "sponsorCalls/$callId/responses/$responder": {
+    "description": "A creator's response to a sponsor call, keyed by the responder's wallet: a short pitch and an optional link. Only the responder and the call's sponsor read it. A creator responds while the call is open and before its deadline, never to their own call, and may withdraw the response until the sponsor picks.",
+    "tier": "durable",
+    "fields": {
+      "responder": "Address!",
+      "responderId": "String!",
+      "verifiedXHandle": "String!",
+      "verifiedXId": "String!",
+      "pitch": "String!",
+      "link": "String?",
+      "createdAt": "UInt!"
+    },
+    "rules": {
+      "read": "(@user.address != null && (@user.address == $responder || @user.address == get(/sponsorCalls/$callId).sponsor)) || (@user.address == @const.AGENT_ADDRESS || @user.id == @const.AGENT_ADDRESS)",
+      "create": "(get(/__connections__/@user.id) != null && get(/__connections__/@user.id).xId != null) && @user.id != null && @user.address != null && @user.address != @const.AGENT_ADDRESS && $responder == @user.address && @newData.responder == @user.address && @newData.responderId == @user.id && @newData.verifiedXId == get(/__connections__/@user.id).xId && @newData.verifiedXHandle == get(/__connections__/@user.id).xHandle && get(/sponsorCalls/$callId) != null && get(/sponsorCalls/$callId).status == 'open' && get(/sponsorCalls/$callId).sponsor != @user.address && @time.now < get(/sponsorCalls/$callId).deadline && @StringUtils.length(@newData.pitch) >= 10 && @StringUtils.length(@newData.pitch) <= 500 && (@newData.link == null || (@StringUtils.length(@newData.link) >= 8 && @StringUtils.length(@newData.link) <= 300)) && @newData.createdAt <= @time.now && @newData.createdAt + 60 >= @time.now",
+      "update": "false",
+      "delete": "@user.address != null && @user.address == $responder && get(/sponsorCalls/$callId) != null && get(/sponsorCalls/$callId).status == 'open'"
+    }
+  }
+}

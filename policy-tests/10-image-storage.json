@@ -1,0 +1,235 @@
+{
+  "version": "1",
+  "name": "Image uploads require account ownership; only persisted image MIME and 1 byte through 5 MiB metadata is publicly readable; bytes remain immutable",
+  "actors": {
+    "Owner": { "id": "acct_image_owner", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "x": { "id": "9001", "handle": "owner" } },
+    "Other": { "id": "acct_image_other", "address": "So11111111111111111111111111111111111111112", "x": { "id": "9002", "handle": "other" } }
+  },
+  "steps": [
+    {
+      "op": "setTime",
+      "epoch": 1800000000
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/anonymous",
+      "data": {
+        "contentType": "image/png",
+        "size": 1024
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Owner"
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/png",
+      "data": {
+        "contentType": "image/png",
+        "size": 1024
+      }
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/jpeg",
+      "data": {
+        "contentType": "image/jpeg",
+        "size": 1024
+      }
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/webp",
+      "data": {
+        "contentType": "image/webp",
+        "size": 1024
+      }
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/avif",
+      "data": {
+        "contentType": "image/avif",
+        "size": 5242880
+      }
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/oversize",
+      "data": {
+        "contentType": "image/png",
+        "size": 5242881
+      }
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/empty",
+      "data": {
+        "contentType": "image/png",
+        "size": 0
+      }
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/svg",
+      "data": {
+        "contentType": "image/svg+xml",
+        "size": 1024
+      }
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/gif",
+      "data": {
+        "contentType": "image/gif",
+        "size": 1024
+      }
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/html",
+      "data": {
+        "contentType": "text/html",
+        "size": 1024
+      }
+    },
+    {
+      "op": "as",
+      "who": "Other"
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listingImages/acct_image_owner/files/png).size > 0 && get(/listingImages/acct_image_owner/files/png).size <= 5242880 && (get(/listingImages/acct_image_owner/files/png).contentType == 'image/jpeg' || get(/listingImages/acct_image_owner/files/png).contentType == 'image/png' || get(/listingImages/acct_image_owner/files/png).contentType == 'image/webp' || get(/listingImages/acct_image_owner/files/png).contentType == 'image/avif')"
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listingImages/acct_image_owner/files/jpeg).size > 0 && get(/listingImages/acct_image_owner/files/jpeg).size <= 5242880 && (get(/listingImages/acct_image_owner/files/jpeg).contentType == 'image/jpeg' || get(/listingImages/acct_image_owner/files/jpeg).contentType == 'image/png' || get(/listingImages/acct_image_owner/files/jpeg).contentType == 'image/webp' || get(/listingImages/acct_image_owner/files/jpeg).contentType == 'image/avif')"
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listingImages/acct_image_owner/files/webp).size > 0 && get(/listingImages/acct_image_owner/files/webp).size <= 5242880 && (get(/listingImages/acct_image_owner/files/webp).contentType == 'image/jpeg' || get(/listingImages/acct_image_owner/files/webp).contentType == 'image/png' || get(/listingImages/acct_image_owner/files/webp).contentType == 'image/webp' || get(/listingImages/acct_image_owner/files/webp).contentType == 'image/avif')"
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listingImages/acct_image_owner/files/avif).size > 0 && get(/listingImages/acct_image_owner/files/avif).size <= 5242880 && (get(/listingImages/acct_image_owner/files/avif).contentType == 'image/jpeg' || get(/listingImages/acct_image_owner/files/avif).contentType == 'image/png' || get(/listingImages/acct_image_owner/files/avif).contentType == 'image/webp' || get(/listingImages/acct_image_owner/files/avif).contentType == 'image/avif')"
+    },
+    {
+      "op": "expect",
+      "not": "get(/listingImages/acct_image_owner/files/oversize).size > 0 && get(/listingImages/acct_image_owner/files/oversize).size <= 5242880 && (get(/listingImages/acct_image_owner/files/oversize).contentType == 'image/jpeg' || get(/listingImages/acct_image_owner/files/oversize).contentType == 'image/png' || get(/listingImages/acct_image_owner/files/oversize).contentType == 'image/webp' || get(/listingImages/acct_image_owner/files/oversize).contentType == 'image/avif')"
+    },
+    {
+      "op": "expect",
+      "not": "get(/listingImages/acct_image_owner/files/empty).size > 0 && get(/listingImages/acct_image_owner/files/empty).size <= 5242880 && (get(/listingImages/acct_image_owner/files/empty).contentType == 'image/jpeg' || get(/listingImages/acct_image_owner/files/empty).contentType == 'image/png' || get(/listingImages/acct_image_owner/files/empty).contentType == 'image/webp' || get(/listingImages/acct_image_owner/files/empty).contentType == 'image/avif')"
+    },
+    {
+      "op": "expect",
+      "not": "get(/listingImages/acct_image_owner/files/svg).size > 0 && get(/listingImages/acct_image_owner/files/svg).size <= 5242880 && (get(/listingImages/acct_image_owner/files/svg).contentType == 'image/jpeg' || get(/listingImages/acct_image_owner/files/svg).contentType == 'image/png' || get(/listingImages/acct_image_owner/files/svg).contentType == 'image/webp' || get(/listingImages/acct_image_owner/files/svg).contentType == 'image/avif')"
+    },
+    {
+      "op": "expect",
+      "not": "get(/listingImages/acct_image_owner/files/gif).size > 0 && get(/listingImages/acct_image_owner/files/gif).size <= 5242880 && (get(/listingImages/acct_image_owner/files/gif).contentType == 'image/jpeg' || get(/listingImages/acct_image_owner/files/gif).contentType == 'image/png' || get(/listingImages/acct_image_owner/files/gif).contentType == 'image/webp' || get(/listingImages/acct_image_owner/files/gif).contentType == 'image/avif')"
+    },
+    {
+      "op": "expect",
+      "not": "get(/listingImages/acct_image_owner/files/html).size > 0 && get(/listingImages/acct_image_owner/files/html).size <= 5242880 && (get(/listingImages/acct_image_owner/files/html).contentType == 'image/jpeg' || get(/listingImages/acct_image_owner/files/html).contentType == 'image/png' || get(/listingImages/acct_image_owner/files/html).contentType == 'image/webp' || get(/listingImages/acct_image_owner/files/html).contentType == 'image/avif')"
+    },
+    {
+      "op": "as",
+      "who": "Owner"
+    },
+    {
+      "op": "set",
+      "path": "listingImages/TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA/files/wallet_is_not_account",
+      "data": {
+        "contentType": "image/png",
+        "size": 1024
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Other"
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/other_owner",
+      "data": {
+        "contentType": "image/png",
+        "size": 1024
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listingImages/acct_image_owner/files/png).size == 1024"
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/png",
+      "data": {
+        "contentType": "image/png",
+        "size": 2048
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "delete",
+      "path": "listingImages/acct_image_owner/files/png",
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Owner"
+    },
+    {
+      "op": "set",
+      "path": "listingImages/acct_image_owner/files/png",
+      "data": {
+        "contentType": "image/png",
+        "size": 2048
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "delete",
+      "path": "listingImages/acct_image_owner/files/png",
+      "shouldFail": true
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listingImages/acct_image_owner/files/png).size == 1024 && get(/listingImages/acct_image_owner/files/png).contentType == 'image/png'"
+    },
+    {
+      "op": "as",
+      "who": "Other"
+    },
+    {
+      "op": "delete",
+      "path": "listingImages/acct_image_owner/files/svg",
+      "shouldFail": true
+    },
+    {
+      "op": "delete",
+      "path": "listingImages/acct_image_owner/files/oversize",
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Owner"
+    },
+    {
+      "op": "delete",
+      "path": "listingImages/acct_image_owner/files/svg"
+    },
+    {
+      "op": "delete",
+      "path": "listingImages/acct_image_owner/files/oversize"
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listingImages/acct_image_owner/files/svg) == null && get(/listingImages/acct_image_owner/files/oversize) == null"
+    }
+  ]
+}

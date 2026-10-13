@@ -1,0 +1,45 @@
+/* Launch pass: one browse page, For creators page, action badges, wallet send. */
+
+/* Type filter chips on the browse toolbar (same look as category-tabs). */
+.type-tabs { display: flex; align-items: center; gap: 7px; padding: 14px 0 0; flex-wrap: wrap; }
+.type-tabs button { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 15px; border: 1px solid var(--line); background: none; padding: 10px 13px; white-space: nowrap; font-weight: 500; min-height: 36px; }
+.type-tabs button.selected { background: var(--ink); border-color: var(--ink); color: var(--lime); }
+.type-tabs button:hover:not(.selected) { background: #e9ecde; border-color: #b8c19f; }
+.marketplace-toolbar .category-tabs { padding-top: 8px; }
+
+/* Unread/action badge: small lime pill next to a menu entry. */
+.nav-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--lime); color: var(--ink); font-size: 13px; font-weight: 650; line-height: 1; margin-left: 8px; }
+.account-label .nav-badge { margin-left: 6px; margin-right: 2px; }
+.account-dropdown button { display: flex; align-items: center; justify-content: flex-start; }
+
+/* Wallet dialog: send USDC to your own address, inside the same dialog. */
+.wallet-send-block { display: flex; flex-direction: column; gap: 14px; }
+.wallet-send-block .button.secondary { align-self: flex-start; }
+
+/* For creators page. */
+.for-creators-page { max-width: 1680px; margin: 0 auto; padding: 53px var(--gutter) 60px; }
+.for-creators-page h1 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, 4.3vw, 62px); letter-spacing: -1px; line-height: 1.05; margin-top: 11px; }
+.for-creators-page > p { font-size: 17px; color: #535d49; line-height: 1.8; max-width: 640px; margin-top: 14px; }
+.for-creators-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 33px; }
+.for-creators-card { border: 1px solid var(--line); padding: 25px 27px; }
+.for-creators-card h2 { font-size: 22px; font-weight: 650; margin-bottom: 13px; }
+.for-creators-card ul, .for-creators-card ol { display: flex; flex-direction: column; gap: 9px; padding-left: 19px; font-size: 16px; line-height: 1.7; color: #535d49; }
+.for-creators-card p { font-size: 15px; color: #535d49; margin-top: 13px; }
+.for-creators-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 33px; }
+
+@media (max-width: 1000px) {
+  .for-creators-grid { grid-template-columns: 1fr; gap: 15px; }
+}
+
+@media (max-width: 760px) {
+  .type-tabs { flex-wrap: nowrap; overflow: auto; scrollbar-width: thin; padding-top: 0; }
+  .type-tabs button { font-size: 15px; padding: 9px 10px; min-height: 34px; flex-shrink: 0; }
+  .marketplace-toolbar .category-tabs { padding-top: 4px; }
+  .for-creators-page { padding-top: 38px; padding-bottom: 55px; }
+  .for-creators-page h1 { font-size: 44px; line-height: 1.08; }
+  .for-creators-page > p { font-size: 16px; }
+  .for-creators-card { padding: 22px; }
+  .for-creators-actions .button { font-size: 15px; flex: 1 1 200px; }
+  .nav-badge { min-width: 18px; height: 18px; font-size: 12px; }
+}
+

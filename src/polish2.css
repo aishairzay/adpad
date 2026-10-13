@@ -1,0 +1,29 @@
+/* Price rows pinned to the card bottom, whatever the title wraps to */
+.listing-grid>.listing-card{align-self:stretch}
+.listing-card .card-body{display:flex;flex-direction:column;flex:1 1 auto}
+.listing-card .card-bottom{margin-top:auto;padding-top:18px}
+.sp-offer-grid>.sp-card{display:flex;flex-direction:column}
+.sp-card>.sp-card-link{display:flex;flex-direction:column;flex:1 1 auto}
+.sp-card .sp-card-bottom{margin-top:auto;padding-top:21px}
+/* Create-listing and profile forms: one gap above every label */
+.creator-shared,.creator-offer-section,.offer-inline-details{display:flex;flex-direction:column;gap:22px}
+.creator-shared .field,.creator-offer-section .field,.offer-inline-details .field,.dialog-content>.field,.dialog-content>.form-row>.field{margin-top:0}
+.creator-offer-section .form-row,.offer-inline-details .form-row{row-gap:22px}
+.field>small{margin-top:6px;margin-bottom:0}
+.profile-image-uploader>label img{max-height:320px;object-fit:cover}
+/* Phone header: logo, account and Menu share one row; both actions live in the Menu */
+.nav-mobile-action{display:none}
+@media(max-width:760px){
+  .site-header .header-inner{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:10px}
+  .site-header .brand{grid-row:1;grid-column:1;min-width:0}
+  .site-header .header-actions{display:contents}
+  .site-header .header-actions>.nav-agent-button{display:none}
+  .site-header .header-actions>.connect-button,.site-header .header-actions>.account-menu{grid-row:1;grid-column:2;justify-self:end;width:auto;margin:0;min-height:40px}
+  .site-header .header-actions>.account-menu .account-trigger{min-height:40px;max-width:150px}
+  .site-header .nav-menu-button{grid-row:1;grid-column:3;margin:0}
+  .site-header .main-nav{grid-row:2;grid-column:1/-1;width:100%}
+  .main-nav .nav-how{height:auto;padding:12px 0;border-top:1px solid #cdd0c4;min-height:44px}
+  .main-nav .nav-mobile-action{display:flex;align-items:center;justify-content:flex-start;gap:8px;width:100%;min-height:46px;margin-top:8px;padding:10px 12px;border:1px solid var(--ink);background:var(--lime);font-size:15px;font-weight:600;color:var(--ink)}
+  .main-nav .nav-mobile-action+.nav-mobile-action{background:var(--ink);color:var(--paper)}
+}
+@media(max-width:380px){.site-header .header-actions>.account-menu .account-trigger{max-width:120px}.site-header .connect-button{padding:9px 10px}}

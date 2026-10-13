@@ -1,0 +1,16 @@
+# AdPad
+
+> A peer-to-peer marketplace for unconventional and guerrilla ad placements. Creators list a space (event booths, worn merch, X posts, street spots); sponsors book it and pay in USDC, held in an OpenApps escrow on Solana until the creator's public proof is checked.
+
+## Pages worth reading
+
+- [Home: browse listings](https://adpad.fyi/): live listings by creators, with price, format and past sponsored work.
+- [How payment works](https://adpad.fyi/how-it-works): where the USDC sits at every step: booking, creator accepts, escrow lock, proof, check, challenge window, payout.
+
+## How a deal works
+
+1. A sponsor books a listing with a brief and an amount.
+2. The creator accepts or declines the booking.
+3. The sponsor locks the USDC in escrow from their own wallet.
+4. The creator does the work and submits a public proof link.
+5. The AdPad agent compares the proof with the brief and approves a release or a refund. A disputed escrow is decided by the treasury owner, not the agent.

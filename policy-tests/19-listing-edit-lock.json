@@ -1,0 +1,286 @@
+{
+  "version": "1",
+  "name": "Editable listing and offer: terms change only through the closed edit flow, and derived flags are enforced",
+  "actors": {
+    "Buyer": { "id": "So11111111111111111111111111111111111111112", "address": "So11111111111111111111111111111111111111112", "x": { "id": "9001", "handle": "buyer" } },
+    "Seller": { "id": "seller_account", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "x": { "id": "9002", "handle": "seller" } },
+    "Other": { "id": "11111111111111111111111111111111", "address": "11111111111111111111111111111111", "x": { "id": "9003", "handle": "other" } },
+    "Admin": { "id": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "address": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "x": { "id": "9004", "handle": "admin" } }
+  },
+  "steps": [
+    {
+      "op": "setTime",
+      "epoch": 1800000000
+    },
+    {
+      "op": "mock",
+      "function": "@AccountPlugin.createAccount",
+      "returns": true
+    },
+    {
+      "op": "mock",
+      "function": "@TokenPlugin.transfer",
+      "returns": true
+    },
+    {
+      "op": "mock",
+      "function": "@TokenPlugin.getBalance",
+      "returns": 1000000000000
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200,
+        "everFunded": false
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200,
+        "everFunded": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "listingOwner": "seller_account",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/bookingOffers/edit_offer).everFunded == false && get(/bookingOffers/edit_offer).reserved == 0"
+    },
+    {
+      "op": "set",
+      "path": "listings/edit_offer",
+      "data": {
+        "seller": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "title": "Wear the sponsor shirt at the event",
+        "channel": "Event",
+        "deliverables": "Wear the shirt for the event and submit dated photos.",
+        "priceMicro": 50000000,
+        "kind": "placement",
+        "active": false,
+        "createdAt": 1800000000,
+        "sponsorship": true,
+        "eventId": "community_meetup",
+        "eventName": "Community meetup",
+        "startsAt": 1800086400,
+        "endsAt": 1800093600,
+        "capacity": 1,
+        "clothingSource": "sponsor",
+        "clothingDetails": "Sponsor supplies a size M shirt.",
+        "supplyBy": 1800043200,
+        "owner": "seller_account",
+        "publisher": "Editable creator",
+        "category": "Event",
+        "description": "Original descriptive listing.",
+        "audience": "Event attendees",
+        "turnaroundDays": 2,
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "everFunded": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "everFunded": null
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/edit_offer",
+      "data": {
+        "editVersion": null
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Buyer"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "title": "Unauthorized title"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/edit_offer",
+      "data": {
+        "description": "Unauthorized description"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "active": true
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "priceMicro": 60000000
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/edit_offer",
+      "data": {
+        "description": "Cannot edit while offer is open"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "active": false
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/edit_offer",
+      "data": {
+        "description": "Updated before sponsorship.",
+        "imageUrl": "https://example.com/new-image.webp",
+        "priceMicro": 60000000,
+        "title": "Updated event sponsorship"
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "priceMicro": 60000000,
+        "title": "Updated event sponsorship"
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "priceMicro": 70000000,
+        "active": true
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "active": true
+      }
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "active": false
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/edit_offer",
+      "data": {
+        "audience": "Updated before successful funding"
+      }
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/edit_offer",
+      "data": {
+        "active": true
+      }
+    }
+  ]
+}

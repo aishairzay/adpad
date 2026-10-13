@@ -1,0 +1,12 @@
+{
+  "$schema": "https://bounded.sh/schemas/bounded.schema.json",
+  "appId": "605ba9048f556bdd2b7ea18e",
+  "name": "ad-pad",
+  "environment": "production",
+  "protocol": "realtime_offchain",
+  "policy": "policy.json",
+  "sourcePush": true,
+  "account": {
+    "keySource": "web"
+  }
+}

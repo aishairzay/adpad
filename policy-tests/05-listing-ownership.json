@@ -1,0 +1,110 @@
+{
+  "version": "1",
+  "name": "Listing ownership uses account identity and seller wallet cannot be redirected",
+  "actors": {
+    "Buyer": { "id": "So11111111111111111111111111111111111111112", "address": "So11111111111111111111111111111111111111112", "x": { "id": "9001", "handle": "buyer" } },
+    "Seller": { "id": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA", "x": { "id": "9002", "handle": "seller" } },
+    "Mallory": { "id": "11111111111111111111111111111111", "address": "11111111111111111111111111111111", "x": { "id": "9003", "handle": "mallory" } },
+    "Admin": { "id": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "address": "2z4wE2an8YRR6w4AMT2EaBTygheSixBE5Cf2YZfdaj1X", "x": { "id": "9004", "handle": "admin" } }
+  },
+  "steps": [
+    {
+      "op": "setTime",
+      "epoch": 1800000000
+    },
+    {
+      "op": "mock",
+      "function": "@AccountPlugin.createAccount",
+      "returns": true
+    },
+    {
+      "op": "mock",
+      "function": "@TokenPlugin.transfer",
+      "returns": true
+    },
+    {
+      "op": "mock",
+      "function": "@TokenPlugin.getBalance",
+      "returns": 1000000000000
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "bookingOffers/newsletter",
+      "data": {
+        "seller": "$Seller",
+        "listingOwner": "$Seller",
+        "active": false,
+        "title": "Daily newsletter sponsorship",
+        "channel": "Email",
+        "deliverables": "One sponsored paragraph with one link.",
+        "priceMicro": 250000000,
+        "createdAt": 1800000000
+      }
+    },
+    {
+      "op": "set",
+      "path": "listings/newsletter",
+      "data": {
+        "owner": "$Seller",
+        "seller": "$Seller",
+        "title": "Daily newsletter sponsorship",
+        "category": "Newsletter",
+        "channel": "Email",
+        "description": "A sponsored placement in the newsletter.",
+        "deliverables": "One sponsored paragraph with one link.",
+        "audience": "25,000 subscribers",
+        "priceMicro": 250000000,
+        "turnaroundDays": 7,
+        "active": true,
+        "createdAt": 1800000000,
+        "publisher": "The Daily Independent",
+        "editVersion": 1
+      }
+    },
+    {
+      "op": "as",
+      "who": "Buyer"
+    },
+    {
+      "op": "set",
+      "path": "listings/newsletter",
+      "data": {
+        "priceMicro": 1
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "as",
+      "who": "Seller"
+    },
+    {
+      "op": "set",
+      "path": "listings/newsletter",
+      "data": {
+        "seller": "$Buyer"
+      },
+      "shouldFail": true
+    },
+    {
+      "op": "set",
+      "path": "listings/newsletter",
+      "data": {
+        "priceMicro": 300000000,
+        "active": false
+      }
+    },
+    {
+      "op": "expect",
+      "expr": "get(/listings/newsletter).priceMicro == 300000000 && get(/listings/newsletter).active == false && get(/listings/newsletter).seller == '$Seller'"
+    },
+    {
+      "op": "delete",
+      "path": "listings/newsletter",
+      "shouldFail": true
+    }
+  ]
+}

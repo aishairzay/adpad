@@ -1,0 +1,4 @@
+# Ad Pad — a public peer-to-peer ad marketplace. Every public page is indexable.
+User-agent: *
+Disallow: /__bounded/
+Sitemap: https://adpad-wugc.openapps.xyz/sitemap.xml

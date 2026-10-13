@@ -1,0 +1,229 @@
+{
+  "verifiedAt": "2026-09-21T13:00:08.552604+00:00",
+  "appId": "605ba9048f556bdd2b7ea18e",
+  "url": "https://ad-pad.bounded.page",
+  "versions": {
+    "cli": "0.0.136",
+    "clientServerCoreSdk": "0.0.100"
+  },
+  "network": "Poofnet / simulated USDC",
+  "applicationTests": {
+    "files": 6,
+    "passed": 73,
+    "failed": 0
+  },
+  "policyTests": {
+    "suites": 18,
+    "steps": 526,
+    "failed": 0
+  },
+  "policyVerification": {
+    "total": 118,
+    "proven": 112,
+    "failed": 0,
+    "unprovenAdvisories": 6,
+    "schemaFailures": 0,
+    "proofFailures": 0
+  },
+  "scope": {
+    "policyChanges": [
+      "listings/$listingId/fields/attendingEvent",
+      "listings/$listingId/rules/create attendance predicate",
+      "listings/$listingId/rules/update attendance predicate"
+    ],
+    "bookingAndEscrowRulesUnchanged": true
+  },
+  "backendDeploy": {
+    "action": "deployPolicy",
+    "app": {
+      "appId": "605ba9048f556bdd2b7ea18e",
+      "policyRevisionCount": 7,
+      "runtimePublicationRevision": 11,
+      "status": "available"
+    },
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "appLifecycle": "existing",
+    "controlPlane": "production",
+    "created": false,
+    "ok": true,
+    "policyDeployReceipt": {
+      "appId": "605ba9048f556bdd2b7ea18e",
+      "ok": true,
+      "operationId": "80c05403-331f-4b45-9326-97c7d8b71973",
+      "policyRevisionCount": 7,
+      "runtimePublicationRevision": 11,
+      "state": "committed",
+      "status": "available"
+    },
+    "sourceSync": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "state": "committed"
+  },
+  "backendInspection": {
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "controlPlane": "production",
+    "environment": "development",
+    "ok": true,
+    "protocol": "realtime_offchain",
+    "receipt": {
+      "operationId": "80c05403-331f-4b45-9326-97c7d8b71973",
+      "policyRevisionCount": 7,
+      "runtimePublicationRevision": 11,
+      "state": "committed",
+      "status": "available"
+    },
+    "resolvedPolicySha256": "adf05e58c56b4dd1ebdf36452e20563ece8d72829f1dabea1748403f793c3cc4",
+    "runtimeArtifactSha256": "3201be67f4804a6ba52c89a9cbfa70835db0aa73fac718d498f6da176622206c",
+    "runtimeTarget": "development",
+    "schemaVersion": 1,
+    "sitePrivate": false,
+    "submittedPolicySha256": "88f3d6d5dc4e1a374f93680adbbe75028984a3185012921232e204136d0007ae"
+  },
+  "liveAttendanceTest": {
+    "ok": true,
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "protocol": "realtime_offchain",
+    "listingPath": "listings/integration_attendance_valid_22e88cac_16f2_4e3c_b6b7_27578556ef06",
+    "confirmedCreated": true,
+    "confirmedRetired": true,
+    "evidence": [
+      {
+        "check": "reject service attendance",
+        "result": "policy denied"
+      },
+      {
+        "check": "reject attendance without event identity",
+        "result": "policy denied"
+      },
+      {
+        "check": "reject attendance without event dates",
+        "result": "policy denied"
+      },
+      {
+        "check": "owned placement with self-reported attendance and valid event dates persists and is publicly readable",
+        "result": "passed"
+      },
+      {
+        "check": "reject outsider attendance withdrawal",
+        "result": "policy denied"
+      },
+      {
+        "check": "reject invalid attendance edit",
+        "result": "policy denied"
+      },
+      {
+        "check": "owner can withdraw attendance and retire own listing",
+        "result": "passed"
+      }
+    ],
+    "retained": "One inactive integration_ listing with attendance withdrawn. Ephemeral credentials were never persisted. No booking, escrow or payment writes."
+  },
+  "siteDeploy": {
+    "action": "siteDeploy",
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "appLifecycle": "existing",
+    "classification": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "controlPlane": "production",
+    "created": false,
+    "deployId": "d_ext_ed7145f36a1da28dd51368814b16e0c80ee6dd3605eefc88",
+    "editingBase": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "ok": true,
+    "partial": false,
+    "prunedStale": 14,
+    "siteLive": true,
+    "sourceSync": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "status": "succeeded",
+    "upload": {
+      "appId": "605ba9048f556bdd2b7ea18e",
+      "archiveBytes": 1919991,
+      "attempted": true,
+      "byteCount": 2815506,
+      "fileCount": 33,
+      "liveUrl": "https://ad-pad.bounded.page",
+      "liveUrlStatus": "resolved",
+      "ok": true,
+      "operationId": "sau_ff84592dbdd0fb23fae2cc1bcb08c9464f506d380cd33022e314b570946715e6",
+      "receipt": {
+        "appId": "605ba9048f556bdd2b7ea18e",
+        "archiveBytes": 1919991,
+        "archiveSha256": "51fc5f4372dd193a2a644db9592864071cada557de2948caa4c15aee94ea87c6",
+        "deployId": "d_ext_ed7145f36a1da28dd51368814b16e0c80ee6dd3605eefc88",
+        "deployed": 33,
+        "manifestSha256": "ddb145bdc03a7a61f23d8828527ad44e176d655bbcbea9863ed7ace406fd9dbc",
+        "ok": true,
+        "operationId": "sau_ff84592dbdd0fb23fae2cc1bcb08c9464f506d380cd33022e314b570946715e6",
+        "previousDeployId": "d_ext_02ba5cc12324eca39a10f27a54bf9210f18a4265de5f3f61",
+        "prunedStale": 14,
+        "replayed": false,
+        "retention": {
+          "pendingCleanup": 0,
+          "removedDeployments": 0,
+          "removedObjects": 0,
+          "status": "clean"
+        },
+        "siteDigest": "ed7145f36a1da28dd51368814b16e0c80ee6dd3605eefc88440d9bbc2f704d06",
+        "totalBytes": 2815506
+      },
+      "status": "succeeded"
+    }
+  },
+  "browserChecks": {
+    "navigation": [
+      "Marketplace",
+      "Sponsor me",
+      "Solana events"
+    ],
+    "creatorNavbarLink": "/sponsor-me?create=1",
+    "creatorSignup": "Navbar and Sponsor Me actions open BECOME A CREATOR modal; context carries event; attendance confirmation remains unchecked",
+    "homepage": "One marketplace grid, event discovery feature and compact proof-before-payout explanation",
+    "secondaryServices": "Footer Services link preserves /creators; three concept services and ten skill filters rendered",
+    "eventDiscovery": "Two official featured events with attendance sections; only opted-in real bookable offers can appear; no actual offers currently eligible",
+    "prefilledForms": {
+      "hackerHouse": [
+        "2026-11-01",
+        "2026-11-12"
+      ],
+      "breakpoint": [
+        "2026-11-15",
+        "2026-11-17"
+      ]
+    },
+    "liveFilteredRoute": "/sponsor-me?event=breakpoint-2026 refresh retains context; zero sample or fixture attendees",
+    "officialArtAndRegistrationRetained": true,
+    "calendar": "Original Luma embed retained; existing direct-open fallback works when external embed is unavailable",
+    "mobileWidthsChecked": [
+      390,
+      320
+    ],
+    "horizontalOverflow": false,
+    "viewportResetAfter": true,
+    "liveAlerts": [],
+    "livePagesVerified": [
+      "/sponsor-me",
+      "/events",
+      "/sponsor-me?event=breakpoint-2026",
+      "/sponsor-me?create=1&event=breakpoint-2026"
+    ]
+  },
+  "build": {
+    "passed": true,
+    "typescriptPassed": true,
+    "entryHtmlSha256": "ae247e4a837cd195b660c0f87bfc6248327b0a2241349b25514b2dd8dbc87784",
+    "viteAdvisory": "Main application chunk slightly above500kB minified"
+  }
+}

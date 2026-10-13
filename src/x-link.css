@@ -1,0 +1,7 @@
+.x-link-prompt{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:14px 16px;border:1px solid #1d2416;background:#eef4c7;margin:0 0 12px}
+.x-link-prompt p{margin:4px 0 0;font-size:14px;line-height:1.5}
+.x-link-mark{display:grid;place-items:center;width:34px;height:34px;background:#1d2416;color:#d9fc4b;font-weight:800}
+.x-link-status{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 12px;font-size:15px}
+.x-link-status a{font-weight:700}
+.x-link-banner{max-width:1240px;margin:12px auto 0;padding:0 16px}
+@media (max-width:640px){.x-link-prompt{grid-template-columns:auto 1fr}.x-link-prompt .button{grid-column:1/-1;width:100%}}

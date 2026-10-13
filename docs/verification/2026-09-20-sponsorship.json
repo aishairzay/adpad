@@ -1,0 +1,267 @@
+{
+  "verifiedAt": "2026-09-20T13:40:07.017549+00:00",
+  "appId": "605ba9048f556bdd2b7ea18e",
+  "url": "https://ad-pad.bounded.page",
+  "network": "Poofnet / realtime_offchain / simulated USDC only",
+  "versions": {
+    "cli": "0.0.135",
+    "clientServerCoreSdk": "0.0.100"
+  },
+  "applicationTests": {
+    "files": 5,
+    "passed": 61,
+    "failed": 0
+  },
+  "productionBuild": {
+    "passed": true,
+    "typescript": true,
+    "warning": "Main application chunk is about 503kB minified; Vite size advisory."
+  },
+  "backend": {
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "backendVerified": true,
+    "createdNewApp": false,
+    "sourceUpload": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "cliVersion": "0.0.135",
+    "sdkVersion": "0.0.100",
+    "deployment": {
+      "appId": "605ba9048f556bdd2b7ea18e",
+      "ok": true,
+      "operationId": "6394e71a-8f17-4f09-9cad-89a2586b0045",
+      "policyRevisionCount": 6,
+      "runtimePublicationRevision": 10,
+      "state": "committed",
+      "status": "available"
+    },
+    "provenance": {
+      "submittedPolicySha256": "011e15a8e8cb403a0d12768b16205e71b904295502b71ac2a128309f0c9f9913",
+      "resolvedPolicySha256": "248dbfe0411228599b25cb2e3445b10d6ca48f2f8381c4fb4d0f14186fd7bbd8",
+      "runtimeArtifactSha256": "5a84fa5fe19f77fe2aa63ff8a7dc1dbfffd229b8cf361b464795e725ed7702a0",
+      "postTestReceipt": {
+        "operationId": "6394e71a-8f17-4f09-9cad-89a2586b0045",
+        "policyRevisionCount": 6,
+        "runtimePublicationRevision": 10,
+        "state": "committed",
+        "status": "available"
+      }
+    },
+    "sitePrivacy": {
+      "observedPrivate": false,
+      "rootDecision": "Root separately confirmed current public hosting and instructed preserving it.",
+      "issuedHostingOrPrivacyMutations": false
+    },
+    "verify": {
+      "safeToDeploy": true,
+      "counts": {
+        "total": 118,
+        "proven": 112,
+        "failed": 0,
+        "unprovenAdvisories": 6,
+        "schemaFailures": 0,
+        "proofFailures": 0
+      }
+    },
+    "policyTests": {
+      "suites": 17,
+      "steps": 471,
+      "failed": 0
+    },
+    "liveIntegration": {
+      "ok": true,
+      "appId": "605ba9048f556bdd2b7ea18e",
+      "profilePath": "profiles/A7agNRujzVpf9tVzMW6Vq8rnbPnwVzUjwcdK9gmLHZEB",
+      "listingPath": "listings/sponsorship_test_d1d1ca20_17af_4fff_a5dc_e0ea967a6b79",
+      "offerPath": "bookingOffers/sponsorship_test_d1d1ca20_17af_4fff_a5dc_e0ea967a6b79",
+      "campaigns": [
+        "escrows/adpad_esc_33edccc6-bfa9-49ec-8e0b-70b58e2b2a42",
+        "escrows/adpad_esc_c22797e6-97d8-4022-b63c-c34da932c438"
+      ],
+      "raceWinner": 0,
+      "outcome": "Profiles, pinned sponsorship/clothing terms, concurrent final-slot funding, refund reuse, no advance withdrawal and approved settlement passed.",
+      "network": "Poofnet simulated USDC only",
+      "retained": "Public test profile, inactive listing/offer, completed/refunded escrows and action receipts."
+    },
+    "firstAttempt": {
+      "phase": "sponsor clothing does not authorize any advance withdrawal",
+      "result": "Denied a client timestamp 1 second ahead of server; replaced test write stamps with SDK serverTimestamp and reran successfully",
+      "retainedPaths": [
+        "profiles/3PGvwNY5q2uf7SzrWFBHdXp3teVnCjEhWi69uR4DzN6x",
+        "listings/sponsorship_test_6c11120e_6a27_42ef_a5a4_1e10368dba30",
+        "bookingOffers/sponsorship_test_6c11120e_6a27_42ef_a5a4_1e10368dba30",
+        "escrows/adpad_esc_1af906cd-598e-44c0-a0bd-9c345b590343",
+        "escrows/adpad_esc_bc076cf6-166e-499c-8914-c4021a3cecdb",
+        "escrows/adpad_esc_1af906cd-598e-44c0-a0bd-9c345b590343/actions/race_420d8935_07c9_47c4_8e52_cc78c66104b5",
+        "escrows/adpad_esc_bc076cf6-166e-499c-8914-c4021a3cecdb/actions/race_0ab169e0_3c87_4788_9090_f170f8048484",
+        "escrows/adpad_esc_1af906cd-598e-44c0-a0bd-9c345b590343/actions/refund_8baf3c7f_e09d_4ce9_8a04_187f8a8a5b51",
+        "escrows/adpad_esc_1af906cd-598e-44c0-a0bd-9c345b590343/actions/refund_1da32fdd_c25f_4463_ade8_cafeb4526dca",
+        "escrows/adpad_esc_bc076cf6-166e-499c-8914-c4021a3cecdb/actions/fund_5273f7fe_84e4_444f_b787_f2379e2709a4",
+        "escrows/adpad_esc_bc076cf6-166e-499c-8914-c4021a3cecdb/actions/release_3135c69a_29d5_48dd_9340_b79eb6d26c39",
+        "escrows/adpad_esc_bc076cf6-166e-499c-8914-c4021a3cecdb/actions/accept_0d22bd85_c60f_4eac_9c82_af74c943e91e",
+        "escrows/adpad_esc_bc076cf6-166e-499c-8914-c4021a3cecdb/actions/submit_b7935ee5_ab96_4826_a6bf_8e2b0f18a833"
+      ],
+      "limitation": "First test identity keys were ephemeral, so its active simulated test escrow and clearly labeled listing/offer remain; successful second test listing/offer were retired."
+    }
+  },
+  "siteDeployment": {
+    "action": "siteDeploy",
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "appLifecycle": "existing",
+    "classification": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "controlPlane": "production",
+    "created": false,
+    "deployId": "d_ext_02ba5cc12324eca39a10f27a54bf9210f18a4265de5f3f61",
+    "editingBase": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "ok": true,
+    "partial": false,
+    "prunedStale": 14,
+    "siteLive": true,
+    "sourceSync": {
+      "reason": "source_not_requested",
+      "requested": false,
+      "status": "skipped"
+    },
+    "status": "succeeded",
+    "upload": {
+      "appId": "605ba9048f556bdd2b7ea18e",
+      "archiveBytes": 1912120,
+      "attempted": true,
+      "byteCount": 2799904,
+      "fileCount": 33,
+      "liveUrl": "https://ad-pad.bounded.page",
+      "liveUrlStatus": "resolved",
+      "ok": true,
+      "operationId": "sau_3dc4865ecd6d29a3b2afa6c20f2f43012acfb6f4819ef76b7de521720494cc96",
+      "receipt": {
+        "appId": "605ba9048f556bdd2b7ea18e",
+        "archiveBytes": 1912120,
+        "archiveSha256": "8236b7c895db4ab2014d49da4f02f24082b094070166ec2b80b1bc1ddfe5d841",
+        "deployId": "d_ext_02ba5cc12324eca39a10f27a54bf9210f18a4265de5f3f61",
+        "deployed": 33,
+        "manifestSha256": "f2a13f014e603c6bd16a956651d1e110aa2a2e3aafa24feb5ec0a4b413205824",
+        "ok": true,
+        "operationId": "sau_3dc4865ecd6d29a3b2afa6c20f2f43012acfb6f4819ef76b7de521720494cc96",
+        "previousDeployId": "d_ext_71848ecb6239637f3f8876047e2f60e15f7d3fe0e1c61d8f",
+        "prunedStale": 14,
+        "replayed": false,
+        "retention": {
+          "pendingCleanup": 0,
+          "removedDeployments": 0,
+          "removedObjects": 0,
+          "status": "clean"
+        },
+        "siteDigest": "02ba5cc12324eca39a10f27a54bf9210f18a4265de5f3f61ff4ec1a0262a7807",
+        "totalBytes": 2799904
+      },
+      "status": "succeeded"
+    }
+  },
+  "finalInspection": {
+    "appId": "605ba9048f556bdd2b7ea18e",
+    "controlPlane": "production",
+    "environment": "development",
+    "ok": true,
+    "protocol": "realtime_offchain",
+    "receipt": {
+      "operationId": "6394e71a-8f17-4f09-9cad-89a2586b0045",
+      "policyRevisionCount": 6,
+      "runtimePublicationRevision": 10,
+      "state": "committed",
+      "status": "available"
+    },
+    "resolvedPolicySha256": "248dbfe0411228599b25cb2e3445b10d6ca48f2f8381c4fb4d0f14186fd7bbd8",
+    "runtimeArtifactSha256": "5a84fa5fe19f77fe2aa63ff8a7dc1dbfffd229b8cf361b464795e725ed7702a0",
+    "runtimeTarget": "development",
+    "schemaVersion": 1,
+    "sitePrivate": false,
+    "submittedPolicySha256": "011e15a8e8cb403a0d12768b16205e71b904295502b71ac2a128309f0c9f9913"
+  },
+  "eventFilesUnchanged": [
+    "SolanaEvents.tsx",
+    "events.css",
+    "solana-events.ts"
+  ],
+  "browserChecks": {
+    "desktop": true,
+    "mobileViewport": {
+      "width": 390,
+      "height": 844,
+      "resetAfter": true
+    },
+    "noHorizontalOverflow": [
+      "Marketplace",
+      "Sponsor me",
+      "Offer",
+      "Profile",
+      "Brands",
+      "Insights",
+      "Inspiration"
+    ],
+    "dateFilter": "2026-11-05 returns only custom-cap Hacker House concept",
+    "eventFilter": "Hacker House London returns only the matching concept",
+    "availabilityFilter": "Concept offers correctly disappear when available-only selected",
+    "profileOwnership": "Each concept profile shows exactly its own offer",
+    "merchForm": "Sponsor Me preselected; sponsor-supplied merch reveals costs/responsibilities and supply date",
+    "publicNavigation": [
+      "Marketplace",
+      "Creators",
+      "Solana events"
+    ],
+    "share": "Canonical URL and escaped embed HTML match offer; SVG loads; copy UI success observed, browser clipboard harness returned empty so OS paste not independently confirmed",
+    "community": "Empty real-user activity stays zero; automated fixtures and concepts excluded",
+    "liveDeepLinks": [
+      "/sponsor-me",
+      "/offers/example-1",
+      "/people/concept-person-1"
+    ],
+    "liveImagesLoaded": true,
+    "liveAlerts": [],
+    "authenticatedBrowserTransactions": "Not performed; real deployed SDK wallet flow is covered by backend integration evidence"
+  },
+  "artifactHashes": {
+    "assets/anton-latin-400-normal-AUNGEG_V.woff": "8b71c21962cd08b95fc2186386b121d853de5f7e02db382ed329c5a80a04c4d1",
+    "assets/anton-latin-400-normal-Byf51wtH.woff2": "d0fa07ff63dd60cbc0e2f58e29c802dca2a5ae0276c999f59c6111ab7bbaec3b",
+    "assets/archivo-latin-ext-wght-normal-C4zznr8T.woff2": "ff4f17d21930e36d6d93baba663e624cb767afc3feebf7adaebd82242638de05",
+    "assets/archivo-latin-wght-normal-E0tuGl4L.woff2": "8f704806dbedeaaeca334b11ec348bc3ac3a439d6431544b3afb54f534ee4967",
+    "assets/archivo-vietnamese-wght-normal-XAtsl5Q_.woff2": "5a621c5598a31392555104ccdc41a46c3104f1cc22666024a8afb881ca9adaab",
+    "assets/bootstrap-BFWSy4Fi.css": "c5827f3b21e69779f3b0ad89ad0a0e61720caa229c0b54ced16630f1894ec0c1",
+    "assets/bootstrap-CxcAHEaV.js": "ebb9aae3122923ddd40d5c516a5fc7449080aaeced517c2bbccc481d319cce9a",
+    "assets/client-B9cBCt6L.js": "15b9246b3ad7738fa0c7d52f940116dadf2460a56e755359f0b57495f66c7f0b",
+    "assets/client-DDEbAXZ2.js": "e76a0320b237aca7a7412268d8b9313e004855871acdbeff36f6d1f9abb6904f",
+    "assets/email-auth-provider-BJXeBUwp-BfzfkbJq.js": "7a236019aac7d14330f9bfe3d8f98dab51e54bb11140de2fd2599d73a8a47a5d",
+    "assets/guest-auth-provider-CUo6sgop-1mEZewnS.js": "29a794af38d296e8180c9aa15abe5e2f252dacefe5ab281670cdea6aee5a3574",
+    "assets/index-DW5yMQwV-CqyvtJw9.js": "9ebbf655eff1780653f12ee4883166b3382233734216edc563e300fba84ebb1c",
+    "assets/index-iUtTgjw1.js": "d5da2a1185600ff02a2c335a6744db90f0ca2a460ba40826728920aa36849b67",
+    "assets/index.browser-h_TVunKf.js": "c1f88889459f50c10ace3ba8f25942af9123d8dc56f7f9d0350e2f4b7eae68d0",
+    "assets/index.browser.esm-BzAH-2H5.js": "20a646cb73ba337cc050b0f264ec59fa4b5287abddfb9cb88aee248926d84637",
+    "assets/injected-evm-wallet-provider-B3Mtkdnu-CXye3Jlc.js": "54ec5fe5a1f5d726b9da24f84872a53dbac221562fb323ea93b350311c8d9555",
+    "assets/injected-wallet-provider-DR8xVudg-CdBVxvX7.js": "a6268e9e3fc4e06747abc36e81ecd3fefe725a9b84724bed4e95834ddcf8f056",
+    "assets/realtime-store-CeDT7vJF-DXYnhxHz.js": "70778d1c96db7798bbf760885e8d1cd7b8d4351b269bad9acf5dc3e73e940901",
+    "assets/solana-message-BGkYFU3C-DWUOI-0T.js": "4d0cc4d2d9a5edcad80aedcd87eb2760bba490805e21d29a15f57bf2adc3c744",
+    "assets/solana-operations-CHgW7Pue-DFCjQOjZ.js": "99a9fc51e9fea30e1adf3fd1fea6feaffcdde59ef8605c8595624a532ad7861a",
+    "assets/solana-v1-operations-BPn-poee-DeynMAGQ.js": "b8d9d87843e82c84bdf546e01350467b2f7e548fd988154b44854a04968c0844",
+    "assets/wallet-standard-tx-BP0y4zyT-C82G2kms.js": "45c9dd0309479b1fbef8870588c795b3dc0d6527075f640164f743967dacb5ee",
+    "badges/ad-pad-sponsor.svg": "69e3564fbf20261d763742d40d1be2d6e071b878e5b4e412049a14844df6d7ea",
+    "favicon.svg": "310c3e3692a645f42ce56c9c8ef3c268177118ad41f152a0af05026fb44d058e",
+    "images/creator.webp": "019b9d60fe9b85b5f76980a4a9a775ca69bfbea887461ba2948fab2672d37142",
+    "images/crew.webp": "b0fc60c18ffc698a1e3493261c9285a6ce92d0ab53dc3b61302513d8f64909cb",
+    "images/designer.webp": "8cbc8e8a4bad97779712809584c84972ee296ab0d961c3dc7c9cb6a0622852db",
+    "images/event.webp": "a7023fb3dc651b526ce0f76215c976ead7194343b44328dadf5a4fb108833a6d",
+    "images/hat.webp": "d569c5f9e2978072ef23cf7570f34869bb126bbc5b7702134e85630d67606066",
+    "images/sign.webp": "a7c0566563c1a57b7541f8ec4d0297abe181d500fcddb72f2ec55bc730711365",
+    "images/social.webp": "63cdfd1bacffa8fb188a1c8c2017b67e7c8e7129027463309796fbbfa7244050",
+    "images/tshirt.webp": "fe979f1c9d0a51d96186c9dda66baf9ff6a1e7532d0bfd46e17b8760432c172d",
+    "index.html": "71dbd831ee09d1b7972e6f05057ada667888b40f8d4ba21d28e4e45450447c04"
+  }
+}
